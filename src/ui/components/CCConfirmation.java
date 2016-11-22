@@ -1,22 +1,24 @@
 package ui.components;
 
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionListener;
 
 import javax.swing.BoxLayout;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import utils.Constants;
 
-public class CCConfirmation extends JFrame {
+public class CCConfirmation extends JDialog {
 	
-	CCButton okbutton, nobutton;
+	CCButton yesbutton, nobutton;
 	
 	public CCConfirmation(String confirmationcause) {
-		super("Are you sure ?");
+		this.setTitle("Are you sure ?");
 		JPanel main = new JPanel();
 		main.setLayout(new GridBagLayout());
 		GridBagConstraints cs = new GridBagConstraints();
@@ -25,9 +27,9 @@ public class CCConfirmation extends JFrame {
 		
 		CCLabel causedisplayed = new CCLabel(confirmationcause);
 		causedisplayed.setHorizontalAlignment(CCLabel.CENTER);
-		okbutton = new CCButton("OK", Constants.BUTTON_MAIN);
+		yesbutton = new CCButton("YES", Constants.BUTTON_MAIN);
 		nobutton = new CCButton("NO", Constants.BUTTON_DANGER);
-		
+
 		cs.gridx = 0;
 		cs.gridwidth = 4;
 		main.add(causedisplayed, cs);
@@ -36,7 +38,9 @@ public class CCConfirmation extends JFrame {
 		cs.gridy = 1;
 		cs.gridwidth = 1;
 		cs.weightx = 0.5;
-		main.add(okbutton, cs);
+		main.add(yesbutton, cs);
+		
+		//cs.insets = new Insets(10,100,10,100);
 		cs.gridx = 3;
 		cs.gridy = 1;
 		main.add(nobutton, cs);
@@ -45,13 +49,8 @@ public class CCConfirmation extends JFrame {
 		this.add(main);
 	}
 
-	public void setModal(boolean b) {
-		this.setAutoRequestFocus(true);
-		this.setAlwaysOnTop(true);
-	}
-
-	public void onOkClicked(ActionListener actionListener) {
-		okbutton.addActionListener(actionListener);
+	public void onYesClicked(ActionListener actionListener) {
+		yesbutton.addActionListener(actionListener);
 	}
 	
 	public void onNoClicked(ActionListener actionListener) {

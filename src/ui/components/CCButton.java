@@ -1,6 +1,7 @@
 package ui.components;
 
 import java.awt.Color;
+import java.awt.Dimension;
 
 import javax.swing.JButton;
 import javax.swing.UIManager;

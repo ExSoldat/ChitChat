@@ -27,12 +27,14 @@ import core.App;
 import core.domain.Group;
 import core.domain.User;
 import utils.Constants;
+import utils.LogUtils;
 
 public class CCFriendsPane extends JPanel {
+	public ArrayList<User> friends = new ArrayList<User>();
 	public static String TAG = "Friends";
 	public CCFriendsPane() {
 		//Getting the data :
-		ArrayList<User> friends = App.getInstance().getServicesProvider().getFriendsForUser(App.getInstance().getLoggedUser().getId());
+		friends = App.getInstance().getServicesProvider().getFriendsForUser(App.getInstance().getLoggedUser().getId());
 				
 		//Creating username and password fields inside their own label
 		JPanel main = new JPanel();
@@ -119,11 +121,14 @@ public class CCFriendsPane extends JPanel {
 				//CALLS A SERVICE
 				CCConfirmation confirmDialog = new CCConfirmation("If you continue, a friend will be deleted from your friends list :(");
 				confirmDialog.setModal(true);
-				confirmDialog.onOkClicked(new ActionListener() {
+				confirmDialog.onYesClicked(new ActionListener() {
 					
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						removebutton.setEnabled(false);	
+						User deleteduser = (User)friendslist.getSelectedValue();
+						LogUtils.log(TAG, Constants.INFO, "User to be deleted : " + deleteduser);
+						friendslist.remove(friendslist.getSelectedIndex());
 						confirmDialog.dispose();
 					}
 				});
