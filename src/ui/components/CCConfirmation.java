@@ -13,6 +13,7 @@ import javax.swing.JPanel;
 
 import utils.Constants;
 
+//TODO : change teh extends, instead extends CCDialog
 public class CCConfirmation extends JDialog {
 	
 	CCButton yesbutton, nobutton;
@@ -59,7 +60,14 @@ public class CCConfirmation extends JDialog {
 		nobutton.addActionListener(actionListener);
 	}
 	
-	public void morphCauseDisplayed(String cause) {
+	public void morphCauseDisplayed(String cause, String newType) {
+		if(newType.equals(Constants.ERROR))
+			causedisplayed.setForeground(CCColor.CCDANGER.getColor());
 		causedisplayed.setText(cause);
+	}
+	
+	public void morphButtons(String positive, String negative) {
+		yesbutton.setText(positive);
+		nobutton.setText(negative);
 	}
 }

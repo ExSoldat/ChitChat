@@ -14,6 +14,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
 import core.App;
@@ -39,13 +40,18 @@ public class DevFrame extends JFrame{
 		JLabel image = new JLabel(imageurl);
 		
 		//Creating username and password fields inside their own label
-		main = new JPanel(new BoxLayout(main, BoxLayout.Y_AXIS));
-        
+		main = new JPanel();
+		main.setLayout(new BoxLayout(main, BoxLayout.Y_AXIS));
+		JScrollPane scrollPane = new JScrollPane(main);
+        scrollPane.setBounds(50, 30, 300, 50);
 		
 		//Adding elements into the frame
+        scrollPane.add(main);
         this.add(main, BorderLayout.CENTER);
 		this.add(image, BorderLayout.WEST);		
 		App.getInstance().setDevFrame(this);
+		
+		main.add(new CCLabel("Welcome to the dev log window"));
 		
 		//Configure the frame
 		this.setSize(550,550);
@@ -57,5 +63,6 @@ public class DevFrame extends JFrame{
 	
 	public void addLog(JLabel label) {
 		main.add(label);
+		validate();
 	}
 }

@@ -4,6 +4,7 @@ import javax.swing.JLabel;
 
 import core.App;
 import ui.DevFrame;
+import ui.components.CCColor;
 import utils.Constants;
 
 public class LogUtils {
@@ -15,7 +16,7 @@ public class LogUtils {
 	 * @param message the message we want to type
 	 */
 	public static void log(String tag, String type, String message) {
-		JLabel graphicLog;
+		JLabel graphicLog = new JLabel(tag + ">> " + type + " : " + message);
 		if(App.getInstance().getLogTypes().contains(type)) {
 			String tab = ">> ";
 			if(type.equals(Constants.RESPONSE))
@@ -30,12 +31,11 @@ public class LogUtils {
 			
 			//I won't change what is above
 			if(type.equals(Constants.RESPONSE))
-				
+				graphicLog.setForeground(CCColor.CCGREEN.getColor());
 			else if (type.equals(Constants.ERROR))
-				
+				graphicLog.setForeground(CCColor.CCDANGER.getColor());
 			else if (type.equals(Constants.USE_CASE))
-				
-			else
+				graphicLog.setForeground(CCColor.CCPRIMARY.getColor());
 			
 			if(App.getInstance().isInDevMode()) {
 				DevFrame frame = App.getInstance().getDevFrame();

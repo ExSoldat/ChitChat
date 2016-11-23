@@ -15,7 +15,7 @@ public class Constants {
 	public static final String COLOR_NEARLY_WHITE = "#FCF9F8";
 	public static final String COLOR_SECONDARY = "#D25108";
 	public static final String COLOR_NEARLY_GREY = "#EEEEFF";	
-
+	public static final String COLOR_GREEN = "#4FF80C";
 	//-------------------------Button actions
 	public static final int BUTTON_MAIN = 20;
 	public static final int BUTTON_DANGER = 21;

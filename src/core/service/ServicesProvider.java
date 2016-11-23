@@ -7,10 +7,11 @@ import core.domain.Administrateur;
 import core.domain.Group;
 import core.domain.Message;
 import core.domain.User;
+import utils.Constants;
 import utils.LogUtils;
 
 public class ServicesProvider {
-
+	public static String TAG = "ServicesProvider";
 	public ServicesProvider() {
 		
 	}
@@ -20,6 +21,7 @@ public class ServicesProvider {
 		//Dans le retour, si le compte est administrateur, c'est renseigné
 		LogUtils.log("DBG", "DBG", "connect : " + user + pwd);
 		//M2thode bidon
+		LogUtils.log(TAG, Constants.RESPONSE, user + "logged !");
 		if(user.equals("admin") && pwd.equals("admin")) {
 			return new Administrateur(29,"SAAB", user, "Mathieu");
 		} else if (user.equals("null") && pwd.equals("null")) {
@@ -27,6 +29,7 @@ public class ServicesProvider {
 		} else {
 			return new User(10,"DOE", "lejohndoe", "John");
 		} 
+		//LogUtils.log(TAG, Constants.RESPONSE, user + "logged !");
 	}
 
 	public ArrayList<Group> getGroupsForUser(int id) {
@@ -58,6 +61,7 @@ public class ServicesProvider {
 		}
 		g.getMessages().add(new Message(new User (0, "DOE", "janedoe", "Jane"), "Say whaaaaaaat ?"));
 		result.add(g);
+		LogUtils.log(TAG, Constants.RESPONSE, "Groups found !");
 		return result;
 	}
 
@@ -69,11 +73,17 @@ public class ServicesProvider {
 		result.add(new User(3,"Zamasu", "zamasu", "Zamasu"));
 		result.add(new User(4,"Ornitier", "vivi", "Vivi"));
 		result.add(new User(5,"Sanchez", "bopabeloola", "Rick"));
+		LogUtils.log(TAG, Constants.RESPONSE, "Friends list retrieved !");
 		return result;
 	}
 
 	public boolean deleteUser(User deleteduser) {
 		Random rand = new Random();
-		return rand.nextBoolean();
+		boolean r = rand.nextBoolean();
+		if (r)
+			LogUtils.log(TAG, Constants.RESPONSE, "Friend deleted !");
+		else 
+			LogUtils.log(TAG, Constants.ERROR, "Unable to delete user !");
+		return r;
 	}
 }

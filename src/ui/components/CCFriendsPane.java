@@ -102,6 +102,9 @@ public class CCFriendsPane extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				//TODO opens another frame to add an user knowing its username
+				CCFormDialog(new FormPanel());
+				
+				CCFormDialog.morphButtons("ADD", "CANCEL");
 				//CALLS A SERVICE
 			}
 		});
@@ -134,7 +137,7 @@ public class CCFriendsPane extends JPanel {
 							friendslist.setListData(friends.toArray());
 							confirmDialog.dispose();
 						} else {
-						confirmDialog.morphCauseDisplayed("An error occured. Please try again");
+						confirmDialog.morphCauseDisplayed("An error occured. Please try again", Constants.ERROR);
 						}
 						
 					}

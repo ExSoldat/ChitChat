@@ -11,7 +11,8 @@ public enum CCColor {
 	CCPRIMARYLIGHT(Color.decode(Constants.COLOR_PRIMARYLIGHT)),
 	CCNEARLYWHITE(Color.decode(Constants.COLOR_NEARLY_WHITE)),
 	CCNEARLYGREY(Color.decode(Constants.COLOR_NEARLY_GREY)),
-	CCSECONDARY(Color.decode(Constants.COLOR_SECONDARY));
+	CCSECONDARY(Color.decode(Constants.COLOR_SECONDARY)),
+	CCGREEN(Color.decode(Constants.COLOR_GREEN));
 	
 	private Color mColor;
 	
