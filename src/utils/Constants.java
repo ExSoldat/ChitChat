@@ -37,6 +37,8 @@ public class Constants {
 	public static final String NOTE = "NOTE";
 	public static final String SQL = "SQL";
 
+	public static final boolean DEV_MODE = true;
+
 	
 
 }

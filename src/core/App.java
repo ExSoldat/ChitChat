@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import core.domain.User;
 import core.service.ServicesProvider;
+import ui.DevFrame;
 import utils.Constants;
 import utils.LogUtils;
 
@@ -16,6 +17,7 @@ public class App {
 	private static ArrayList<String> logs = new ArrayList<String>();
 	private ServicesProvider mServicesProvider = new ServicesProvider();
 	private User connectedUser;
+	private DevFrame devframe;
 	private App() {}
 	
 	private static App instance = new App();
@@ -59,4 +61,18 @@ public class App {
 	public User getLoggedUser() {
 		return this.connectedUser;
 	}
+
+	public void setDevFrame(DevFrame devFrame) {
+		this.devframe = devFrame;		
+	}
+	
+	public DevFrame getDevFrame() {
+		return this.devframe;
+	}
+
+	public boolean isInDevMode() {
+		return Constants.DEV_MODE;
+	}
+	
+	
 }

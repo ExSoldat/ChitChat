@@ -88,10 +88,12 @@ public class CCFriendsPane extends JPanel {
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
 				User selecteduser = (User)friendslist.getSelectedValue();
-				titlepanel.setTitle(selecteduser.getFirstname() + " " + selecteduser.getLastname());
-				username.setDisplayedValue(selecteduser.getUsername());
-				hobbies.setDisplayedValue(selecteduser.getHobbiesAsAString());
-				removebutton.setEnabled(true);
+				if(selecteduser != null) {
+					titlepanel.setTitle(selecteduser.getFirstname() + " " + selecteduser.getLastname());
+					username.setDisplayedValue(selecteduser.getUsername());
+					hobbies.setDisplayedValue(selecteduser.getHobbiesAsAString());
+					removebutton.setEnabled(true);
+				}
 			}
 		});
 		
@@ -122,14 +124,19 @@ public class CCFriendsPane extends JPanel {
 				CCConfirmation confirmDialog = new CCConfirmation("If you continue, a friend will be deleted from your friends list :(");
 				confirmDialog.setModal(true);
 				confirmDialog.onYesClicked(new ActionListener() {
-					
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						removebutton.setEnabled(false);	
 						User deleteduser = (User)friendslist.getSelectedValue();
 						LogUtils.log(TAG, Constants.INFO, "User to be deleted : " + deleteduser);
-						friendslist.remove(friendslist.getSelectedIndex());
-						confirmDialog.dispose();
+						if(App.getInstance().getServicesProvider().deleteUser(deleteduser)) {
+							friends.remove(deleteduser);
+							friendslist.setListData(friends.toArray());
+							confirmDialog.dispose();
+						} else {
+						confirmDialog.morphCauseDisplayed("An error occured. Please try again");
+						}
+						
 					}
 				});
 				confirmDialog.onNoClicked(new ActionListener() {

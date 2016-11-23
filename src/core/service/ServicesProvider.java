@@ -1,6 +1,7 @@
 package core.service;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import core.domain.Administrateur;
 import core.domain.Group;
@@ -69,5 +70,10 @@ public class ServicesProvider {
 		result.add(new User(4,"Ornitier", "vivi", "Vivi"));
 		result.add(new User(5,"Sanchez", "bopabeloola", "Rick"));
 		return result;
+	}
+
+	public boolean deleteUser(User deleteduser) {
+		Random rand = new Random();
+		return rand.nextBoolean();
 	}
 }

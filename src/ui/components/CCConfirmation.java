@@ -16,16 +16,18 @@ import utils.Constants;
 public class CCConfirmation extends JDialog {
 	
 	CCButton yesbutton, nobutton;
+	CCLabel causedisplayed;
+	JPanel main;
 	
 	public CCConfirmation(String confirmationcause) {
 		this.setTitle("Are you sure ?");
-		JPanel main = new JPanel();
+		main = new JPanel();
 		main.setLayout(new GridBagLayout());
 		GridBagConstraints cs = new GridBagConstraints();
 		cs.fill = GridBagConstraints.HORIZONTAL;
 		cs.insets = new Insets(10, 10, 10, 10);
 		
-		CCLabel causedisplayed = new CCLabel(confirmationcause);
+		causedisplayed = new CCLabel(confirmationcause);
 		causedisplayed.setHorizontalAlignment(CCLabel.CENTER);
 		yesbutton = new CCButton("YES", Constants.BUTTON_MAIN);
 		nobutton = new CCButton("NO", Constants.BUTTON_DANGER);
@@ -55,5 +57,9 @@ public class CCConfirmation extends JDialog {
 	
 	public void onNoClicked(ActionListener actionListener) {
 		nobutton.addActionListener(actionListener);
+	}
+	
+	public void morphCauseDisplayed(String cause) {
+		causedisplayed.setText(cause);
 	}
 }
