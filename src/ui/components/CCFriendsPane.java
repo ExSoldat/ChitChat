@@ -8,6 +8,8 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.nio.file.attribute.UserPrincipalLookupService;
 import java.util.ArrayList;
 
@@ -26,6 +28,8 @@ import javax.swing.event.ListSelectionListener;
 import core.App;
 import core.domain.Group;
 import core.domain.User;
+import ui.actions.TypeEvent;
+import ui.components.form.CCFormTextEntry;
 import utils.Constants;
 import utils.LogUtils;
 
@@ -47,10 +51,7 @@ public class CCFriendsPane extends JPanel {
 		actionpanel.setLayout(new BoxLayout(actionpanel, BoxLayout.Y_AXIS));
 		actionpanel.setPreferredSize(Constants.FRAGMENT_DIMENSION);
 		
-		JList friendslist = new JList(friends.toArray());
-		friendslist.setCellRenderer(new CCFriendsListCellRenderer());
-		friendslist.setBorder(BorderFactory.createLineBorder(CCColor.CCPRIMARYDARK.getColor()));
-		friendslist.setBackground(CCColor.CCNEARLYWHITE.getColor());
+		CCUserList friendslist = new CCUserList(friends);
 		
 		actionpanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(CCColor.CCPRIMARYDARK.getColor()), TAG));
 		//Action buttons, Add, Search and Remove
@@ -61,15 +62,12 @@ public class CCFriendsPane extends JPanel {
 		
 		cs.fill = GridBagConstraints.VERTICAL;
 		cs.insets = new Insets(10, 10, 10, 10);
-		CCButton addbutton = new CCButton("add", Constants.BUTTON_MAIN);
-		CCButton searchbutton = new CCButton("search", Constants.BUTTON_SECONDARY);
+		CCButton searchbutton = new CCButton("search", Constants.BUTTON_MAIN);
 		CCButton removebutton = new CCButton("remove", Constants.BUTTON_DANGER);
 		
 		cs.gridx = 0;
-		actionbuttons.add(addbutton, cs);
-		cs.gridx = 1;
 		actionbuttons.add(searchbutton, cs);
-		cs.gridx = 2;
+		cs.gridx = 1;
 		actionbuttons.add(removebutton, cs);
 		
 		removebutton.setEnabled(false);
@@ -97,24 +95,50 @@ public class CCFriendsPane extends JPanel {
 			}
 		});
 		
-		addbutton.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				//TODO opens another frame to add an user knowing its username
-				CCFormDialog(new FormPanel());
-				
-				CCFormDialog.morphButtons("ADD", "CANCEL");
-				//CALLS A SERVICE
-			}
-		});
-		
 		searchbutton.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO opens another frame to search user depending on name/hobbies etc
 				//CALLS A SERVICE
+				CCDialog dialog = new CCDialog("Search an existing user");
+				JPanel main = new JPanel();
+				main.setLayout(new BoxLayout(main, BoxLayout.Y_AXIS));
+				
+				JPanel textFields = new JPanel();
+				textFields.setLayout(new BoxLayout(textFields, BoxLayout.Y_AXIS));
+				textFields.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(CCColor.CCPRIMARYDARK.getColor()), "Search by user informations"));
+				CCLabel info = new CCLabel("You must fill one of the field below in order to search", true);
+				textFields.add(info);
+				CCFormTextEntry nameField = new CCFormTextEntry("Name", false, false);
+				CCFormTextEntry firstnameField = new CCFormTextEntry("Firstname", false, false);
+				CCFormTextEntry usernameField = new CCFormTextEntry("Username", false, false);
+				
+				nameField.getTextField().addKeyListener(new TypeEvent(nameField.getTextField(), (CCButton)dialog.getPositiveButton()));
+				firstnameField.getTextField().addKeyListener(new TypeEvent(firstnameField.getTextField(), (CCButton)dialog.getPositiveButton()));
+				usernameField.getTextField().addKeyListener(new TypeEvent(usernameField.getTextField(), (CCButton)dialog.getPositiveButton()));
+				
+				textFields.add(nameField);
+				textFields.add(firstnameField);
+				textFields.add(usernameField);
+				
+				dialog.onPositiveClicked(new ActionListener() {
+					
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						//TODO Action when performed
+						//ArrayList<User> usersfound = App.getInstance().getServicesProvider().searchUsers(nameField.getText(), firstnameField.getText(), usernameField.getText());
+						//CCUserList users = new CCUserList(usersfound);
+						//main.remove(textFields)
+					}
+				});
+				
+				main.add(textFields);
+				dialog.setSize(Constants.FORM_DIMENSION);
+				dialog.setMainComponent(main);
+				dialog.getPositiveButton().setEnabled(false);
+				dialog.morphButtons("SEARCH", "CANCEL");
+				dialog.setVisible(true);
 			}
 		});
 		
@@ -126,7 +150,7 @@ public class CCFriendsPane extends JPanel {
 				//CALLS A SERVICE
 				CCConfirmation confirmDialog = new CCConfirmation("If you continue, a friend will be deleted from your friends list :(");
 				confirmDialog.setModal(true);
-				confirmDialog.onYesClicked(new ActionListener() {
+				confirmDialog.onPositiveClicked(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						removebutton.setEnabled(false);	
@@ -137,18 +161,10 @@ public class CCFriendsPane extends JPanel {
 							friendslist.setListData(friends.toArray());
 							confirmDialog.dispose();
 						} else {
-						confirmDialog.morphCauseDisplayed("An error occured. Please try again", Constants.ERROR);
+							confirmDialog.showError();
 						}
 						
 					}
-				});
-				confirmDialog.onNoClicked(new ActionListener() {
-					
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						confirmDialog.dispose();
-					}
-					
 				});
 				confirmDialog.setVisible(true);
 			}

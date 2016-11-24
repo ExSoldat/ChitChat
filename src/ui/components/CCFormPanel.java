@@ -1,5 +1,5 @@
 package ui.components;
 
-public class FormPanel {
+public class CCFormPanel {
 
 }

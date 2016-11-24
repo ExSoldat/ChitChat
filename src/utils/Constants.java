@@ -26,8 +26,9 @@ public class Constants {
 	public static final Dimension GROUP_BOX_DIMENSION = new Dimension(400,70);
 	public static final Dimension LIST_ITEM_DIMENSION = new Dimension(300, 30);
 	public static final Dimension FRAGMENT_DIMENSION = new Dimension(300,300);
-	public static final Dimension CCDIALOG_DIMENSION = new Dimension(400,200);
-	
+	public static final Dimension CCCONFIRMATION_DIMENSION = new Dimension(400,200);
+	public static final Dimension FORM_DIMENSION = new Dimension(700, 300);
+	public static final Dimension FORMTEXTFIELD_DIMENSION = new Dimension(300,25);
 	//--------------------------Other Constants Constants
 	public static final String ERROR = "ERROR";
 	public static final String SUCCESS = "SUCCESS";
@@ -38,6 +39,8 @@ public class Constants {
 	public static final String SQL = "SQL";
 
 	public static final boolean DEV_MODE = true;
+
+	
 
 	
 
