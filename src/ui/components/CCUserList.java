@@ -17,7 +17,14 @@ public class CCUserList extends JList {
 	public CCUserList(ArrayList<User> users) {
 		super(users.toArray());
 		this.data = users;
-		this.setCellRenderer(new CCFriendsListCellRenderer());
+		this.setCellRenderer(new CCUsersListCellRenderer());
+		this.setBorder(BorderFactory.createLineBorder(CCColor.CCPRIMARYDARK.getColor()));
+		this.setBackground(CCColor.CCNEARLYWHITE.getColor());
+	}
+	
+	public CCUserList() {
+		super();
+		this.setCellRenderer(new CCUsersListCellRenderer());
 		this.setBorder(BorderFactory.createLineBorder(CCColor.CCPRIMARYDARK.getColor()));
 		this.setBackground(CCColor.CCNEARLYWHITE.getColor());
 	}
@@ -26,6 +33,11 @@ public class CCUserList extends JList {
 		data.remove(deleteduser);
 		this.parent = (JPanel) this.getParent();
 		//this.parent.remove(this);
+	}
+	
+	public void setData(ArrayList<User> users) {
+		this.data = users;
+		this.setListData(users.toArray());
 	}
 
 	public void render() {

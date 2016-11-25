@@ -28,8 +28,8 @@ public class CCConfirmation extends CCDialog {
 		morphButtons("YES", "NO");
 	}
 	
-	public void showError() {
-		causedisplayed.setForeground(CCColor.CCDANGER.getColor());
-		causedisplayed.setText("An error occured. Please try again");
-	}
+	//public void showError() {
+		//causedisplayed.setForeground(CCColor.CCDANGER.getColor());
+		//causedisplayed.setText("An error occured. Please try again");
+	//}
 }

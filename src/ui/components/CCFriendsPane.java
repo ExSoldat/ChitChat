@@ -32,7 +32,7 @@ import ui.actions.TypeEvent;
 import ui.components.form.CCFormTextEntry;
 import utils.Constants;
 import utils.LogUtils;
-
+//http://richard.jp.leguen.ca/tutoring/soen343-f2010/tutorials/implementing-data-mapper/
 public class CCFriendsPane extends JPanel {
 	public ArrayList<User> friends = new ArrayList<User>();
 	public static String TAG = "Friends";
@@ -53,9 +53,7 @@ public class CCFriendsPane extends JPanel {
 		
 		CCUserList friendslist = new CCUserList(friends);
 		
-		actionpanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(CCColor.CCPRIMARYDARK.getColor()), TAG));
-		//Action buttons, Add, Search and Remove
-		
+		actionpanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(CCColor.CCPRIMARYDARK.getColor()), TAG));		
 		
 		JPanel actionbuttons = new JPanel(new GridBagLayout());
 		GridBagConstraints cs = new GridBagConstraints();
@@ -99,7 +97,7 @@ public class CCFriendsPane extends JPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO opens another frame to search user depending on name/hobbies etc
+				// TODO opens another frame to search user depending on name etc
 				//CALLS A SERVICE
 				CCDialog dialog = new CCDialog("Search an existing user");
 				JPanel main = new JPanel();
@@ -108,11 +106,11 @@ public class CCFriendsPane extends JPanel {
 				JPanel textFields = new JPanel();
 				textFields.setLayout(new BoxLayout(textFields, BoxLayout.Y_AXIS));
 				textFields.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(CCColor.CCPRIMARYDARK.getColor()), "Search by user informations"));
-				CCLabel info = new CCLabel("You must fill one of the field below in order to search", true);
-				textFields.add(info);
 				CCFormTextEntry nameField = new CCFormTextEntry("Name", false, false);
 				CCFormTextEntry firstnameField = new CCFormTextEntry("Firstname", false, false);
 				CCFormTextEntry usernameField = new CCFormTextEntry("Username", false, false);
+				
+				dialog.showInfo("You must fill one of the fields above in order to search");
 				
 				nameField.getTextField().addKeyListener(new TypeEvent(nameField.getTextField(), (CCButton)dialog.getPositiveButton()));
 				firstnameField.getTextField().addKeyListener(new TypeEvent(firstnameField.getTextField(), (CCButton)dialog.getPositiveButton()));
@@ -121,21 +119,60 @@ public class CCFriendsPane extends JPanel {
 				textFields.add(nameField);
 				textFields.add(firstnameField);
 				textFields.add(usernameField);
+				textFields.setVisible(true);
 				
+				CCUserList users = new CCUserList();
+				users.setVisible(false);
+				
+
 				dialog.onPositiveClicked(new ActionListener() {
 					
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						//TODO Action when performed
-						//ArrayList<User> usersfound = App.getInstance().getServicesProvider().searchUsers(nameField.getText(), firstnameField.getText(), usernameField.getText());
-						//CCUserList users = new CCUserList(usersfound);
-						//main.remove(textFields)
+						ArrayList<User> usersfound = App.getInstance().getServicesProvider().searchUser(nameField.getText(), firstnameField.getText(), usernameField.getText());
+						users.setData(usersfound);
+						textFields.setVisible(false);
+						users.setVisible(true);
+						dialog.getPositiveButton().setEnabled(false);
+						users.addListSelectionListener(new ListSelectionListener() {
+							@Override
+							public void valueChanged(ListSelectionEvent e) {
+								dialog.getPositiveButton().setEnabled(true);
+							}
+						});
+						
+						dialog.morphButtons("ADD", "RETURN");
+						
+						dialog.onPositiveClicked(new ActionListener() {
+							
+							@Override
+							public void actionPerformed(ActionEvent e) {
+								//SERVICE ADD FRIEND
+								if(App.getInstance().getServicesProvider().addFriend(App.getInstance().getLoggedUser(), (User)users.getSelectedValue())) {
+									//Refresh the friends view
+									friends = App.getInstance().getServicesProvider().getFriendsForUser(App.getInstance().getLoggedUser().getId(), true);
+									friendslist.setData(friends);
+									dialog.dispose();
+								} else {
+									dialog.showError();
+								}
+							}
+						});
+						
+						dialog.onNegativeClicked(new ActionListener() {
+							
+							@Override
+							public void actionPerformed(ActionEvent e) {
+								//TODO SHOW SEARCH FORM
+							}
+						});
 					}
 				});
-				
+				main.add(users);
 				main.add(textFields);
-				dialog.setSize(Constants.FORM_DIMENSION);
 				dialog.setMainComponent(main);
+				dialog.setSize(Constants.FORM_DIMENSION);
 				dialog.getPositiveButton().setEnabled(false);
 				dialog.morphButtons("SEARCH", "CANCEL");
 				dialog.setVisible(true);
@@ -156,9 +193,12 @@ public class CCFriendsPane extends JPanel {
 						removebutton.setEnabled(false);	
 						User deleteduser = (User)friendslist.getSelectedValue();
 						LogUtils.log(TAG, Constants.INFO, "User to be deleted : " + deleteduser);
-						if(App.getInstance().getServicesProvider().deleteUser(deleteduser)) {
+						if(App.getInstance().getServicesProvider().deleteFriend(deleteduser)) {
 							friends.remove(deleteduser);
 							friendslist.setListData(friends.toArray());
+							titlepanel.setTitle("NaN");
+							username.setDisplayedValue("NaN");
+							hobbies.setDisplayedValue("NaN");
 							confirmDialog.dispose();
 						} else {
 							confirmDialog.showError();

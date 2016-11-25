@@ -12,9 +12,9 @@ import javax.swing.ListCellRenderer;
 import utils.Constants;
 import utils.LogUtils;
 
-public class CCFriendsListCellRenderer extends JLabel implements ListCellRenderer {
+public class CCUsersListCellRenderer extends JLabel implements ListCellRenderer {
 
-	public CCFriendsListCellRenderer() {
+	public CCUsersListCellRenderer() {
 		// TODO Auto-generated constructor stub
 	}
 	

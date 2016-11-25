@@ -17,7 +17,12 @@ public class CCDialog extends JDialog {
 	CCButton positiveButton, negativeButton;
 	JPanel main;
 	JPanel componentHost;
+	CCLabel info = new CCLabel("");
 	GridBagConstraints cs = new GridBagConstraints(); //Allow this to be accessed from its daughter classes
+	
+	public CCDialog() {
+		this("");
+	}
 	
 	public CCDialog(String title) {
 		this.setTitle(title);
@@ -38,14 +43,19 @@ public class CCDialog extends JDialog {
 		cs.gridwidth = 4;
 		main.add(componentHost, cs);
 		
-		cs.gridx = 2;
+		cs.gridx = 0;
 		cs.gridy = 1;
+		cs.gridwidth = 4;
+		main.add(info, cs);
+		
+		cs.gridx = 2;
+		cs.gridy = 2;
 		cs.gridwidth = 1;
 		cs.weightx = 0.5;
 		main.add(positiveButton, cs);
 		
 		cs.gridx = 3;
-		cs.gridy = 1;
+		cs.gridy = 2;
 		main.add(negativeButton, cs);
 		
 		onNegativeClicked(new ActionListener() {
@@ -80,5 +90,14 @@ public class CCDialog extends JDialog {
 
 	public Component getPositiveButton() {
 		return positiveButton;
+	}
+	
+	public void showInfo(String text) {
+		this.info.setText(text);
+	}
+	
+	public void showError() {
+		this.info.setForeground(CCColor.CCDANGER.getColor());
+		this.info.setText("An error occured. Please try again.");
 	}
 }
