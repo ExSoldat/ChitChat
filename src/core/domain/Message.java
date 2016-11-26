@@ -1,7 +1,8 @@
 package core.domain;
 
 public class Message {
-	private User sender;
+	private User sender, receiver;
+	private Group groupReceiver;
 	private String content;
 	
 	public Message() {
@@ -11,6 +12,18 @@ public class Message {
 	
 	public Message(User sender, String content) {
 		this.sender = sender;
+		this.content = content;
+	}
+	
+	public Message(User sender, User receiver, String content) {
+		this.sender = sender;
+		this.receiver = receiver;
+		this.content = content;
+	}
+	
+	public Message(User sender, Group receiver, String content) {
+		this.sender = sender;
+		this.groupReceiver = receiver;
 		this.content = content;
 	}
 

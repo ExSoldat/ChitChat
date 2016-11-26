@@ -194,4 +194,21 @@ public class ServicesProvider {
 	public boolean disconnect(User loggedUser) {
 		return true;
 	}
+
+	/**
+	 * Get the conversation between a logged user and another
+	 * @param me the logged user
+	 * @param him the user we want to have a conversation with
+	 * @return the list of the messages between the two users
+	 */
+	public ArrayList<Message> getMessagesBetween(User me, User him) {
+		ArrayList<Message> r = new ArrayList<Message>();
+		r.add(new Message(him, "Hello"));
+		r.add(new Message(him, "How are you ?"));
+		r.add(new Message(me, "Fine thanks and you ?"));
+		r.add(new Message(him, "Pretty good"));
+		r.add(new Message(him, "Got any plans tonight ?"));
+		r.add(new Message(me, "Not much"));
+		return r;
+	}
 }

@@ -6,6 +6,9 @@ import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.ListCellRenderer;
+import javax.swing.border.Border;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.EmptyBorder;
 
 import utils.Constants;
 
@@ -28,7 +31,10 @@ public class CCUsersListCellRenderer extends JLabel implements ListCellRenderer 
 		} else {
 			setBackground(CCColor.CCPRIMARYLIGHT.getColor());
 		}
-				
+			
+		Border border = getBorder();
+		Border margin = new EmptyBorder(0, 1, 0, 1);
+		setBorder(new CompoundBorder(border, margin));
 		setText(s);
 		setEnabled(list.isEnabled());
 		setOpaque(true);

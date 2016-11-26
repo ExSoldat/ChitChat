@@ -19,6 +19,7 @@ import javax.swing.event.ListSelectionListener;
 
 import core.App;
 import core.domain.User;
+import ui.CCChatFrame;
 import ui.actions.TriggerButtonOnType;
 import ui.components.form.CCFormTextEntry;
 import utils.Constants;
@@ -91,7 +92,9 @@ public class CCFriendsPane extends JPanel {
 				if(e.getClickCount() == 2) {
 					User u = (User)list.getSelectedValue();
 					System.out.println("Opens a private chat window between " + App.getInstance().getLoggedUser() + " and " + u);
-					//CCPrivateChatFrame privateChat = new CCPrivateChatFrame(App.getInstance().getLoggedUser(), u);
+					CCPrivateChatFrame privateChat = new CCPrivateChatFrame(App.getInstance().getLoggedUser(), u);
+					privateChat.init();
+					privateChat.setVisible(true);
 				}
 			}
 		});

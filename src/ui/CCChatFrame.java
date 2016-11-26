@@ -1,25 +1,39 @@
 package ui;
 
 import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
+import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
 import core.App;
+import core.domain.Message;
+import core.domain.ReceiptMessage;
+import ui.components.CCButton;
 import ui.components.CCColor;
 import ui.components.CCFriendsPane;
 import ui.components.CCGroupsPane;
 import ui.components.CCLabel;
+import ui.components.CCMessagesList;
+import ui.components.form.CCFormTextEntry;
 import utils.Constants;
 
 public class CCChatFrame extends JFrame {
-	JPanel header, messagesList, usersMessage;
-	
+	protected JPanel header, messagesList, usersMessage;
+	public CCMessagesList list = new CCMessagesList();
+	CCLabel mainInfo = new CCLabel("Main information");
+	protected CCButton send;
+	protected JCheckBox receipt, urgent, encrypt, expirationtime;
+	protected CCFormTextEntry time, mes;
 	public static String TAG = "Chat";
 	public CCChatFrame() {
 		super(Constants.APP_NAME +  " - " + TAG + " - ");
@@ -34,14 +48,58 @@ public class CCChatFrame extends JFrame {
 		
 		header = new JPanel();
 		header.setLayout(new BorderLayout());
-		CCLabel mainInfo = new CCLabel("Main information");		
+		mainInfo = new CCLabel("Main information");		
 		JLabel image = new JLabel(imageurl);
 		
 		header.add(mainInfo, BorderLayout.EAST);
 		header.add(image, BorderLayout.WEST);
+		header.setPreferredSize(Constants.CHAT_HEADER_DIMENSION);
 		header.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(CCColor.CCPRIMARYDARK.getColor()), "Chat"));
 
-		//CCMessagesList messageList = new CCMessagesList();
+		messagesList = new JPanel();
+		messagesList.add(list);
+		messagesList.setPreferredSize(Constants.CHAT_MESSAGES_DIMENSION);
+		//messagesList.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(CCColor.CCPRIMARYDARK.getColor()), "Messages"));
+		
+		usersMessage = new JPanel();
+		usersMessage.setLayout(new BoxLayout(usersMessage, BoxLayout.Y_AXIS));
+		JPanel sendingOptions = new JPanel();
+		JPanel wroteText = new JPanel();
+		
+		receipt = new JCheckBox("Receipt");
+		expirationtime = new JCheckBox("Expiration time");
+		time = new CCFormTextEntry("Time", false, false);
+		time.getTextField().setPreferredSize(Constants.FORMTEXTFIELD_MINI_DIMENSION);
+		time.setVisible(false);
+		encrypt = new JCheckBox("Encrypt");
+		urgent = new JCheckBox("Urgent");
+		
+		sendingOptions.add(receipt);
+		sendingOptions.add(expirationtime);
+		sendingOptions.add(time);
+		sendingOptions.add(encrypt);
+		sendingOptions.add(urgent);
+		
+		mes = new CCFormTextEntry("Your message", false, false);
+		send = new CCButton("Send", Constants.BUTTON_MAIN);
+		
+		wroteText.add(mes);
+		wroteText.add(send);
+		usersMessage.add(sendingOptions);
+		usersMessage.add(wroteText);
+		usersMessage.setPreferredSize(Constants.CHAT_USERSMESSAGE_DIMENSION);
+		
+		expirationtime.addItemListener(new ItemListener() {
+			
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+				if(expirationtime.isSelected()) {
+					time.setVisible(true);
+				} else {
+					time.setVisible(false);
+				}
+			}
+		});
 		
 		main.add(header);
 		main.add(messagesList);
@@ -79,6 +137,12 @@ public class CCChatFrame extends JFrame {
 		this.usersMessage = usersMessage;
 	}
 	
+	public CCMessagesList getCCMessagesList() {
+		return list;
+	}
 	
+	public CCLabel getMainInfo() {
+		return this.mainInfo;
+	}
 
 }
