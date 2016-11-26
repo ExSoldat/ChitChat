@@ -1,10 +1,8 @@
 package ui.components;
 
 import java.awt.Color;
-import java.awt.Dimension;
 
 import javax.swing.JButton;
-import javax.swing.UIManager;
 
 import utils.Constants;
 
@@ -43,5 +41,9 @@ public class CCButton extends JButton {
 	public void setEnabled(boolean enabled) {
 		super.setEnabled(enabled);
 		retrieveBackgroundColor();
+	}
+	
+	public void morphToDanger() {
+		this.setBackground(CCColor.CCDANGER.getColor());
 	}
 }

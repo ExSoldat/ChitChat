@@ -1,8 +1,6 @@
 package ui.components;
 
 import java.awt.Component;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
@@ -10,7 +8,6 @@ import javax.swing.JList;
 import javax.swing.ListCellRenderer;
 
 import utils.Constants;
-import utils.LogUtils;
 
 public class CCUsersListCellRenderer extends JLabel implements ListCellRenderer {
 

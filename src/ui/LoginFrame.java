@@ -1,37 +1,27 @@
 package ui;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.GraphicsDevice;
-import java.awt.GraphicsEnvironment;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
-import javax.swing.JWindow;
-import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
 
 import core.App;
 import core.domain.User;
-import core.service.ServicesProvider;
 import ui.components.CCButton;
+import ui.components.CCColor;
 import ui.components.CCError;
 import ui.components.CCLabel;
 import utils.Constants;
-import utils.LogUtils;
 
 public class LoginFrame extends JFrame {
 	public static String TAG = "Login";
@@ -77,7 +67,8 @@ public class LoginFrame extends JFrame {
         cs.gridwidth = 2;
         credentials.add(textFieldPW, cs);
         
-        CCError errorView = new CCError("Invalid credentials");
+        CCLabel errorView = new CCLabel("Invalid credentials");
+        errorView.setForeground(CCColor.CCDANGER.getColor());
         cs.gridx = 1;
         cs.gridy = 2;
         cs.gridwidth = 2;
@@ -109,17 +100,20 @@ public class LoginFrame extends JFrame {
 				} else {
 					App.getInstance().setConnectedUser(r);
 					errorView.setVisible(false);
+					LogoutFrame lo = new LogoutFrame();
 					HomeFrame hf = new HomeFrame();
 					hf.init();
+					lo.init(hf);
+					lo.setVisible(true);
 					hf.setVisible(true);
-					mFrame.dispose();
+					dispose();
 				}
 			}
 		});
 		
 		//Configure the frame
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setSize(550,100);
+		this.setSize(Constants.LOGIN_FRAME_DIMENSION_MAXIMIZED);
 		//this.setSize(800,200);
 		this.setAlwaysOnTop(true);
 		this.setResizable(false);

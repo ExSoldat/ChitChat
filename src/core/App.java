@@ -1,6 +1,5 @@
 package core;
 
-import java.sql.Connection;
 import java.util.ArrayList;
 
 import core.domain.User;

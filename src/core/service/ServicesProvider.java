@@ -73,6 +73,26 @@ public class ServicesProvider {
 		}
 		g.getMessages().add(new Message(new User (0, "DOE", "janedoe", "Jane"), "Say whaaaaaaat ?"));
 		result.add(g);
+		
+		g = null;
+		g = new Group();
+		g.setName("The fourth group");
+		g.setAdministrator(new Administrateur(29,"SAAB", "admin", "Mathieu"));
+		for (int i =0; i<15; i++) {
+			g.getMessages().add(new Message());
+		}
+		g.getMessages().add(new Message(new User (0, "DOE", "janedoe", "Jane"), "Hello it's me Mario"));
+		result.add(g);
+		
+		g = null;
+		g = new Group();
+		g.setName("The fourth group");
+		g.setAdministrator(new Administrateur(29,"SAAB", "admin", "Mathieu"));
+		for (int i =0; i<15; i++) {
+			g.getMessages().add(new Message());
+		}
+		g.getMessages().add(new Message(new User (0, "DOE", "janedoe", "Jane"), "Hello it's me Mario"));
+		result.add(g);
 		LogUtils.log(TAG, Constants.RESPONSE, "Groups found !");
 		return result;
 	}
@@ -140,7 +160,7 @@ public class ServicesProvider {
 	 * Add a friend to our friendslist
 	 * @param loggedUser the user currently logged
 	 * @param addedUser the user to add
-	 * @return true if everything went fint, false either
+	 * @return true if everything went fine, false either
 	 */
 	public boolean addFriend(User loggedUser, User addedUser) {
 		boolean r = rand.nextBoolean();
@@ -149,5 +169,29 @@ public class ServicesProvider {
 		else 
 			LogUtils.log(TAG, Constants.ERROR, "Unable to add user !");
 		return r;
+	}
+
+	/**
+	 * Create a group in the database
+	 * @param mGroup the group we want to create
+	 * @return true if everything went fine, false either
+	 */
+	public boolean createGroup(Group mGroup) {
+		boolean r = rand.nextBoolean();
+		if(r)
+			LogUtils.log(TAG, Constants.RESPONSE, "Group created !");
+		else 
+			LogUtils.log(TAG, Constants.ERROR, "Unable to create group");
+		return r;
+			
+	}
+
+	/**
+	 * Disconnect a logged user
+	 * @param loggedUser
+	 * @return true if everything went fine. False otherwise
+	 */
+	public boolean disconnect(User loggedUser) {
+		return true;
 	}
 }

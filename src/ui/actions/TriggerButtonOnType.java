@@ -7,12 +7,12 @@ import javax.swing.JTextField;
 
 import ui.components.CCButton;
 
-public class TypeEvent implements KeyListener {
+public class TriggerButtonOnType implements KeyListener {
 
 	public JTextField tf;
 	public CCButton buttonAffected;
 	
-	public TypeEvent(JTextField tf, CCButton button) {
+	public TriggerButtonOnType(JTextField tf, CCButton button) {
 		this.tf = tf;
 		this.buttonAffected = button;
 	}

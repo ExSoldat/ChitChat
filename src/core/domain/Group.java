@@ -8,9 +8,19 @@ public class Group {
 	private User administrator;
 	private ArrayList<User> moderators;
 	private ArrayList<User> participants;
+	private String description;
 	public String getName() {
 		return name;
 	}
+	
+	public Group() {}
+	
+	public Group(String name, User administrator, String desc) {
+		this.name = name;
+		this.administrator = administrator;
+		this.description=desc;
+	}
+	
 	public void setName(String name) {
 		this.name = name;
 	}

@@ -2,8 +2,6 @@ package utils;
 
 import java.awt.Dimension;
 
-import javax.swing.Icon;
-
 public class Constants {
 
 	public static final String APP_NAME = "Chit Chat";
@@ -29,6 +27,14 @@ public class Constants {
 	public static final Dimension CCCONFIRMATION_DIMENSION = new Dimension(400,200);
 	public static final Dimension FORM_DIMENSION = new Dimension(700, 300);
 	public static final Dimension FORMTEXTFIELD_DIMENSION = new Dimension(300,25);
+	public static final Dimension ALL_GROUPS_DIMENSION = new Dimension(450, 300);
+	public static final Dimension LOGIN_FRAME_DIMENSION_MAXIMIZED = new Dimension(550,100);
+	public static final Dimension LOGOUT_FRAME_DIMENSION = new Dimension(200,100);
+	public static final Dimension CHAT_FRAME_DIMENSION = new Dimension(600,600);
+	public static final Dimension CHAT_HEADER_DIMENSION = new Dimension(600,100);
+	public static final Dimension CHAT_MESSAGES_DIMENSION = new Dimension(600,300);
+	public static final Dimension CHAT_USERSMESSAGE_DIMENSION = new Dimension(600,200);
+	
 	//--------------------------Other Constants Constants
 	public static final String ERROR = "ERROR";
 	public static final String SUCCESS = "SUCCESS";
@@ -39,6 +45,10 @@ public class Constants {
 	public static final String SQL = "SQL";
 
 	public static final boolean DEV_MODE = true;
+
+	
+
+	
 
 	
 

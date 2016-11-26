@@ -3,9 +3,7 @@ package utils;
 import javax.swing.JLabel;
 
 import core.App;
-import ui.DevFrame;
 import ui.components.CCColor;
-import utils.Constants;
 
 public class LogUtils {
 
@@ -38,8 +36,8 @@ public class LogUtils {
 				graphicLog.setForeground(CCColor.CCPRIMARY.getColor());
 			
 			if(App.getInstance().isInDevMode()) {
-				DevFrame frame = App.getInstance().getDevFrame();
-				frame.addLog(graphicLog);
+				//DevFrame frame = App.getInstance().getDevFrame();
+				//frame.addLog(graphicLog);
 			}
 		}
 	}

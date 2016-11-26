@@ -46,6 +46,7 @@ public class CCDialog extends JDialog {
 		cs.gridx = 0;
 		cs.gridy = 1;
 		cs.gridwidth = 4;
+		info.setHorizontalAlignment(CCLabel.CENTER);
 		main.add(info, cs);
 		
 		cs.gridx = 2;
@@ -76,8 +77,8 @@ public class CCDialog extends JDialog {
 	}
 	
 	public void morphButtons(String positive, String negative) {
-		positiveButton.setText(positive);
-		negativeButton.setText(negative);
+		positiveButton.setText(positive.toUpperCase());
+		negativeButton.setText(negative.toUpperCase());
 	}
 	
 	public void onPositiveClicked(ActionListener actionListener) {

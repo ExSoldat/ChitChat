@@ -15,9 +15,9 @@ public class Main {
 			App.getInstance().addLogType(Constants.USE_CASE); // Which Use case is being checked
 			App.getInstance().addLogType(Constants.NOTE); // Note about the result of the Service
 			App.getInstance().addLogType(Constants.SQL); // Executed SQL REquests
-			DevFrame devFrame = new DevFrame();
-			devFrame.init();
-			devFrame.setVisible(true);
+			//DevFrame devFrame = new DevFrame();
+			//devFrame.init();
+			//devFrame.setVisible(true);
 		}
 		
 		LoginFrame login = new LoginFrame();

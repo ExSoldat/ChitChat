@@ -1,6 +1,5 @@
 package ui.components;
 
-import java.awt.Component;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;

@@ -1,34 +1,25 @@
 package ui.components;
 
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.nio.file.attribute.UserPrincipalLookupService;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JPanel;
-import javax.swing.border.Border;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import core.App;
-import core.domain.Group;
 import core.domain.User;
-import ui.actions.TypeEvent;
+import ui.actions.TriggerButtonOnType;
 import ui.components.form.CCFormTextEntry;
 import utils.Constants;
 import utils.LogUtils;
@@ -93,6 +84,18 @@ public class CCFriendsPane extends JPanel {
 			}
 		});
 		
+		friendslist.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				CCUserList list = (CCUserList) e.getSource();
+				if(e.getClickCount() == 2) {
+					User u = (User)list.getSelectedValue();
+					System.out.println("Opens a private chat window between " + App.getInstance().getLoggedUser() + " and " + u);
+					//CCPrivateChatFrame privateChat = new CCPrivateChatFrame(App.getInstance().getLoggedUser(), u);
+				}
+			}
+		});
+		
 		searchbutton.addActionListener(new ActionListener() {
 			
 			@Override
@@ -112,16 +115,17 @@ public class CCFriendsPane extends JPanel {
 				
 				dialog.showInfo("You must fill one of the fields above in order to search");
 				
-				nameField.getTextField().addKeyListener(new TypeEvent(nameField.getTextField(), (CCButton)dialog.getPositiveButton()));
-				firstnameField.getTextField().addKeyListener(new TypeEvent(firstnameField.getTextField(), (CCButton)dialog.getPositiveButton()));
-				usernameField.getTextField().addKeyListener(new TypeEvent(usernameField.getTextField(), (CCButton)dialog.getPositiveButton()));
+				nameField.getTextField().addKeyListener(new TriggerButtonOnType(nameField.getTextField(), (CCButton)dialog.getPositiveButton()));
+				firstnameField.getTextField().addKeyListener(new TriggerButtonOnType(firstnameField.getTextField(), (CCButton)dialog.getPositiveButton()));
+				usernameField.getTextField().addKeyListener(new TriggerButtonOnType(usernameField.getTextField(), (CCButton)dialog.getPositiveButton()));
 				
 				textFields.add(nameField);
 				textFields.add(firstnameField);
 				textFields.add(usernameField);
-				textFields.setVisible(true);
+				
 				
 				CCUserList users = new CCUserList();
+				textFields.setVisible(true);
 				users.setVisible(false);
 				
 
@@ -142,8 +146,8 @@ public class CCFriendsPane extends JPanel {
 							}
 						});
 						
-						dialog.morphButtons("ADD", "RETURN");
-						
+						dialog.morphButtons("ADD", "CANCEL");
+						dialog.showInfo("Select a user profile then click on \"ADD\" to add the user to your friends list");
 						dialog.onPositiveClicked(new ActionListener() {
 							
 							@Override
@@ -157,14 +161,6 @@ public class CCFriendsPane extends JPanel {
 								} else {
 									dialog.showError();
 								}
-							}
-						});
-						
-						dialog.onNegativeClicked(new ActionListener() {
-							
-							@Override
-							public void actionPerformed(ActionEvent e) {
-								//TODO SHOW SEARCH FORM
 							}
 						});
 					}
