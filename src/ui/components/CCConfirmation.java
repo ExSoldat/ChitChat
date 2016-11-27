@@ -11,6 +11,7 @@ public class CCConfirmation extends CCDialog {
 		
 		causedisplayed = new CCLabel(confirmationcause);
 		causedisplayed.setHorizontalAlignment(CCLabel.CENTER);
+		
 		setMainComponent(causedisplayed);
 		morphButtons("YES", "NO");
 	}

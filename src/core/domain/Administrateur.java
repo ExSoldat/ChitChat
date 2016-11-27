@@ -8,4 +8,8 @@ public class Administrateur extends User {
 		super(id, lastname, username, firstname);
 		this.isAdmin = true;
 	}
+	
+	public boolean isAdmin() {
+		return true;
+	}
 }

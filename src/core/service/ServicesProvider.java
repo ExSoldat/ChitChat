@@ -1,6 +1,7 @@
 package core.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Random;
 
 import core.domain.Administrateur;
@@ -47,51 +48,68 @@ public class ServicesProvider {
 	public ArrayList<Group> getGroupsForUser(int id) {
 		//Return dummy content
 		ArrayList<Group> result = new ArrayList<Group>();
+		ArrayList<User> p = new ArrayList<User>();
+		p.add(new User(0,"DOE", "janedoe", "Jane"));
+		p.add(new User(1,"DOE", "johndoe", "John"));
+		p.add(new User(3,"Zamasu", "zamasu", "Zamasu"));
+		p.add(new User(4,"Ornitier", "vivi", "Vivi"));
+		p.add(new User(5,"Sanchez", "bopabeloola", "Rick"));
+		
 		Group g = new Group();
 		g.setName("The first group");
 		g.setAdministrator(new Administrateur(29,"SAAB", "admin", "Mathieu"));
+		g.setDescription("A group");
+		g.setParticipants(p);
 		for (int i =0; i<15; i++) {
 			g.getMessages().add(new Message());
 		}
-		g.getMessages().add(new Message(new User (0, "DOE", "janedoe", "Jane"), "KONICHIWA"));
+		g.getMessages().add(new Message(new User (0, "DOE", "janedoe", "Jane"), "KONICHIWA", new Date()));
 		result.add(g);
 		g = null;
 		g = new Group();
 		g.setName("The second group");
-		g.setAdministrator(new Administrateur(29,"SAAB", "admin", "Mathieu"));
+		g.setAdministrator(new Administrateur(10,"gzg", "zef", "zef"));
+		g.setDescription("A second group");
+		g.setParticipants(p);
 		for (int i =0; i<15; i++) {
 			g.getMessages().add(new Message());
 		}
-		g.getMessages().add(new Message(new User (0, "DOE", "janedoe", "Jane"), "Hello it's me Mario"));
+		g.getMessages().add(new Message(new User (0, "DOE", "janedoe", "Jane"), "Hello it's me Mario", new Date()));
 		result.add(g);
 		g = null;
 		g = new Group();
 		g.setName("The third group");
 		g.setAdministrator(new Administrateur(29,"SAAB", "admin", "Mathieu"));
+		g.setDescription("A third group");
+		g.setParticipants(p);
 		for (int i =0; i<15; i++) {
 			g.getMessages().add(new Message());
 		}
-		g.getMessages().add(new Message(new User (0, "DOE", "janedoe", "Jane"), "Say whaaaaaaat ?"));
+		g.getMessages().add(new Message(new User (0, "DOE", "janedoe", "Jane"), "Say whaaaaaaat ?", new Date()));
 		result.add(g);
 		
 		g = null;
 		g = new Group();
 		g.setName("The fourth group");
 		g.setAdministrator(new Administrateur(29,"SAAB", "admin", "Mathieu"));
+		g.setDescription("A gfrouth roup");
+		g.setParticipants(p);
 		for (int i =0; i<15; i++) {
 			g.getMessages().add(new Message());
 		}
-		g.getMessages().add(new Message(new User (0, "DOE", "janedoe", "Jane"), "Hello it's me Mario"));
+		g.getMessages().add(new Message(new User (0, "DOE", "janedoe", "Jane"), "Hello it's me Mario", new Date()));
 		result.add(g);
 		
 		g = null;
 		g = new Group();
 		g.setName("The fourth group");
 		g.setAdministrator(new Administrateur(29,"SAAB", "admin", "Mathieu"));
+		g.setDescription("Another group");
+		g.setParticipants(p);
 		for (int i =0; i<15; i++) {
 			g.getMessages().add(new Message());
 		}
-		g.getMessages().add(new Message(new User (0, "DOE", "janedoe", "Jane"), "Hello it's me Mario"));
+		g.getMessages().add(new Message(new User (0, "DOE", "janedoe", "Jane"), "Last one", new Date()));
 		result.add(g);
 		LogUtils.log(TAG, Constants.RESPONSE, "Groups found !");
 		return result;
@@ -203,12 +221,65 @@ public class ServicesProvider {
 	 */
 	public ArrayList<Message> getMessagesBetween(User me, User him) {
 		ArrayList<Message> r = new ArrayList<Message>();
-		r.add(new Message(him, "Hello"));
-		r.add(new Message(him, "How are you ?"));
-		r.add(new Message(me, "Fine thanks and you ?"));
-		r.add(new Message(him, "Pretty good"));
-		r.add(new Message(him, "Got any plans tonight ?"));
-		r.add(new Message(me, "Not much"));
+		r.add(new Message(him, "Hello", new Date()));
+		r.add(new Message(him, "How are you ?", new Date()));
+		r.add(new Message(me, "Fine thanks and you ?", new Date()));
+		r.add(new Message(him, "Pretty good", new Date()));
+		r.add(new Message(him, "Got any plans tonight ?", new Date()));
+		r.add(new Message(me, "Not much", new Date()));
+		r.add(new Message(him, "Okay", new Date()));
+		r.add(new Message(him, "Where the hood at ?", new Date()));
+		r.add(new Message(me, "gnaaaaa", new Date()));
+		r.add(new Message(him, "Another way", new Date()));
+		r.add(new Message(him, "Yea", new Date()));
+		r.add(new Message(me, "yea.", new Date()));
+		return r;
+	}
+	
+	public ArrayList<Message> getMessagesBetween(User me, User him, boolean b) {
+		ArrayList<Message> r = new ArrayList<Message>();
+		r.add(new Message(him, "Hello", new Date()));
+		r.add(new Message(him, "How are you ?", new Date()));
+		r.add(new Message(me, "Fine thanks and you ?", new Date()));
+		r.add(new Message(him, "Pretty good", new Date()));
+		r.add(new Message(him, "Got any plans tonight ?", new Date()));
+		r.add(new Message(me, "Not much", new Date()));
+		r.add(new Message(him, "Okay", new Date()));
+		r.add(new Message(him, "Where the hood at ?", new Date()));
+		r.add(new Message(me, "gnaaaaa", new Date()));
+		r.add(new Message(him, "Another way", new Date()));
+		r.add(new Message(him, "Yea", new Date()));
+		r.add(new Message(me, "yea.", new Date()));
+		r.add(new Message(me, "NEWMESSAGE", new Date()));
+		return r;
+	}
+
+	/**
+	 * Sends a message to the user (Use something in the persistence so we can have all fields set in the database depending on the message type
+	 * @param m the sent message
+	 */
+	public boolean sendMessage(Message m) {
+		return rand.nextBoolean();
+	}
+
+	/**
+	 * Get the messages for a given group
+	 * @param group the group we want to have the data from
+	 * @return a list of the messages
+	 */
+	public ArrayList<Message> getMessagesForGroup(User me, Group group) {
+		ArrayList<Message> r = new ArrayList<Message>();
+		r.add(new Message(me, group, "Hello", new Date()));
+		r.add(new Message(new User(0, "DOE", "janedoe", "Jane"), group, "How are you ?", new Date()));
+		r.add(new Message(me, group, "Fine thanks and you ?", new Date()));
+		r.add(new Message(new User(0, "Zamasu", "Zamasu", "Zamasu"), group, "Filthy humans....", new Date()));
+		r.add(new Message(new User(0, "Black", "Son", "Goku"), group, "Damn right bro :*", new Date()));
+		r.add(new Message(new User(0, "DOE", "janedoe", "Jane"), group, "That's not nice Bro", new Date()));
+		r.add(new Message(me, group, "Okay", new Date()));
+		r.add(new Message(me, group, "Where's Trunks ?", new Date()));
+		r.add(new Message(new User(0, "Sama", "killergodtuber", "Gowasu"), group, "Zamas ! Bring me some tea !", new Date()));
+		r.add(new Message(new User(0, "Zamasu", "Zamasu", "Zamasu"), group, "No way. I'm Justice bitch", new Date()));
+		r.add(new Message(me, group, "Damn", new Date()));
 		return r;
 	}
 }

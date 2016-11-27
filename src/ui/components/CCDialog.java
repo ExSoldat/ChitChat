@@ -67,6 +67,7 @@ public class CCDialog extends JDialog {
 			}
 		});
 		
+		this.getRootPane().setDefaultButton(positiveButton);
 		this.setSize(Constants.CCCONFIRMATION_DIMENSION);
 		this.setLocationRelativeTo(null);
 		this.add(main);

@@ -77,7 +77,6 @@ public class CCGroupsPane extends JPanel {
 		main.add(scroll);
 		main.add(groupCreationForm);
 		main.add(info);
-		
 		this.add(main);
 	}
 	

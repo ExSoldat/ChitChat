@@ -112,6 +112,7 @@ public class LoginFrame extends JFrame {
 		});
 		
 		//Configure the frame
+		this.getRootPane().setDefaultButton(signin);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setSize(Constants.LOGIN_FRAME_DIMENSION_MAXIMIZED);
 		//this.setSize(800,200);

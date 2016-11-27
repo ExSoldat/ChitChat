@@ -51,4 +51,13 @@ public class Group {
 	public Message getLastMessage() {
 		return getMessages().get(messages.size()-1);
 	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String desc) {
+		this.description = desc;
+		
+	}
 }

@@ -20,6 +20,7 @@ import javax.swing.event.ListSelectionListener;
 import core.App;
 import core.domain.User;
 import ui.CCChatFrame;
+import ui.CCPrivateChatFrame;
 import ui.actions.TriggerButtonOnType;
 import ui.components.form.CCFormTextEntry;
 import utils.Constants;

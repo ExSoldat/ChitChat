@@ -13,7 +13,14 @@ import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollBar;
+import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
+import javax.swing.ScrollPaneConstants;
+import javax.swing.ScrollPaneLayout;
+import javax.swing.border.Border;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.EmptyBorder;
 
 import core.App;
 import core.domain.Message;
@@ -27,7 +34,7 @@ import ui.components.CCMessagesList;
 import ui.components.form.CCFormTextEntry;
 import utils.Constants;
 
-public class CCChatFrame extends JFrame {
+public abstract class CCChatFrame extends JFrame {
 	protected JPanel header, messagesList, usersMessage;
 	public CCMessagesList list = new CCMessagesList();
 	CCLabel mainInfo = new CCLabel("Main information");
@@ -35,6 +42,8 @@ public class CCChatFrame extends JFrame {
 	protected JCheckBox receipt, urgent, encrypt, expirationtime;
 	protected CCFormTextEntry time, mes;
 	public static String TAG = "Chat";
+	protected JScrollBar sb;
+	protected JScrollPane scroll;
 	public CCChatFrame() {
 		super(Constants.APP_NAME +  " - " + TAG + " - ");
 	}
@@ -54,10 +63,18 @@ public class CCChatFrame extends JFrame {
 		header.add(mainInfo, BorderLayout.EAST);
 		header.add(image, BorderLayout.WEST);
 		header.setPreferredSize(Constants.CHAT_HEADER_DIMENSION);
-		header.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(CCColor.CCPRIMARYDARK.getColor()), "Chat"));
+		Border border = BorderFactory.createTitledBorder(BorderFactory.createLineBorder(CCColor.CCPRIMARYDARK.getColor()), "Chat");
+	    Border margin = new EmptyBorder(0,10,0,10);
+	    header.setBorder(new CompoundBorder(border, margin));
 
+	    scroll = new JScrollPane();
+	    scroll.setLayout(new ScrollPaneLayout());
+		scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		messagesList = new JPanel();
-		messagesList.add(list);
+		//list.setPreferredSize(Constants.CHAT_MESSAGES_DIMENSION);
+		scroll.setViewportView(list);
+		
+		messagesList.add(scroll);
 		messagesList.setPreferredSize(Constants.CHAT_MESSAGES_DIMENSION);
 		//messagesList.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(CCColor.CCPRIMARYDARK.getColor()), "Messages"));
 		
@@ -83,6 +100,8 @@ public class CCChatFrame extends JFrame {
 		mes = new CCFormTextEntry("Your message", false, false);
 		send = new CCButton("Send", Constants.BUTTON_MAIN);
 		
+		//mes.getTextField().addKeyListener(new ButtonActionOnEnterKey(mes.getTextField(), send));
+		
 		wroteText.add(mes);
 		wroteText.add(send);
 		usersMessage.add(sendingOptions);
@@ -105,6 +124,7 @@ public class CCChatFrame extends JFrame {
 		main.add(messagesList);
 		main.add(usersMessage);
 		
+		this.getRootPane().setDefaultButton(send);
 	    this.setContentPane(main);	
 		//Configure the frame
 		this.setSize(Constants.CHAT_FRAME_DIMENSION);
@@ -112,7 +132,7 @@ public class CCChatFrame extends JFrame {
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
 	}
-
+	
 	public JPanel getHeader() {
 		return header;
 	}
@@ -143,6 +163,19 @@ public class CCChatFrame extends JFrame {
 	
 	public CCLabel getMainInfo() {
 		return this.mainInfo;
+	}
+	
+	public CCButton getSendButton() {
+		return send;
+		
+	}
+	
+	public abstract void refreshMessages();
+	
+	public void scrollMessagesToBottom() {
+		sb = scroll.getVerticalScrollBar();
+		sb.setValue(sb.getMaximum()); // TODO
+		messagesList.validate();
 	}
 
 }

@@ -35,7 +35,7 @@ public class CCMessagesListCellRenderer extends JLabel implements ListCellRender
 			this.setHorizontalAlignment(JLabel.LEFT);
 		}
 		setBackground(CCColor.CCNEARLYWHITE.getColor());		
-		setText("<html><font color="+ Constants.COLOR_PRIMARY + ">" + message.getSender().getFirstname() + " " + message.getSender().getLastname() + " : " + "</font><font>" +  message.getContent() + "</font></html>");
+		setText("<html><font color = " + Constants.COLOR_SECONDARY + ">[" + message.getFormattedDate() + "] </font><font color="+ Constants.COLOR_PRIMARY + ">" + message.getSender().getFirstname() + " " + message.getSender().getLastname() + " : " + "</font><font>" +  message.getContent() + "</font></html>");
 		return this;
 	}
 }

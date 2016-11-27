@@ -11,7 +11,7 @@ public class Constants {
 	public static final String COLOR_PRIMARYDARK = "#00516F";
 	public static final String COLOR_PRIMARYLIGHT = "#48BDF2";
 	public static final String COLOR_NEARLY_WHITE = "#FCF9F8";
-	public static final String COLOR_SECONDARY = "#D25108";
+	public static final String COLOR_SECONDARY = "#0133B9";
 	public static final String COLOR_NEARLY_GREY = "#EEEEFF";	
 	public static final String COLOR_GREEN = "#4FF80C";
 	//-------------------------Button actions
@@ -28,13 +28,16 @@ public class Constants {
 	public static final Dimension FORM_DIMENSION = new Dimension(700, 300);
 	public static final Dimension FORMTEXTFIELD_DIMENSION = new Dimension(300,25);
 	public static final Dimension ALL_GROUPS_DIMENSION = new Dimension(450, 300);
+	public static final Dimension CHAT_MEMBERS_FRAME = new Dimension(330, 700);
+	public static final Dimension CHAT_MEMBERS_LIST = new Dimension(330, 600);
+	public static final Dimension CHAT_MEMBERS_BUTTONSPANEL = new Dimension(330, 100);
 	public static final Dimension LOGIN_FRAME_DIMENSION_MAXIMIZED = new Dimension(550,100);
 	public static final Dimension LOGOUT_FRAME_DIMENSION = new Dimension(200,100);
-	public static final Dimension CHAT_FRAME_DIMENSION = new Dimension(600,600);
-	public static final Dimension CHAT_HEADER_DIMENSION = new Dimension(600,80);
-	public static final Dimension CHAT_MESSAGES_DIMENSION = new Dimension(600,400);
-	public static final Dimension CHAT_USERSMESSAGE_DIMENSION = new Dimension(600,120);
-	public static final Dimension MESSAGE_DIMENSION = new Dimension(400,50);	
+	public static final Dimension CHAT_FRAME_DIMENSION = new Dimension(650,650);
+	public static final Dimension CHAT_HEADER_DIMENSION = new Dimension(650,20);
+	public static final Dimension CHAT_MESSAGES_DIMENSION = new Dimension(650,410);
+	public static final Dimension CHAT_USERSMESSAGE_DIMENSION = new Dimension(650,120);
+	public static final Dimension MESSAGE_DIMENSION = new Dimension(400,30);	
 	public static final Dimension FORMTEXTFIELD_MINI_DIMENSION = new Dimension(100,25);
 	//--------------------------Other Constants Constants
 	public static final String ERROR = "ERROR";

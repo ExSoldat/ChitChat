@@ -17,6 +17,16 @@ public class User {
 		this.hobbies.add(new Hobby(2, "Computer Science"));
 	}
 
+	public User(int i, String lastname, String username, String firstname, String password) {
+		this.id = id;
+		this.lastname = lastname;
+		this.username = username;
+		this.firstname = firstname;
+		this.hobbies.add(new Hobby(0, "Sport"));
+		this.hobbies.add(new Hobby(1, "Music"));
+		this.hobbies.add(new Hobby(2, "Computer Science"));
+	}
+
 	public String getLastname() {
 		return lastname;
 	}
@@ -64,10 +74,23 @@ public class User {
 		}
 		return r;
 	}
+	
+	public boolean isAdmin() {
+		return false;
+	}
 
 	@Override
 	public String toString() {
 		return this.firstname + " \"" + this.username + "\" " + this.lastname;
+	}
+
+	public void setPassword(String text) {
+		
+	}
+
+	public String getPassword() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 	

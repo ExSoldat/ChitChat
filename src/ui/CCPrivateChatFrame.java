@@ -1,5 +1,6 @@
-package ui.components;
+package ui;
 
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -11,21 +12,27 @@ import core.domain.Message;
 import core.domain.ReceiptMessage;
 import core.domain.UrgentMessage;
 import core.domain.User;
-import ui.CCChatFrame;
 import utils.Constants;
 
-public class CCPrivateChatFrame extends CCChatFrame{
+public class CCPrivateChatFrame extends CCChatFrame {
 	ArrayList<Message> m = new ArrayList<Message>();
+	User me, him;
 	public CCPrivateChatFrame(User me, User him) {
 		super();
+		this.me = me;
+		this.him = him;
+	}
+	
+	@Override
+	public void init() {
+		super.init();
 		m = App.getInstance().getServicesProvider().getMessagesBetween(me, him);
 		this.setTitle(Constants.APP_NAME +  " - " + TAG + " - " + him.getFirstname() + " " + him.getLastname());
-		this.getCCMessagesList().setData(m);
-		this.getMainInfo().setText(him.getFirstname() + " " + him.getLastname());
-		this.validate();
+		getCCMessagesList().setData(m);
+		scrollMessagesToBottom();
+		getMainInfo().setText(him.getFirstname() + " " + him.getLastname());
+		getSendButton().addActionListener(new ActionListener() {
 		
-		this.send.addActionListener(new ActionListener() {
-			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				Message m;
@@ -38,9 +45,18 @@ public class CCPrivateChatFrame extends CCChatFrame{
 				} else if (urgent.isSelected()) {
 					m = new UrgentMessage(me, him, mes.getText());
 				} else {
-					m = new Message();
+					m = new Message(me, him, mes.getText());
 				}
+				mes.getTextField().setText("");
+				App.getInstance().getServicesProvider().sendMessage(m);
+				refreshMessages();
 			}
 		});
+	}
+
+	@Override
+	public void refreshMessages() {
+		ArrayList<Message> m = App.getInstance().getServicesProvider().getMessagesBetween(me, him, true);
+		list.setData(m);
 	}
 }
