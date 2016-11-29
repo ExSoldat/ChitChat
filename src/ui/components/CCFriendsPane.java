@@ -19,6 +19,7 @@ import javax.swing.event.ListSelectionListener;
 
 import core.App;
 import core.domain.User;
+import core.domain.notifications.Notification;
 import ui.CCChatFrame;
 import ui.CCPrivateChatFrame;
 import ui.actions.TriggerButtonOnType;
@@ -32,6 +33,7 @@ public class CCFriendsPane extends JPanel {
 	public CCFriendsPane() {
 		//Getting the data :
 		friends = App.getInstance().getServicesProvider().getFriendsForUser(App.getInstance().getLoggedUser().getId());
+		//Instead getLoggedUser.getFriends();
 				
 		//Creating username and password fields inside their own label
 		JPanel main = new JPanel();
@@ -132,6 +134,14 @@ public class CCFriendsPane extends JPanel {
 				textFields.setVisible(true);
 				users.setVisible(false);
 				
+				JPanel notifications = new JPanel();
+				notifications.setLayout(new BoxLayout(notifications, BoxLayout.Y_AXIS));
+				//TODO
+				ArrayList<Notification> dummyNotifications = new ArrayList<Notification>();
+				
+				for(int i = 0; i < dummyNotifications.size(); i++) {
+					
+				}
 
 				dialog.onPositiveClicked(new ActionListener() {
 					

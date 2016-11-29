@@ -2,6 +2,7 @@ package ui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 
 import core.App;
@@ -12,9 +13,11 @@ import core.domain.Message;
 import core.domain.ReceiptMessage;
 import core.domain.UrgentMessage;
 import core.domain.User;
+import ui.components.CCGroupsPane;
 import utils.Constants;
 
 public class CCGroupChatFrame extends CCChatFrame {
+	CCGroupsPane mParent;
 	ArrayList<Message> m = new ArrayList<Message>();
 	User me;
 	Group them;
@@ -55,14 +58,23 @@ public class CCGroupChatFrame extends CCChatFrame {
 			}
 		});
 		CCGroupMembersFrame gmf = new CCGroupMembersFrame(them);
-		gmf.init();
+		gmf.init(this);
 		gmf.setLocationRelativeTo(this);
 		gmf.setVisible(true);
 	}
 
+	public void setParent(CCGroupsPane parent) {
+		this.mParent = parent;
+	}
+	
 	@Override
 	public void refreshMessages() {
 		them.setMessages(App.getInstance().getServicesProvider().getMessagesForGroup(App.getInstance().getLoggedUser(), them));
 		list.setData(them.getMessages());
+	}
+	
+	public void closeAfterLeaving() {
+		this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
+		mParent.refreshGroups();
 	}
 }

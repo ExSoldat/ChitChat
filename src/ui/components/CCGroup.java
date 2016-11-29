@@ -23,6 +23,7 @@ import utils.Constants;
 public class CCGroup extends JPanel {
 	
 	private Group group;
+	private CCGroupsPane globalParent;
 	
 	public CCGroup(Group group) {
 		this.group = group;
@@ -65,6 +66,7 @@ public class CCGroup extends JPanel {
 					System.out.println("Opens a group chat window between " + App.getInstance().getLoggedUser() + " and " + g);
 					CCGroupChatFrame groupChat = new CCGroupChatFrame(App.getInstance().getLoggedUser(), g);
 					groupChat.init();
+					groupChat.setParent(globalParent);
 					groupChat.setVisible(true);
 				}
 			}
@@ -78,6 +80,10 @@ public class CCGroup extends JPanel {
 
 	public Group getGroup() {
 		return group;
+	}
+	
+	public void setGlobalParent(CCGroupsPane gp) {
+		this.globalParent = gp;
 	}
 
 	public void setGroup(Group group) {

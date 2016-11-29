@@ -282,4 +282,23 @@ public class ServicesProvider {
 		r.add(new Message(me, group, "Damn", new Date()));
 		return r;
 	}
+
+	public boolean deleteUser(User deleteduser) {
+		//Call destroy method from domain
+		return rand.nextBoolean();
+	}
+
+	public boolean createUser(User createdUser) {
+		//Call create method from domain
+		return rand.nextBoolean();
+	}
+	
+	public boolean updateUser(User updatedUser) {
+		return rand.nextBoolean();
+	}
+
+	public boolean removeUserFromGroup(User loggedUser, Group group) {
+		//user.removeGroup(group);group.removeUser(loggedUser);return DataMapper.update()
+		return rand.nextBoolean();
+	}
 }

@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
@@ -43,6 +44,7 @@ import utils.Constants;
 public class CCGroupMembersFrame extends JFrame {
 		private Group group;
 		public static String TAG = "Members";
+		public CCGroupChatFrame mFrameParent;
 		CCUserList ul;
 
 		public CCGroupMembersFrame(Group g) {
@@ -50,7 +52,8 @@ public class CCGroupMembersFrame extends JFrame {
 			this.group = g;
 		}
 		
-		public void init() {
+		public void init(CCGroupChatFrame mParent) {
+			this.mFrameParent = mParent;
 			JPanel main = new JPanel();
 			JScrollPane scroll = new JScrollPane();
 		    scroll.setLayout(new ScrollPaneLayout());
@@ -66,13 +69,17 @@ public class CCGroupMembersFrame extends JFrame {
 			cs.fill = GridBagConstraints.VERTICAL;
 			cs.insets = new Insets(10, 10, 10, 10);
 			CCButton addbutton = new CCButton("add", Constants.BUTTON_MAIN);
+			CCButton leavebutton = new CCButton("leave group", Constants.BUTTON_SECONDARY);
 			CCButton removebutton = new CCButton("remove", Constants.BUTTON_DANGER);
 			
-			cs.gridx = 0;
-			actionbuttons.add(addbutton, cs);
+			if(App.getInstance().getLoggedUser().equals(group.getAdministrator())) {
+				cs.gridx = 0;
+				actionbuttons.add(addbutton, cs);
+				cs.gridx = 2;
+				actionbuttons.add(removebutton, cs);
+			}
 			cs.gridx = 1;
-			actionbuttons.add(removebutton, cs);
-			
+			actionbuttons.add(leavebutton, cs);
 			removebutton.setEnabled(false);
 			removebutton.addActionListener(new ActionListener() {
 				
@@ -158,6 +165,18 @@ public class CCGroupMembersFrame extends JFrame {
 					dialog.getPositiveButton().setEnabled(false);
 					dialog.morphButtons("SEARCH", "CANCEL");
 					dialog.setVisible(true);
+				}
+			});
+			
+			CCGroupMembersFrame me = this;
+			leavebutton.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					if(App.getInstance().getServicesProvider().removeUserFromGroup(App.getInstance().getLoggedUser(), group)) {
+						me.dispatchEvent(new WindowEvent(me, WindowEvent.WINDOW_CLOSING));
+						mFrameParent.closeAfterLeaving();
+					}
 				}
 			});
 			main.add(actionbuttons);

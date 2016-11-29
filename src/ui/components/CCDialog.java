@@ -49,15 +49,13 @@ public class CCDialog extends JDialog {
 		info.setHorizontalAlignment(CCLabel.CENTER);
 		main.add(info, cs);
 		
+		JPanel actionpanel = new JPanel();
+		actionpanel.add(positiveButton);
+		actionpanel.add(negativeButton);
+		
 		cs.gridx = 2;
 		cs.gridy = 2;
-		cs.gridwidth = 1;
-		cs.weightx = 0.5;
-		main.add(positiveButton, cs);
-		
-		cs.gridx = 3;
-		cs.gridy = 2;
-		main.add(negativeButton, cs);
+		main.add(actionpanel, cs);
 		
 		onNegativeClicked(new ActionListener() {
 			

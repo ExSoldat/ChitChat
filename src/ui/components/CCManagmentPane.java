@@ -31,6 +31,7 @@ public class CCManagmentPane extends JPanel {
 	User selecteduser = null;
 	public CCTitlePanel titlepanel;
 	public CCFormTextEntry firstname, username, lastname, password;
+	public CCButton confirmbutton, confirmcreationbutton;
 	public CCManagmentPane() {
 		users = App.getInstance().getServicesProvider().getFriendsForUser(App.getInstance().getLoggedUser().getId());
 		
@@ -54,14 +55,13 @@ public class CCManagmentPane extends JPanel {
 		
 		cs.fill = GridBagConstraints.VERTICAL;
 		cs.insets = new Insets(0, 10, 0, 10);
-		CCButton addbutton = new CCButton("search", Constants.BUTTON_MAIN);
-		CCButton deletebutton = new CCButton("remove", Constants.BUTTON_DANGER);
+		CCButton createbutton = new CCButton("create", Constants.BUTTON_MAIN);
+		CCButton deletebutton = new CCButton("delete", Constants.BUTTON_DANGER);
 		
-		cs.gridx = 0;
-		actionbuttons.add(addbutton, cs);
+		cs.gridy = 0;
+		actionbuttons.add(createbutton);
 		cs.gridx = 1;
 		actionbuttons.add(deletebutton, cs);
-		
 		deletebutton.setEnabled(false);
 		
 		JPanel selecteduserInfo = new JPanel();
@@ -75,17 +75,17 @@ public class CCManagmentPane extends JPanel {
 		firstname = new CCFormTextEntry("Firstname", true, false);
 		lastname = new CCFormTextEntry("Lastname", true, false);
 		password = new CCFormTextEntry("Password", true, false);
-		CCButton confirmbutton = new CCButton("Confirm", Constants.BUTTON_MAIN);
+		confirmbutton = new CCButton("Confirm", Constants.BUTTON_MAIN);
+		confirmcreationbutton = new CCButton("Confirm creation", Constants.BUTTON_MAIN);
+		confirmbutton.setEnabled(false);
+		confirmcreationbutton.setVisible(false);
 		
 		username.getTextField().setPreferredSize(Constants.FORMTEXTFIELD_MINI_DIMENSION);
 		firstname.getTextField().setPreferredSize(Constants.FORMTEXTFIELD_MINI_DIMENSION);
 		lastname.getTextField().setPreferredSize(Constants.FORMTEXTFIELD_MINI_DIMENSION);
 		password.getTextField().setPreferredSize(Constants.FORMTEXTFIELD_MINI_DIMENSION);
 		
-		username.getTextField().setEnabled(false);
-		firstname.getTextField().setEnabled(false);
-		lastname.getTextField().setEnabled(false);
-		password.getTextField().setEnabled(false);
+		enableTextField(false);
 		
 		confirmbutton.addActionListener(new ActionListener() {
 			@Override
@@ -94,37 +94,60 @@ public class CCManagmentPane extends JPanel {
 				selecteduser.setUsername(username.getText() != null ? username.getText() : selecteduser.getUsername());
 				selecteduser.setLastname(lastname.getText() != null ? lastname.getText() : selecteduser.getLastname());
 				selecteduser.setPassword(password.getText() != null ? password.getText() : selecteduser.getPassword());
-				User tempUser = selecteduser;
-				users.remove(selecteduser);
-				users.add(tempUser);
-				selecteduser = null;
-				refreshUserInfo();
-				userslist.setListData(users.toArray());
+				
+				if(App.getInstance().getServicesProvider().updateUser(selecteduser)) {
+					User tempUser = selecteduser;
+					users.remove(selecteduser);
+					users.add(tempUser);
+					selecteduser = null;
+					refreshUserInfo(false);
+					enableTextField(false);
+					userslist.setListData(users.toArray());
+					deletebutton.setEnabled(false);
+					confirmbutton.setEnabled(false);
+				}
 			}
 		});
-		
 		
 		userslist.addListSelectionListener(new ListSelectionListener() {
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
 				selecteduser = (User)userslist.getSelectedValue();
 				if(selecteduser != null) {
-					refreshUserInfo();
-					username.getTextField().setEnabled(true);
-					firstname.getTextField().setEnabled(true);
-					lastname.getTextField().setEnabled(true);
-					password.getTextField().setEnabled(true);
+					confirmbutton.setVisible(true);
+					confirmcreationbutton.setVisible(false);
+					refreshUserInfo(false);
+					enableTextField(true);
 					deletebutton.setEnabled(true);
+					confirmbutton.setEnabled(true);
 				}
 			}
 		});
 		
-		addbutton.addActionListener(new ActionListener() {
+		createbutton.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				users.add(new User(0, lastname.getText(), username.getText(), firstname.getText(), password.getText()));
-				userslist.setListData(users.toArray());
+				refreshUserInfo(true);
+				confirmbutton.setVisible(false);
+				confirmcreationbutton.setVisible(true);
+				enableTextField(true);
+			}
+		});
+		
+		confirmcreationbutton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				User createdUser = new User(0, lastname.getText(), username.getText(), firstname.getText(), password.getText());
+				if(App.getInstance().getServicesProvider().createUser(createdUser)) {
+					users.add(createdUser);
+					userslist.setListData(users.toArray());
+					refreshUserInfo(false);
+					enableTextField(false);
+					confirmbutton.setVisible(true);
+					confirmcreationbutton.setVisible(false);
+				}
 			}
 		});
 		
@@ -142,13 +165,17 @@ public class CCManagmentPane extends JPanel {
 						deletebutton.setEnabled(false);	
 						User deleteduser = (User)userslist.getSelectedValue();
 						LogUtils.log(TAG, Constants.INFO, "User to be deleted : " + deleteduser);
-						users.remove(deleteduser);
-						userslist.setListData(users.toArray());
-						titlepanel.setTitle("Nan");
-						username.getTextField().setText("");
-						firstname.getTextField().setText("");
-						lastname.getTextField().setText("");
-						confirmDialog.dispose();						
+						if (App.getInstance().getServicesProvider().deleteUser(deleteduser)) {
+							users.remove(deleteduser);
+							userslist.setListData(users.toArray());
+							titlepanel.setTitle("Nan");
+							username.getTextField().setText("");
+							firstname.getTextField().setText("");
+							lastname.getTextField().setText("");
+							confirmDialog.dispose();
+						} else {
+							confirmDialog.showError();
+						}
 					}
 				});
 				confirmDialog.setVisible(true);
@@ -161,6 +188,7 @@ public class CCManagmentPane extends JPanel {
 		selecteduserInfo.add(lastname);
 		selecteduserInfo.add(password);
 		selecteduserInfo.add(confirmbutton);
+		selecteduserInfo.add(confirmcreationbutton);
 		actionpanel.add(userslist);
 		actionpanel.add(actionbuttons);
 		
@@ -169,17 +197,25 @@ public class CCManagmentPane extends JPanel {
 		this.add(main);
 	}
 	
-	public void refreshUserInfo() {
+	public void refreshUserInfo(boolean isNewUser) {
 		if(selecteduser != null) {
 			titlepanel.setTitle(selecteduser.getFirstname() + " " + selecteduser.getLastname());
 			username.getTextField().setText(selecteduser.getUsername());
 			firstname.getTextField().setText(selecteduser.getFirstname());
 			lastname.getTextField().setText(selecteduser.getLastname());
 		} else {
-			titlepanel.setTitle("No user selected yet");
+			titlepanel.setTitle(isNewUser ? "New User" : "No user selected yet");
 			username.getTextField().setText("");
 			firstname.getTextField().setText("");
 			lastname.getTextField().setText("");
+			password.getTextField().setText("");
 		}
+	}
+	
+	public void enableTextField(boolean enable) {
+		username.getTextField().setEnabled(enable);
+		firstname.getTextField().setEnabled(enable);
+		lastname.getTextField().setEnabled(enable);
+		password.getTextField().setEnabled(enable);
 	}
 }

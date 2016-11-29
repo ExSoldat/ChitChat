@@ -29,11 +29,10 @@ public class HomeFrame extends JFrame {
 		JPanel mainView = new JPanel();
 		mainView.setLayout(new BorderLayout());
 		JTabbedPane panes = new JTabbedPane(JTabbedPane.TOP, JTabbedPane.SCROLL_TAB_LAYOUT);
-		//if(App.getInstance().getLoggedUser().isAdmin()) //Use of a isAdmin value beacause i don't know if i'm going to have enough time to implement visitor pattern here
-		panes.add("Managment", new CCManagmentPane());
+		if(App.getInstance().getLoggedUser().isAdmin()) //Use of a isAdmin value beacause i don't know if i'm going to have enough time to implement visitor pattern here
+			panes.add("Managment", new CCManagmentPane());
 		panes.add("Friends", new CCFriendsPane());
 		panes.add("Groups", new CCGroupsPane());
-		//panes.add("Private chats", new CCGroupsPane());
 		panes.add("Profile", new CCProfilePane());
 		
 		mainView.add(panes, BorderLayout.CENTER);

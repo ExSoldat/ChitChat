@@ -86,6 +86,7 @@ public class CCGroupsPane extends JPanel {
 		ArrayList<Group> groups = App.getInstance().getServicesProvider().getGroupsForUser(App.getInstance().getLoggedUser().getId());
 		for(int i = 0; i<groups.size(); i++) {
 			CCGroup ccg = new CCGroup(groups.get(i));
+			ccg.setGlobalParent(this);
 			scrollMain.add(ccg);
 		}
 		scrollMain.validate();
