@@ -21,7 +21,11 @@ import javax.swing.event.ListSelectionListener;
 
 import core.App;
 import core.domain.Group;
+import core.domain.Hobby;
 import core.domain.User;
+import core.domain.notifications.FriendAcceptNotification;
+import core.domain.notifications.FriendAddNotification;
+import core.domain.notifications.FriendMessageNotification;
 import core.domain.notifications.GUINotificationVisitor;
 import core.domain.notifications.GroupMessageNotification;
 import core.domain.notifications.Notification;
@@ -35,7 +39,10 @@ import utils.Constants;
 
 public class CCNotificationsFrame extends JFrame {
 
+	public static String TAG = "Notifications";
 	public void init() {
+		this.setIconImage(Constants.APP_LOGO.getImage());
+		this.setTitle(TAG);
 		JPanel main = new JPanel();
 		JScrollPane scroll = new JScrollPane();
 	    scroll.setLayout(new ScrollPaneLayout());
@@ -47,8 +54,17 @@ public class CCNotificationsFrame extends JFrame {
 		ArrayList<Notification> usersNotifications = new ArrayList<Notification>();
 		Group testgroup = new Group("Test", App.getInstance().getLoggedUser(), "Hello");
 		Group testgroup2 = new Group("Test", App.getInstance().getLoggedUser(), "Hello");
-		usersNotifications.add(new GroupMessageNotification(0, new Date(), true, false, new User(1,"Goku", "savioroftheworld", "Son"), testgroup2, true));
-		usersNotifications.add(new GroupMessageNotification(1, new Date(), true, false, new User(2,"zeze", "saviorofthzefezfzeworld", "Sozfezfn"), testgroup, false));
+		User testuser = new User(1,"Goku", "savioroftheworld", "Son");
+		ArrayList<Hobby>sgh = new ArrayList<Hobby>();
+		sgh.add(new Hobby(0, "Food"));
+		sgh.add(new Hobby(0, "Fight"));
+		sgh.add(new Hobby(0, "Be Stronger"));
+		sgh.add(new Hobby(0, "New ennemies"));
+		testuser.setHobbies(sgh);
+		usersNotifications.add(new GroupMessageNotification(0, new Date(), true, false, testuser, testgroup2, true));
+		usersNotifications.add(new FriendMessageNotification(1,new Date(), true, false, false, testuser, "Hello ! mzefpirjgpreigjerpigjerpigjerpgijerpigjerpgijerpgijerpgij"));
+		usersNotifications.add(new FriendAddNotification(1,new Date(), true, false, false, testuser));
+		usersNotifications.add(new FriendAcceptNotification(2,new Date(), true, true, testuser));
 
 		for(int i = 0; i < usersNotifications.size(); i++) {
 			notifications.add(usersNotifications.get(i).accept(new GUINotificationVisitor()));

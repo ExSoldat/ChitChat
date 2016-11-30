@@ -31,7 +31,7 @@ public class LogoutFrame extends JFrame {
 	public void init(HomeFrame hf) {
 		//Creating the frame
 		this.setLayout(new BorderLayout(10,0));
-		
+		this.setIconImage(Constants.APP_LOGO.getImage());
 		//Creating the logo
 		ImageIcon imageurl = new ImageIcon("img/chitchat_mini.png");
 		JLabel image = new JLabel(imageurl);

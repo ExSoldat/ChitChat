@@ -53,12 +53,13 @@ public class CCGroupMembersFrame extends JFrame {
 		}
 		
 		public void init(CCGroupChatFrame mParent) {
+			this.setIconImage(Constants.APP_LOGO.getImage());
 			this.mFrameParent = mParent;
 			JPanel main = new JPanel();
 			JScrollPane scroll = new JScrollPane();
 		    scroll.setLayout(new ScrollPaneLayout());
 			scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-			ul = new CCUserList(group.getParticipants());
+			ul = group.getParticipants() != null ? new CCUserList(group.getParticipants()) : new CCUserList();
 			scroll.setViewportView(ul);
 			main.add(scroll);
 			

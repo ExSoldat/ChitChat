@@ -2,6 +2,8 @@ package utils;
 
 import java.awt.Dimension;
 
+import javax.swing.ImageIcon;
+
 public class Constants {
 
 	public static final String APP_NAME = "Chit Chat";
@@ -50,6 +52,7 @@ public class Constants {
 	public static final String NOTE = "NOTE";
 	public static final String SQL = "SQL";
 
+	public static final ImageIcon APP_LOGO = new ImageIcon("img/chitchat_mini.png");
 	public static final boolean DEV_MODE = true;
 
 

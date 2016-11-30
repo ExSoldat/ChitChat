@@ -26,6 +26,7 @@ public class CCPrivateChatFrame extends CCChatFrame {
 	@Override
 	public void init() {
 		super.init();
+		this.setIconImage(Constants.APP_LOGO.getImage());
 		m = App.getInstance().getServicesProvider().getMessagesBetween(me, him);
 		this.setTitle(Constants.APP_NAME +  " - " + TAG + " - " + him.getFirstname() + " " + him.getLastname());
 		getCCMessagesList().setData(m);
@@ -58,5 +59,6 @@ public class CCPrivateChatFrame extends CCChatFrame {
 	public void refreshMessages() {
 		ArrayList<Message> m = App.getInstance().getServicesProvider().getMessagesBetween(me, him, true);
 		list.setData(m);
+		messagesList.validate();
 	}
 }

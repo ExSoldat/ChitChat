@@ -29,6 +29,7 @@ public class CCGroupChatFrame extends CCChatFrame {
 	
 	@Override
 	public void init() {
+		this.setIconImage(Constants.APP_LOGO.getImage());
 		super.init();
 		them.getMessages();
 		m = them.getMessages();
@@ -71,6 +72,7 @@ public class CCGroupChatFrame extends CCChatFrame {
 	public void refreshMessages() {
 		them.setMessages(App.getInstance().getServicesProvider().getMessagesForGroup(App.getInstance().getLoggedUser(), them));
 		list.setData(them.getMessages());
+		messagesList.validate();
 	}
 	
 	public void closeAfterLeaving() {

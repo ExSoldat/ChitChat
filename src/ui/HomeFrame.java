@@ -23,6 +23,7 @@ public class HomeFrame extends JFrame {
 	public void init() {
 		//Creating the logo
 		ImageIcon imageurl = new ImageIcon("img/chitchat_mini.png");
+		this.setIconImage(Constants.APP_LOGO.getImage());
 		//JLabel image = new JLabel(imageurl);
 		
 		//Creating username and password fields inside their own label

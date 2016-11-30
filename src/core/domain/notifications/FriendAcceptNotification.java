@@ -4,13 +4,15 @@ import java.util.Date;
 
 import javax.swing.JPanel;
 
+import core.domain.User;
 import core.interfaces.NotificationVisitor;
 
 public class FriendAcceptNotification extends Notification {
 
-	public FriendAcceptNotification(int id, Date date, boolean sent, boolean received) {
+	private User sender;
+	public FriendAcceptNotification(int id, Date date, boolean sent, boolean received, User sender) {
 		super(id, date, sent, received);
-		// TODO Auto-generated constructor stub
+		this.sender = sender;
 	}
 
 	@Override
@@ -23,5 +25,15 @@ public class FriendAcceptNotification extends Notification {
 	public JPanel accept(GUINotificationVisitor v) {
 		return v.visit(this);
 	}
+
+	public User getSender() {
+		return sender;
+	}
+
+	public void setSender(User sender) {
+		this.sender = sender;
+	}
+	
+	
 
 }

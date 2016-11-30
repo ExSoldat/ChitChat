@@ -49,6 +49,7 @@ public abstract class CCChatFrame extends JFrame {
 	}
 	
 	public void init() {
+		this.setIconImage(Constants.APP_LOGO.getImage());
 		//Creating the logo
 		ImageIcon imageurl = new ImageIcon("img/chitchat_mini.png");
 		
@@ -120,6 +121,7 @@ public abstract class CCChatFrame extends JFrame {
 			}
 		});
 		
+		main.setPreferredSize(Constants.CHAT_MESSAGES_DIMENSION);
 		main.add(header);
 		main.add(messagesList);
 		main.add(usersMessage);
