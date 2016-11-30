@@ -29,7 +29,9 @@ public class Constants {
 	public static final Dimension FORMTEXTFIELD_DIMENSION = new Dimension(300,25);
 	public static final Dimension ALL_GROUPS_DIMENSION = new Dimension(450, 300);
 	public static final Dimension CHAT_MEMBERS_FRAME = new Dimension(330, 700);
+	public static final Dimension NOTIFICATIONS_FRAME_DIMENSION = new Dimension(450, 700);
 	public static final Dimension CHAT_MEMBERS_LIST = new Dimension(330, 600);
+	public static final Dimension NOTIFICATIONS_LIST = new Dimension(400, 675);
 	public static final Dimension CHAT_MEMBERS_BUTTONSPANEL = new Dimension(330, 100);
 	public static final Dimension LOGIN_FRAME_DIMENSION_MAXIMIZED = new Dimension(550,100);
 	public static final Dimension LOGOUT_FRAME_DIMENSION = new Dimension(200,100);
@@ -49,6 +51,7 @@ public class Constants {
 	public static final String SQL = "SQL";
 
 	public static final boolean DEV_MODE = true;
+
 
 	
 

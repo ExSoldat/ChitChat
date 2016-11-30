@@ -2,6 +2,8 @@ package core.domain.notifications;
 
 import java.util.Date;
 
+import javax.swing.JPanel;
+
 import core.interfaces.NotificationVisitor;
 
 public class FriendAcceptNotification extends Notification {
@@ -18,9 +20,8 @@ public class FriendAcceptNotification extends Notification {
 	}
 
 	@Override
-	public void accept(GUINotificationVisitor v) {
-		// TODO Auto-generated method stub
-		
+	public JPanel accept(GUINotificationVisitor v) {
+		return v.visit(this);
 	}
 
 }

@@ -58,7 +58,6 @@ public class CCGroupMembersFrame extends JFrame {
 			JScrollPane scroll = new JScrollPane();
 		    scroll.setLayout(new ScrollPaneLayout());
 			scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-			JPanel usersList = new JPanel();
 			ul = new CCUserList(group.getParticipants());
 			scroll.setViewportView(ul);
 			main.add(scroll);

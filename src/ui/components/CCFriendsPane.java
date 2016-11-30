@@ -1,5 +1,6 @@
 package ui.components;
 
+import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -9,6 +10,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -18,7 +20,10 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import core.App;
+import core.domain.Group;
 import core.domain.User;
+import core.domain.notifications.GUINotificationVisitor;
+import core.domain.notifications.GroupMessageNotification;
 import core.domain.notifications.Notification;
 import ui.CCChatFrame;
 import ui.CCPrivateChatFrame;
@@ -41,6 +46,7 @@ public class CCFriendsPane extends JPanel {
 		
 		mainCs.fill = GridBagConstraints.VERTICAL;
 		mainCs.insets = new Insets(10, 10, 10, 10);
+		mainCs.gridy = 1;
 		
 		JPanel actionpanel = new JPanel();
 		actionpanel.setLayout(new BoxLayout(actionpanel, BoxLayout.Y_AXIS));
@@ -133,15 +139,6 @@ public class CCFriendsPane extends JPanel {
 				CCUserList users = new CCUserList();
 				textFields.setVisible(true);
 				users.setVisible(false);
-				
-				JPanel notifications = new JPanel();
-				notifications.setLayout(new BoxLayout(notifications, BoxLayout.Y_AXIS));
-				//TODO
-				ArrayList<Notification> dummyNotifications = new ArrayList<Notification>();
-				
-				for(int i = 0; i < dummyNotifications.size(); i++) {
-					
-				}
 
 				dialog.onPositiveClicked(new ActionListener() {
 					
@@ -179,6 +176,7 @@ public class CCFriendsPane extends JPanel {
 						});
 					}
 				});
+				
 				main.add(users);
 				main.add(textFields);
 				dialog.setMainComponent(main);

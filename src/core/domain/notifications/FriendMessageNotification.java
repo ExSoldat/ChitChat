@@ -2,13 +2,16 @@ package core.domain.notifications;
 
 import java.util.Date;
 
+import javax.swing.JPanel;
+
 import core.interfaces.NotificationVisitor;
 
 public class FriendMessageNotification extends Notification {
+	private boolean urgent = false;
 
-	public FriendMessageNotification(int id, Date date, boolean sent, boolean received) {
+	public FriendMessageNotification(int id, Date date, boolean sent, boolean received, boolean urgent) {
 		super(id, date, sent, received);
-		// TODO Auto-generated constructor stub
+		this.urgent = urgent;
 	}
 
 	@Override
@@ -18,9 +21,17 @@ public class FriendMessageNotification extends Notification {
 	}
 
 	@Override
-	public void accept(GUINotificationVisitor v) {
-		// TODO Auto-generated method stub
-		
+	public JPanel accept(GUINotificationVisitor v) {
+		return v.visit(this);
 	}
 
+	public boolean isUrgent() {
+		return urgent;
+	}
+
+	public void setUrgent(boolean urgent) {
+		this.urgent = urgent;
+	}
+	
+	
 }

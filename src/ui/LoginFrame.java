@@ -102,8 +102,11 @@ public class LoginFrame extends JFrame {
 					errorView.setVisible(false);
 					LogoutFrame lo = new LogoutFrame();
 					HomeFrame hf = new HomeFrame();
+					CCNotificationsFrame nf = new CCNotificationsFrame();
+					nf.init();
 					hf.init();
 					lo.init(hf);
+					nf.setVisible(true);
 					lo.setVisible(true);
 					hf.setVisible(true);
 					dispose();

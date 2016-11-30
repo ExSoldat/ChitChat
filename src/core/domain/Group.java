@@ -2,6 +2,8 @@ package core.domain;
 
 import java.util.ArrayList;
 
+import core.App;
+
 public class Group {
 	private String name;
 	private ArrayList<Message> messages = new ArrayList<Message>();
@@ -49,7 +51,7 @@ public class Group {
 		this.participants = participants;
 	}
 	public Message getLastMessage() {
-		return getMessages().get(messages.size()-1);
+		return getMessages().isEmpty() ? new Message(App.getInstance().getLoggedUser(), this, "It seems no message have been added yet, be the first to send yours !") : getMessages().get(messages.size()-1);
 	}
 
 	public String getDescription() {
