@@ -1,8 +1,10 @@
 package core;
 
+import java.sql.Connection;
 import java.util.ArrayList;
 
 import core.domain.User;
+import core.persistence.DBManager;
 import core.service.ServicesProvider;
 import ui.DevFrame;
 import utils.Constants;
@@ -17,6 +19,7 @@ public class App {
 	private ServicesProvider mServicesProvider = new ServicesProvider();
 	private User connectedUser;
 	private DevFrame devframe;
+	private static DBManager session;
 	private App() {}
 	
 	private static App instance = new App();
@@ -25,13 +28,13 @@ public class App {
 		return instance;
 	}
 	
-	//public static Connection createSession() {
-		//LogUtils.log(TAG, Constants.INFO, "Creating app database session");
-		//session = new DBManager();
-		//session.connect();
-		//return session.getConnection();
-	//}
-	/*
+	public static Connection createSession() {
+		LogUtils.log(TAG, Constants.INFO, "Creating app database session");
+		session = new DBManager();
+		session.connect();
+		return session.getConnection();
+	}
+	
 	public static Connection getConnection() {
 		if(session == null) {
 			return createSession();
@@ -39,7 +42,8 @@ public class App {
 			return session.getConnection();
 		}
 	}
-	*/
+	
+	
 	public static void addLogType(String logType) {
 		logs.add(logType);
 	}

@@ -8,6 +8,7 @@ import core.domain.Administrateur;
 import core.domain.Group;
 import core.domain.Message;
 import core.domain.User;
+import core.mapper.UserMapper;
 import utils.Constants;
 import utils.LogUtils;
 
@@ -25,19 +26,12 @@ public class ServicesProvider {
 	 * @return an user if the credentials are correct
 	 */
 	public User connect(String user, String pwd) {
-		//Appeler les couches inf�rieures pour v�rifier que l'utilisateur a donn� les bons credentials
-		//Dans le retour, si le compte est administrateur, c'est renseign�
-		LogUtils.log("DBG", "DBG", "connect : " + user + pwd);
-		//M2thode bidon
-		LogUtils.log(TAG, Constants.RESPONSE, user + "logged !");
-		if(user.equals("admin") && pwd.equals("admin")) {
-			return new Administrateur(29,"SAAB", user, "Mathieu");
-		} else if (user.equals("null") && pwd.equals("null")) {
-			return null;
-		} else {
-			return new User(10,"DOE", "lejohndoe", "John");
-		} 
-		//LogUtils.log(TAG, Constants.RESPONSE, user + "logged !");
+		ArrayList<User> allusers = UserMapper.getInstance().read();
+		for(int i = 0; i<allusers.size(); i++) {
+			if(allusers.get(i).getUsername().equals(user) && allusers.get(i).getPassword().equals(pwd))
+				return allusers.get(i);
+		}
+		return null;
 	}
 
 	/**
@@ -57,7 +51,7 @@ public class ServicesProvider {
 		
 		Group g = new Group();
 		g.setName("The first group");
-		g.setAdministrator(new Administrateur(29,"SAAB", "admin", "Mathieu"));
+		g.setAdministrator(new Administrateur(29,"SAAB", "admin", "Mathieu", "azerty"));
 		g.setDescription("A group");
 		g.setParticipants(p);
 		for (int i =0; i<15; i++) {
@@ -68,7 +62,7 @@ public class ServicesProvider {
 		g = null;
 		g = new Group();
 		g.setName("The second group");
-		g.setAdministrator(new Administrateur(10,"gzg", "zef", "zef"));
+		g.setAdministrator(new Administrateur(10,"gzg", "zef", "zef", "azerty"));
 		g.setDescription("A second group");
 		g.setParticipants(p);
 		for (int i =0; i<15; i++) {
@@ -79,7 +73,7 @@ public class ServicesProvider {
 		g = null;
 		g = new Group();
 		g.setName("The third group");
-		g.setAdministrator(new Administrateur(29,"SAAB", "admin", "Mathieu"));
+		g.setAdministrator(new Administrateur(29,"SAAB", "admin", "Mathieu", "azerty"));
 		g.setDescription("A third group");
 		g.setParticipants(p);
 		for (int i =0; i<15; i++) {
@@ -91,7 +85,7 @@ public class ServicesProvider {
 		g = null;
 		g = new Group();
 		g.setName("The fourth group");
-		g.setAdministrator(new Administrateur(29,"SAAB", "admin", "Mathieu"));
+		g.setAdministrator(new Administrateur(29,"SAAB", "admin", "Mathieu", "azerty"));
 		g.setDescription("A gfrouth roup");
 		g.setParticipants(p);
 		for (int i =0; i<15; i++) {
@@ -103,7 +97,7 @@ public class ServicesProvider {
 		g = null;
 		g = new Group();
 		g.setName("The fourth group");
-		g.setAdministrator(new Administrateur(29,"SAAB", "admin", "Mathieu"));
+		g.setAdministrator(new Administrateur(29,"SAAB", "admin", "Mathieu", "azerty"));
 		g.setDescription("Another group");
 		g.setParticipants(p);
 		for (int i =0; i<15; i++) {
