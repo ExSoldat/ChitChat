@@ -52,8 +52,8 @@ public class Constants {
 	public static final String NOTE = "NOTE";
 	public static final String SQL = "SQL";
 	public static final String LOCAL_URL = "jdbc:mysql://localhost/chitchat"; // Change the name to the database depending on the one you use
-	public static final String USERNAME = "user";
-	public static final String PASSWORD = "password";
+	public static final String USERNAME = "root";
+	public static final String PASSWORD = "root";
 
 	public static final ImageIcon APP_LOGO = new ImageIcon("img/chitchat_mini.png");
 	public static final boolean DEV_MODE = true;

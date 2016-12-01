@@ -3,9 +3,10 @@ package core.domain;
 import java.util.ArrayList;
 
 public class User {
-	private String lastname, username, firstname;
+	private String lastname, username, firstname, password;
 	private int id;
 	private ArrayList<Hobby> hobbies = new ArrayList<Hobby>();
+	private ArrayList<User> friends = new ArrayList<User>();
 	
 	public User(int id, String lastname, String username, String firstname) {
 		this.id = id;
@@ -17,14 +18,16 @@ public class User {
 		this.hobbies.add(new Hobby(2, "Computer Science"));
 	}
 
-	public User(int i, String lastname, String username, String firstname, String password) {
+	public User(int id, String lastname, String username, String firstname, String password, ArrayList<User> friends) {
 		this.id = id;
 		this.lastname = lastname;
 		this.username = username;
 		this.firstname = firstname;
+		this.password = password;
+		this.friends = friends;
 		this.hobbies.add(new Hobby(0, "Sport"));
 		this.hobbies.add(new Hobby(1, "Music"));
-		this.hobbies.add(new Hobby(2, "Computer Science"));
+		this.hobbies.add(new Hobby(2, "Computer Science"));	
 	}
 
 	public String getLastname() {
@@ -85,12 +88,11 @@ public class User {
 	}
 
 	public void setPassword(String text) {
-		
+		this.password = text;
 	}
 
 	public String getPassword() {
-		// TODO Auto-generated method stub
-		return null;
+		return password;
 	}
 	
 	

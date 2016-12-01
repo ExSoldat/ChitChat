@@ -51,7 +51,7 @@ public class ServicesProvider {
 		
 		Group g = new Group();
 		g.setName("The first group");
-		g.setAdministrator(new Administrateur(29,"SAAB", "admin", "Mathieu", "azerty"));
+		g.setAdministrator(new Administrateur(29,"SAAB", "admin", "Mathieu", "azerty", p));
 		g.setDescription("A group");
 		g.setParticipants(p);
 		for (int i =0; i<15; i++) {
@@ -62,7 +62,7 @@ public class ServicesProvider {
 		g = null;
 		g = new Group();
 		g.setName("The second group");
-		g.setAdministrator(new Administrateur(10,"gzg", "zef", "zef", "azerty"));
+		g.setAdministrator(new Administrateur(10,"gzg", "zef", "zef", "azerty", p));
 		g.setDescription("A second group");
 		g.setParticipants(p);
 		for (int i =0; i<15; i++) {
@@ -73,7 +73,7 @@ public class ServicesProvider {
 		g = null;
 		g = new Group();
 		g.setName("The third group");
-		g.setAdministrator(new Administrateur(29,"SAAB", "admin", "Mathieu", "azerty"));
+		g.setAdministrator(new Administrateur(29,"SAAB", "admin", "Mathieu", "azerty", p));
 		g.setDescription("A third group");
 		g.setParticipants(p);
 		for (int i =0; i<15; i++) {
@@ -85,7 +85,7 @@ public class ServicesProvider {
 		g = null;
 		g = new Group();
 		g.setName("The fourth group");
-		g.setAdministrator(new Administrateur(29,"SAAB", "admin", "Mathieu", "azerty"));
+		g.setAdministrator(new Administrateur(29,"SAAB", "admin", "Mathieu", "azerty", p));
 		g.setDescription("A gfrouth roup");
 		g.setParticipants(p);
 		for (int i =0; i<15; i++) {
@@ -97,7 +97,7 @@ public class ServicesProvider {
 		g = null;
 		g = new Group();
 		g.setName("The fourth group");
-		g.setAdministrator(new Administrateur(29,"SAAB", "admin", "Mathieu", "azerty"));
+		g.setAdministrator(new Administrateur(29,"SAAB", "admin", "Mathieu", "azerty", p));
 		g.setDescription("Another group");
 		g.setParticipants(p);
 		for (int i =0; i<15; i++) {

@@ -32,7 +32,7 @@ public class UserMapper implements Mapper<User> {
 	 * @return the current UserMapper instance
 	 */
 	public static UserMapper getInstance() {
-		if(instance == null)
+		if(instance != null)
 			return instance;
 		else
 			return new UserMapper();
