@@ -36,7 +36,7 @@ public class CCUserList extends JList {
 	
 	public void setData(ArrayList<User> users) {
 		this.data = users;
-		this.setListData(users.toArray());
+		this.setListData(users.toArray() == null ? new ArrayList<User>().toArray() : users.toArray());
 	}
 
 	public void render() {

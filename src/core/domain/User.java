@@ -94,6 +94,24 @@ public class User {
 	public String getPassword() {
 		return password;
 	}
+
+	public ArrayList<User> getFriends() {
+		return friends;
+	}
+
+	public void setFriends(ArrayList<User> friends) {
+		this.friends = friends;
+	}
+
+	public boolean friendsListContains(User user) {
+		for(User f : friends) {
+			if(f.getId() == (user.getId()))
+				return true;
+		}
+		return false;
+	}
+	
+	
 	
 	
 }

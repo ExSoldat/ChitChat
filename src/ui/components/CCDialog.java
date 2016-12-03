@@ -22,10 +22,12 @@ public class CCDialog extends JDialog {
 	
 	public CCDialog() {
 		this("");
+		this.getOwner().setIconImage(Constants.APP_LOGO.getImage());
 	}
 	
 	public CCDialog(String title) {
 		this.setTitle(title);
+		this.getOwner().setIconImage(Constants.APP_LOGO.getImage());
 		
 		main = new JPanel();
 		main.setLayout(new GridBagLayout());

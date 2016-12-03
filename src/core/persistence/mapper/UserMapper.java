@@ -1,10 +1,12 @@
-package core.mapper;
+package core.persistence.mapper;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+
+import javax.naming.spi.DirStateFactory.Result;
 
 import core.App;
 import core.domain.Administrateur;
@@ -21,7 +23,7 @@ public class UserMapper implements Mapper<User> {
 			sql_lastname = "lastname", sql_password = "password", 
 			sql_username = "username", sql_id = "id",
 			sql_isadmin = "isadmin",
-			sql_table = "User";
+			sql_table = "User", sql_friendstable = "user_friendslist", sql_friendstableUID = "user_id", sql_friendstableFID = "friend_id", sql_friendstableIV = "is_valid";
 	
 	private UserMapper() {
 		connection = App.getInstance().getConnection();
@@ -38,7 +40,6 @@ public class UserMapper implements Mapper<User> {
 			return new UserMapper();
 	}
 
-	@Override
 	public boolean create(User user) {
 		//I don't insert the id because it's autoincreented
 		String sqlRequest = "INSERT INTO " + sql_table + "(" + sql_firstname 
@@ -86,10 +87,12 @@ public class UserMapper implements Mapper<User> {
 			while(rs.next()) {		
 				LogUtils.log(TAG, Constants.INFO, "Row found");
 				User u = null;
+				ArrayList<User> friendslist = new ArrayList<User>();
+				friendslist = UserFriendsMapper.getInstance().readByUserId(rs.getInt(sql_id));
 				if(rs.getBoolean(sql_isadmin))
-					u = new Administrateur(rs.getInt(sql_id), rs.getString(sql_lastname), rs.getString(sql_username), rs.getString(sql_firstname), rs.getString(sql_password));
+					u = new Administrateur(rs.getInt(sql_id), rs.getString(sql_lastname), rs.getString(sql_username), rs.getString(sql_firstname), rs.getString(sql_password), friendslist);
 				else 
-					u = new User(rs.getInt(sql_id), rs.getString(sql_lastname), rs.getString(sql_username), rs.getString(sql_firstname), rs.getString(sql_password));
+					u = new User(rs.getInt(sql_id), rs.getString(sql_lastname), rs.getString(sql_username), rs.getString(sql_firstname), rs.getString(sql_password), friendslist);
 				//Adding the User to the list of results	
 				result.add(u);
 			}
@@ -109,7 +112,6 @@ public class UserMapper implements Mapper<User> {
 		}
 	}
 
-	@Override
 	public User readById(int id) {
 		String sqlRequest = "SELECT " + sql_id 
 				+ ", " + sql_username 
@@ -129,10 +131,12 @@ public class UserMapper implements Mapper<User> {
 			//We wait only for one result to come. We can't have more normally, but in this case we would only send one
 			if(rs.next()) {		
 				LogUtils.log(TAG, Constants.INFO, "Row found");
+				ArrayList<User> friendslist = new ArrayList<User>();
+				friendslist = UserFriendsMapper.getInstance().readByUserId(rs.getInt(sql_id));
 				if(rs.getBoolean(sql_isadmin))
-					u = new Administrateur(rs.getInt(sql_id), rs.getString(sql_lastname), rs.getString(sql_username), rs.getString(sql_firstname), rs.getString(sql_password));
+					u = new Administrateur(rs.getInt(sql_id), rs.getString(sql_lastname), rs.getString(sql_username), rs.getString(sql_firstname), rs.getString(sql_password), friendslist);
 				else 
-					u = new User(rs.getInt(sql_id), rs.getString(sql_lastname), rs.getString(sql_username), rs.getString(sql_firstname), rs.getString(sql_password));
+					u = new User(rs.getInt(sql_id), rs.getString(sql_lastname), rs.getString(sql_username), rs.getString(sql_firstname), rs.getString(sql_password), friendslist);
 				//Adding the User to the list of results	
 				result.add(u);
 			}
@@ -153,6 +157,11 @@ public class UserMapper implements Mapper<User> {
 	}
 
 	@Override
+	/**
+	 * Updates an user. Here we only update the users data. The users friends list id updated by another function
+	 * @param user the user we want to update
+	 * @return boolean if everything went fine. False otherwise
+	 */
 	public boolean update(User user) {
 		String sqlRequest = "UPDATE " + sql_table + " SET " + sql_username 
 				+ "= ?, " + sql_firstname
@@ -184,7 +193,6 @@ public class UserMapper implements Mapper<User> {
 		}
 	}
 
-	@Override
 	public boolean delete(User user) {
 		String sqlRequest = "DELETE FROM " + sql_table + " WHERE " + sql_id + " = ?";
 		try {
@@ -207,6 +215,75 @@ public class UserMapper implements Mapper<User> {
 			return false;
 		}
 	}
-
+	
+	public ArrayList<User> readByNameFields(String un, String fn, String ln) {
+		ArrayList<String> fields = new ArrayList<String>();
+		String where = "";
+		String sqlRequest = "SELECT " + sql_id 
+				+ ", " + sql_username 
+				+ ", " + sql_firstname  
+				+ ", " + sql_lastname 
+				+ ", " + sql_password 
+				+ ", " + sql_isadmin 
+				+ " FROM " + sql_table;
+		
+		if(!un.equals("")) {
+			if(where.equals(""))
+				where += " WHERE " + sql_username + " LIKE ?";
+			else 
+				where += " OR " + sql_username + " LIKE ?";
+			fields.add(un);
+		}
+		if(!fn.equals("")) {
+			if(where.equals(""))
+				where += " WHERE " + sql_firstname + " LIKE ?";
+			else 
+				where += " OR " + sql_firstname + " LIKE ?";
+			fields.add(fn);
+		}
+		if(!ln.equals("")) {
+			if(where.equals(""))
+				where += " WHERE " + sql_lastname + " LIKE ?";
+			else 
+				where += " OR " + sql_lastname + " LIKE ?";
+			fields.add(ln);
+		}
+				
+		if(!un.equals("") || !fn.equals("") || !ln.equals(""))
+			sqlRequest += where;
+		ArrayList<User> result = new ArrayList<User>();
+		try {
+			PreparedStatement ps = App.getConnection().prepareStatement(sqlRequest);
+			for(int i = 0; i<fields.size(); i++) {
+				ps.setString(i+1, "%"+fields.get(i)+"%");
+			}
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {		
+				LogUtils.log(TAG, Constants.INFO, "Row found");
+				User u = null;
+				ArrayList<User> friendslist = new ArrayList<User>();
+				friendslist = UserFriendsMapper.getInstance().readByUserId(rs.getInt(sql_id));
+				if(rs.getBoolean(sql_isadmin))
+					u = new Administrateur(rs.getInt(sql_id), rs.getString(sql_lastname), rs.getString(sql_username), rs.getString(sql_firstname), rs.getString(sql_password), friendslist);
+				else 
+					u = new User(rs.getInt(sql_id), rs.getString(sql_lastname), rs.getString(sql_username), rs.getString(sql_firstname), rs.getString(sql_password), friendslist);
+				//Adding the User to the list of results	
+				result.add(u);
+			}
+			//If no results were returned then no one was found
+			if(result.isEmpty()) {
+				LogUtils.log(TAG, Constants.INFO, "No rows found");
+				return null;
+			} else {
+				//If a result is here, then we send the result
+				LogUtils.log(TAG, Constants.SUCCESS, "Users found");
+				return result;
+			}
+		} catch (SQLException e) {
+			LogUtils.log(TAG, Constants.ERROR, "Error while finding Users");
+			e.printStackTrace();
+			return null;
+		}
+	}
 	
 }

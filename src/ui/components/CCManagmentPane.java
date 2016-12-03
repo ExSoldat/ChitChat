@@ -139,7 +139,7 @@ public class CCManagmentPane extends JPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				User createdUser = new User(0, lastname.getText(), username.getText(), firstname.getText(), password.getText());
+				User createdUser = new User(0, lastname.getText(), username.getText(), firstname.getText(), password.getText(), new ArrayList<User>());
 				if(App.getInstance().getServicesProvider().createUser(createdUser)) {
 					users.add(createdUser);
 					userslist.setListData(users.toArray());

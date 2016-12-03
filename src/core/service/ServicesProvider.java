@@ -4,11 +4,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Random;
 
+import core.App;
 import core.domain.Administrateur;
 import core.domain.Group;
 import core.domain.Message;
 import core.domain.User;
-import core.mapper.UserMapper;
+import core.persistence.mapper.UserFriendsMapper;
+import core.persistence.mapper.UserMapper;
 import utils.Constants;
 import utils.LogUtils;
 
@@ -115,14 +117,7 @@ public class ServicesProvider {
 	 * @return the list of users found
 	 */
 	public ArrayList<User> getFriendsForUser(int id) {
-		ArrayList<User> result = new ArrayList<User>();
-		result.add(new User(0,"DOE", "janedoe", "Jane"));
-		result.add(new User(1,"DOE", "johndoe", "John"));
-		result.add(new User(3,"Zamasu", "zamasu", "Zamasu"));
-		result.add(new User(4,"Ornitier", "vivi", "Vivi"));
-		result.add(new User(5,"Sanchez", "bopabeloola", "Rick"));
-		LogUtils.log(TAG, Constants.RESPONSE, "Friends list retrieved !");
-		return result;
+		return UserFriendsMapper.getInstance().readByUserId(id);
 	}
 	
 	public ArrayList<User> getFriendsForUser(int id, boolean flag) {
@@ -142,7 +137,7 @@ public class ServicesProvider {
 	 * @param deletedFriend the friend to be delmeted
 	 * @return true if eerything went fine, false otherwise
 	 */
-	public boolean deleteFriend(User deletedFriend) {
+	public boolean deleteFriend(User deletedUser) {
 		boolean r = rand.nextBoolean();
 		if (r)
 			LogUtils.log(TAG, Constants.RESPONSE, "Friend deleted !");
@@ -158,24 +153,27 @@ public class ServicesProvider {
 	 * @param username the username field of the search
 	 * @return the list of the suers found
 	 */
-	public ArrayList<User> searchUser(String name, String firstname, String username) {
+	public ArrayList<User> searchUser(String lastname, String firstname, String username) {
+		ArrayList<User> mapperResult =  UserMapper.getInstance().readByNameFields(username, firstname, lastname);
 		ArrayList<User> result = new ArrayList<User>();
-		result.add(new User(0,"DOE", "janedoe", "Jane"));
-		result.add(new User(1,"DOE", "johndoe", "John"));
-		result.add(new User(3,"Zamasu", "zamasu", "Zamasu"));
-		result.add(new User(4,"Ornitier", "vivi", "Vivi"));
-		LogUtils.log(TAG, Constants.RESPONSE, "Users found using parameters : " + name + ", " + firstname + ", " + username);
+		if(mapperResult != null) {
+			for(int i = 0; i < mapperResult.size(); i++) {
+				if(!App.getInstance().getLoggedUser().friendsListContains(mapperResult.get(i))) {
+					result.add(mapperResult.get(i));
+				}
+			}
+		}
 		return result;
 	}
 	
 	/**
 	 * Add a friend to our friendslist
-	 * @param loggedUser the user currently logged
 	 * @param addedUser the user to add
 	 * @return true if everything went fine, false either
 	 */
-	public boolean addFriend(User loggedUser, User addedUser) {
-		boolean r = rand.nextBoolean();
+	public boolean addFriend(User addedUser) {
+		//TODO Create a Notification
+		boolean r = UserFriendsMapper.getInstance().addUserToFriendsList(App.getInstance().getLoggedUser(), addedUser);
 		if (r)
 			LogUtils.log(TAG, Constants.RESPONSE, "Friend added !");
 		else 

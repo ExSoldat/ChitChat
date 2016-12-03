@@ -36,9 +36,8 @@ public class CCFriendsPane extends JPanel {
 	public ArrayList<User> friends = new ArrayList<User>();
 	public static String TAG = "Friends";
 	public CCFriendsPane() {
-		//Getting the data :
-		friends = App.getInstance().getServicesProvider().getFriendsForUser(App.getInstance().getLoggedUser().getId());
-		//Instead getLoggedUser.getFriends();
+		//Getting the data 
+		friends = App.getInstance().getLoggedUser().getFriends();
 				
 		//Creating username and password fields inside their own label
 		JPanel main = new JPanel();
@@ -146,7 +145,8 @@ public class CCFriendsPane extends JPanel {
 					public void actionPerformed(ActionEvent e) {
 						//TODO Action when performed
 						ArrayList<User> usersfound = App.getInstance().getServicesProvider().searchUser(nameField.getText(), firstnameField.getText(), usernameField.getText());
-						users.setData(usersfound);
+						if(!usersfound.isEmpty())
+							users.setData(usersfound);
 						textFields.setVisible(false);
 						users.setVisible(true);
 						dialog.getPositiveButton().setEnabled(false);
@@ -156,24 +156,26 @@ public class CCFriendsPane extends JPanel {
 								dialog.getPositiveButton().setEnabled(true);
 							}
 						});
-						
 						dialog.morphButtons("ADD", "CANCEL");
-						dialog.showInfo("Select a user profile then click on \"ADD\" to add the user to your friends list");
-						dialog.onPositiveClicked(new ActionListener() {
-							
-							@Override
-							public void actionPerformed(ActionEvent e) {
-								//SERVICE ADD FRIEND
-								if(App.getInstance().getServicesProvider().addFriend(App.getInstance().getLoggedUser(), (User)users.getSelectedValue())) {
-									//Refresh the friends view
-									friends = App.getInstance().getServicesProvider().getFriendsForUser(App.getInstance().getLoggedUser().getId(), true);
-									friendslist.setData(friends);
-									dialog.dispose();
-								} else {
-									dialog.showError();
+						if(!usersfound.isEmpty()) {
+							dialog.showInfo("Select a user profile then click on \"ADD\" to add the user to your friends list");
+							dialog.onPositiveClicked(new ActionListener() {
+								@Override
+								public void actionPerformed(ActionEvent e) {
+									//SERVICE ADD FRIEND
+									if(App.getInstance().getServicesProvider().addFriend((User)users.getSelectedValue())) {
+										//Refresh the friends view
+										friends = App.getInstance().getServicesProvider().getFriendsForUser(App.getInstance().getLoggedUser().getId());
+										friendslist.setData(friends);
+										dialog.dispose();
+									} else {
+										dialog.showError();
+									}
 								}
-							}
-						});
+							});
+						} else {
+							dialog.showInfo("No users were found");
+						}
 					}
 				});
 				
