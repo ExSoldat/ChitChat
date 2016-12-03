@@ -6,6 +6,7 @@ import core.App;
 
 public class Group {
 	private String name;
+	private int id;
 	private ArrayList<Message> messages = new ArrayList<Message>();
 	private User administrator;
 	private ArrayList<ProxyUser> moderators;
@@ -21,6 +22,12 @@ public class Group {
 		this.name = name;
 		this.administrator = administrator;
 		this.description=desc;
+	}
+	
+	public Group(int id, String name, String desc) {
+		this.name = name;
+		this.description=desc;
+		this.id = id;
 	}
 	
 	public void setName(String name) {

@@ -25,7 +25,7 @@ public class UserMapper implements Mapper<ProxyUser> {
 			sql_lastname = "lastname", sql_password = "password", 
 			sql_username = "username", sql_id = "id",
 			sql_isadmin = "isadmin",
-			sql_table = "User", sql_friendstable = "user_friendslist", sql_friendstableUID = "user_id", sql_friendstableFID = "friend_id", sql_friendstableIV = "is_valid";
+			sql_table = "User";
 	
 	private UserMapper() {
 		connection = App.getInstance().getConnection();

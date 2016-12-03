@@ -10,6 +10,7 @@ import core.domain.Group;
 import core.domain.Message;
 import core.domain.ProxyUser;
 import core.domain.User;
+import core.persistence.mapper.GroupMapper;
 import core.persistence.mapper.UserFriendsMapper;
 import core.persistence.mapper.UserMapper;
 import utils.Constants;
@@ -178,12 +179,7 @@ public class ServicesProvider {
 	 * @return true if everything went fine, false either
 	 */
 	public boolean createGroup(Group mGroup) {
-		boolean r = rand.nextBoolean();
-		if(r)
-			LogUtils.log(TAG, Constants.RESPONSE, "Group created !");
-		else 
-			LogUtils.log(TAG, Constants.ERROR, "Unable to create group");
-		return r;
+		return GroupMapper.getInstance().create(mGroup);
 			
 	}
 
