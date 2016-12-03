@@ -6,7 +6,8 @@ public class User {
 	private String lastname, username, firstname, password;
 	private int id;
 	private ArrayList<Hobby> hobbies = new ArrayList<Hobby>();
-	private ArrayList<User> friends = new ArrayList<User>();
+	protected ArrayList<ProxyUser> friends = new ArrayList<ProxyUser>();
+	protected boolean isAdmin;
 	
 	public User(int id, String lastname, String username, String firstname) {
 		this.id = id;
@@ -18,16 +19,19 @@ public class User {
 		this.hobbies.add(new Hobby(2, "Computer Science"));
 	}
 
-	public User(int id, String lastname, String username, String firstname, String password, ArrayList<User> friends) {
+	public User(int id, String lastname, String username, String firstname, String password) {
 		this.id = id;
 		this.lastname = lastname;
 		this.username = username;
 		this.firstname = firstname;
 		this.password = password;
-		this.friends = friends;
 		this.hobbies.add(new Hobby(0, "Sport"));
 		this.hobbies.add(new Hobby(1, "Music"));
 		this.hobbies.add(new Hobby(2, "Computer Science"));	
+	}
+
+	public User() {
+		// TODO Auto-generated constructor stub
 	}
 
 	public String getLastname() {
@@ -79,7 +83,7 @@ public class User {
 	}
 	
 	public boolean isAdmin() {
-		return false;
+		return isAdmin;
 	}
 
 	@Override
@@ -95,21 +99,31 @@ public class User {
 		return password;
 	}
 
-	public ArrayList<User> getFriends() {
+	public ArrayList<ProxyUser> getFriends() {
 		return friends;
 	}
 
-	public void setFriends(ArrayList<User> friends) {
+	public void setFriends(ArrayList<ProxyUser> friends) {
 		this.friends = friends;
 	}
 
-	public boolean friendsListContains(User user) {
+	@Override
+	public boolean equals(Object obj) {
+		// TODO Auto-generated method stub
+		if(obj instanceof User)
+			return ((User) obj).getId() == this.getId();
+		else return false;
+	}
+
+	/*public boolean friendsListContains(User user) {
 		for(User f : friends) {
 			if(f.getId() == (user.getId()))
 				return true;
 		}
 		return false;
-	}
+	}*/
+	
+
 	
 	
 	

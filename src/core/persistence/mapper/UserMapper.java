@@ -10,11 +10,13 @@ import javax.naming.spi.DirStateFactory.Result;
 
 import core.App;
 import core.domain.Administrateur;
+import core.domain.ProxyAdministrateur;
+import core.domain.ProxyUser;
 import core.domain.User;
 import utils.Constants;
 import utils.LogUtils;
 
-public class UserMapper implements Mapper<User> {
+public class UserMapper implements Mapper<ProxyUser> {
 	
 	static UserMapper instance;
 	public String TAG = "UserMapper";
@@ -44,7 +46,7 @@ public class UserMapper implements Mapper<User> {
 		//I don't insert the id because it's autoincreented
 		String sqlRequest = "INSERT INTO " + sql_table + "(" + sql_firstname 
 				+ ", " + sql_lastname 
-				+ ", " + sql_lastname 
+				+ ", " + sql_username 
 				+ ", " + sql_password
 				+ ") values (?, ?, ?, ?);";
 		try {
@@ -57,7 +59,7 @@ public class UserMapper implements Mapper<User> {
 			int result = ps.executeUpdate();
 			if(result != 0) {
 				LogUtils.log(TAG, Constants.SUCCESS, "Successful inserted");
-				App.getConnection().commit();
+				//App.getConnection().commit();
 				return true;
 			}
 			//If no return has been made, no rows could be inserted
@@ -71,7 +73,7 @@ public class UserMapper implements Mapper<User> {
 	}
 
 	@Override
-	public ArrayList<User> read() {
+	public ArrayList<ProxyUser> read() {
 		String sqlRequest = "SELECT " + sql_id 
 				+ ", " + sql_username 
 				+ ", " + sql_firstname  
@@ -79,20 +81,18 @@ public class UserMapper implements Mapper<User> {
 				+ ", " + sql_password 
 				+ ", " + sql_isadmin 
 				+ " FROM " + sql_table;
-		ArrayList<User> result = new ArrayList<User>();
+		ArrayList<ProxyUser> result = new ArrayList<ProxyUser>();
 		
 		try {
 			PreparedStatement ps = App.getConnection().prepareStatement(sqlRequest);
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()) {		
 				LogUtils.log(TAG, Constants.INFO, "Row found");
-				User u = null;
-				ArrayList<User> friendslist = new ArrayList<User>();
-				friendslist = UserFriendsMapper.getInstance().readByUserId(rs.getInt(sql_id));
+				ProxyUser u = null;
 				if(rs.getBoolean(sql_isadmin))
-					u = new Administrateur(rs.getInt(sql_id), rs.getString(sql_lastname), rs.getString(sql_username), rs.getString(sql_firstname), rs.getString(sql_password), friendslist);
+					u = new ProxyAdministrateur(rs.getInt(sql_id), rs.getString(sql_lastname), rs.getString(sql_username), rs.getString(sql_firstname), rs.getString(sql_password));
 				else 
-					u = new User(rs.getInt(sql_id), rs.getString(sql_lastname), rs.getString(sql_username), rs.getString(sql_firstname), rs.getString(sql_password), friendslist);
+					u = new ProxyUser(rs.getInt(sql_id), rs.getString(sql_lastname), rs.getString(sql_username), rs.getString(sql_firstname), rs.getString(sql_password));
 				//Adding the User to the list of results	
 				result.add(u);
 			}
@@ -112,7 +112,7 @@ public class UserMapper implements Mapper<User> {
 		}
 	}
 
-	public User readById(int id) {
+	public ProxyUser readById(int id) {
 		String sqlRequest = "SELECT " + sql_id 
 				+ ", " + sql_username 
 				+ ", " + sql_firstname  
@@ -127,16 +127,14 @@ public class UserMapper implements Mapper<User> {
 			PreparedStatement ps = App.getConnection().prepareStatement(sqlRequest);
 			ps.setInt(1, id);
 			ResultSet rs = ps.executeQuery();
-			User u = null;
+			ProxyUser u = null;
 			//We wait only for one result to come. We can't have more normally, but in this case we would only send one
 			if(rs.next()) {		
 				LogUtils.log(TAG, Constants.INFO, "Row found");
-				ArrayList<User> friendslist = new ArrayList<User>();
-				friendslist = UserFriendsMapper.getInstance().readByUserId(rs.getInt(sql_id));
 				if(rs.getBoolean(sql_isadmin))
-					u = new Administrateur(rs.getInt(sql_id), rs.getString(sql_lastname), rs.getString(sql_username), rs.getString(sql_firstname), rs.getString(sql_password), friendslist);
+					u = new ProxyAdministrateur(rs.getInt(sql_id), rs.getString(sql_lastname), rs.getString(sql_username), rs.getString(sql_firstname), rs.getString(sql_password));
 				else 
-					u = new User(rs.getInt(sql_id), rs.getString(sql_lastname), rs.getString(sql_username), rs.getString(sql_firstname), rs.getString(sql_password), friendslist);
+					u = new ProxyUser(rs.getInt(sql_id), rs.getString(sql_lastname), rs.getString(sql_username), rs.getString(sql_firstname), rs.getString(sql_password));
 				//Adding the User to the list of results	
 				result.add(u);
 			}
@@ -162,7 +160,7 @@ public class UserMapper implements Mapper<User> {
 	 * @param user the user we want to update
 	 * @return boolean if everything went fine. False otherwise
 	 */
-	public boolean update(User user) {
+	public boolean update(ProxyUser user) {
 		String sqlRequest = "UPDATE " + sql_table + " SET " + sql_username 
 				+ "= ?, " + sql_firstname
 				+ "= ?, " + sql_lastname
@@ -178,11 +176,11 @@ public class UserMapper implements Mapper<User> {
 			int result = ps.executeUpdate();
 			if(result == 1) {
 				LogUtils.log(TAG, Constants.SUCCESS, "Successfully updated");
-				App.getConnection().commit();
+				//App.getConnection().commit();
 				return true;
 			} else {
 				LogUtils.log(TAG, Constants.ERROR, "No or too much rows have been inserted");
-				App.getConnection().rollback();
+				//App.getConnection().rollback();
 				return false;
 			}
 			
@@ -201,11 +199,11 @@ public class UserMapper implements Mapper<User> {
 			int result = ps.executeUpdate();
 			if(result == 1) {
 				LogUtils.log(TAG, Constants.SUCCESS, "Successfully deleted");
-				App.getConnection().commit();
+				//App.getConnection().commit();
 				return true;
 			} else {
 				LogUtils.log(TAG, Constants.ERROR, "No or too much rows have been inserted");
-				App.getConnection().rollback();
+				//App.getConnection().rollback();
 				return false;
 			}
 			
@@ -216,7 +214,7 @@ public class UserMapper implements Mapper<User> {
 		}
 	}
 	
-	public ArrayList<User> readByNameFields(String un, String fn, String ln) {
+	public ArrayList<ProxyUser> readByNameFields(String un, String fn, String ln) {
 		ArrayList<String> fields = new ArrayList<String>();
 		String where = "";
 		String sqlRequest = "SELECT " + sql_id 
@@ -251,7 +249,7 @@ public class UserMapper implements Mapper<User> {
 				
 		if(!un.equals("") || !fn.equals("") || !ln.equals(""))
 			sqlRequest += where;
-		ArrayList<User> result = new ArrayList<User>();
+		ArrayList<ProxyUser> result = new ArrayList<ProxyUser>();
 		try {
 			PreparedStatement ps = App.getConnection().prepareStatement(sqlRequest);
 			for(int i = 0; i<fields.size(); i++) {
@@ -260,14 +258,11 @@ public class UserMapper implements Mapper<User> {
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()) {		
 				LogUtils.log(TAG, Constants.INFO, "Row found");
-				User u = null;
-				ArrayList<User> friendslist = new ArrayList<User>();
-				friendslist = UserFriendsMapper.getInstance().readByUserId(rs.getInt(sql_id));
+				ProxyUser u = null;
 				if(rs.getBoolean(sql_isadmin))
-					u = new Administrateur(rs.getInt(sql_id), rs.getString(sql_lastname), rs.getString(sql_username), rs.getString(sql_firstname), rs.getString(sql_password), friendslist);
+					u = new ProxyAdministrateur(rs.getInt(sql_id), rs.getString(sql_lastname), rs.getString(sql_username), rs.getString(sql_firstname), rs.getString(sql_password));
 				else 
-					u = new User(rs.getInt(sql_id), rs.getString(sql_lastname), rs.getString(sql_username), rs.getString(sql_firstname), rs.getString(sql_password), friendslist);
-				//Adding the User to the list of results	
+					u = new ProxyUser(rs.getInt(sql_id), rs.getString(sql_lastname), rs.getString(sql_username), rs.getString(sql_firstname), rs.getString(sql_password));
 				result.add(u);
 			}
 			//If no results were returned then no one was found

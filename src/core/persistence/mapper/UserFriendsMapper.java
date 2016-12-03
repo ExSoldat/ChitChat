@@ -5,9 +5,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 import core.App;
+import core.domain.ProxyUser;
 import core.domain.User;
+import core.domain.vrtualproxy.UserFactory;
+import core.domain.vrtualproxy.VirtualProxyBuilder;
 import utils.Constants;
 import utils.LogUtils;
 
@@ -16,6 +20,7 @@ public class UserFriendsMapper implements Mapper<User> {
 	static UserFriendsMapper instance;
 	public String TAG = "UserFriendsMapper";
 	public Connection connection;
+	public UserFactory uf = new UserFactory();
 	
 	public static final String sql_table = "user_friendslist", sql_userid = "user_id", sql_friendid = "friend_id", sql_isvalid = "is_valid";
 	
@@ -70,19 +75,23 @@ public class UserFriendsMapper implements Mapper<User> {
 			return null;
 		}
 
-		public ArrayList<User> readByUserId(int user_id) {
+		public ArrayList<ProxyUser> readByUserId(int user_id) {
 			String sqlRequest = "SELECT " + sql_userid 
 					+ ", " + sql_friendid  
 					+ ", " + sql_isvalid 
-					+ " FROM " + sql_table + " WHERE " + sql_userid + " = ?";
-			ArrayList<User> result = new ArrayList<User>();
+					+ " FROM " + sql_table 
+					+ " WHERE " + sql_userid + " = ?"
+					+ " OR " + sql_friendid + " = ? "
+					+ " AND " + sql_isvalid  + " = true";
+			ArrayList<ProxyUser> result = new ArrayList<ProxyUser>();
 			try {
 				PreparedStatement ps = App.getConnection().prepareStatement(sqlRequest);
 				ps.setInt(1, user_id);
+				ps.setInt(2, user_id);
 				ResultSet rs = ps.executeQuery();
 				while(rs.next()) {		
 					LogUtils.log(TAG, Constants.INFO, "Row found");
-					User u = null;
+					ProxyUser u = null;
 					u = UserMapper.getInstance().readById(rs.getInt(sql_friendid));
 					//Adding the User to the list of results	
 					result.add(u);

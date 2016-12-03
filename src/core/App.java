@@ -3,6 +3,7 @@ package core;
 import java.sql.Connection;
 import java.util.ArrayList;
 
+import core.domain.ProxyUser;
 import core.domain.User;
 import core.persistence.DBManager;
 import core.service.ServicesProvider;
@@ -17,7 +18,7 @@ public class App {
 	public static String TAG = "App";
 	private static ArrayList<String> logs = new ArrayList<String>();
 	private ServicesProvider mServicesProvider = new ServicesProvider();
-	private User connectedUser;
+	private ProxyUser connectedUser;
 	private DevFrame devframe;
 	private static DBManager session;
 	private App() {}
@@ -56,12 +57,12 @@ public class App {
 		return this.mServicesProvider;
 	}
 
-	public void setConnectedUser(User r) {
+	public void setConnectedUser(ProxyUser r) {
 		this.connectedUser = r;
 		LogUtils.log(TAG, Constants.INFO, r.getUsername() + "logged !");
 	}
 	
-	public User getLoggedUser() {
+	public ProxyUser getLoggedUser() {
 		return this.connectedUser;
 	}
 

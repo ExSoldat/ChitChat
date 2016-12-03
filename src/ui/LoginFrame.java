@@ -16,6 +16,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import core.App;
+import core.domain.ProxyUser;
 import core.domain.User;
 import ui.components.CCButton;
 import ui.components.CCColor;
@@ -95,7 +96,7 @@ public class LoginFrame extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				User r = App.getInstance().getServicesProvider().connect(textFieldUS.getText(), textFieldPW.getText());
+				ProxyUser r = App.getInstance().getServicesProvider().connect(textFieldUS.getText(), textFieldPW.getText());
 				if (r == null) {
 					errorView.setVisible(true);
 				} else {

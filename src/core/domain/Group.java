@@ -8,8 +8,8 @@ public class Group {
 	private String name;
 	private ArrayList<Message> messages = new ArrayList<Message>();
 	private User administrator;
-	private ArrayList<User> moderators;
-	private ArrayList<User> participants;
+	private ArrayList<ProxyUser> moderators;
+	private ArrayList<ProxyUser> participants;
 	private String description;
 	public String getName() {
 		return name;
@@ -38,16 +38,16 @@ public class Group {
 	public void setAdministrator(User administrator) {
 		this.administrator = administrator;
 	}
-	public ArrayList<User> getModerators() {
+	public ArrayList<ProxyUser> getModerators() {
 		return moderators;
 	}
-	public void setModerators(ArrayList<User> moderators) {
+	public void setModerators(ArrayList<ProxyUser> moderators) {
 		this.moderators = moderators;
 	}
-	public ArrayList<User> getParticipants() {
+	public ArrayList<ProxyUser> getParticipants() {
 		return participants;
 	}
-	public void setParticipants(ArrayList<User> participants) {
+	public void setParticipants(ArrayList<ProxyUser> participants) {
 		this.participants = participants;
 	}
 	public Message getLastMessage() {

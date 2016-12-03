@@ -6,15 +6,18 @@ import javax.swing.BorderFactory;
 import javax.swing.JList;
 import javax.swing.JPanel;
 
+import core.domain.ProxyUser;
 import core.domain.User;
 
 public class CCUserList extends JList {
 
-	private ArrayList<User> data;
+	private ArrayList<ProxyUser> data;
 	private JPanel parent; //Useful ?
 	
-	public CCUserList(ArrayList<User> users) {
-		super(users.toArray());
+	public CCUserList(ArrayList<ProxyUser> users) {
+		super();
+		if(users != null && !users.isEmpty())
+			this.setListData(users.toArray());
 		this.data = users;
 		this.setCellRenderer(new CCUsersListCellRenderer());
 		this.setBorder(BorderFactory.createLineBorder(CCColor.CCPRIMARYDARK.getColor()));
@@ -34,7 +37,7 @@ public class CCUserList extends JList {
 		//this.parent.remove(this);
 	}
 	
-	public void setData(ArrayList<User> users) {
+	public void setData(ArrayList<ProxyUser> users) {
 		this.data = users;
 		this.setListData(users.toArray() == null ? new ArrayList<User>().toArray() : users.toArray());
 	}

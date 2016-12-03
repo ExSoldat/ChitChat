@@ -21,6 +21,7 @@ import javax.swing.event.ListSelectionListener;
 
 import core.App;
 import core.domain.Group;
+import core.domain.ProxyUser;
 import core.domain.User;
 import core.domain.notifications.GUINotificationVisitor;
 import core.domain.notifications.GroupMessageNotification;
@@ -33,7 +34,7 @@ import utils.Constants;
 import utils.LogUtils;
 //http://richard.jp.leguen.ca/tutoring/soen343-f2010/tutorials/implementing-data-mapper/
 public class CCFriendsPane extends JPanel {
-	public ArrayList<User> friends = new ArrayList<User>();
+	public ArrayList<ProxyUser> friends = new ArrayList<ProxyUser>();
 	public static String TAG = "Friends";
 	public CCFriendsPane() {
 		//Getting the data 
@@ -144,7 +145,7 @@ public class CCFriendsPane extends JPanel {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						//TODO Action when performed
-						ArrayList<User> usersfound = App.getInstance().getServicesProvider().searchUser(nameField.getText(), firstnameField.getText(), usernameField.getText());
+						ArrayList<ProxyUser> usersfound = App.getInstance().getServicesProvider().searchUser(nameField.getText(), firstnameField.getText(), usernameField.getText());
 						if(!usersfound.isEmpty())
 							users.setData(usersfound);
 						textFields.setVisible(false);

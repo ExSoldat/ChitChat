@@ -30,6 +30,7 @@ import javax.swing.event.ListSelectionListener;
 
 import core.App;
 import core.domain.Group;
+import core.domain.ProxyUser;
 import core.domain.User;
 import ui.actions.TriggerButtonOnType;
 import ui.components.CCButton;
@@ -130,7 +131,7 @@ public class CCGroupMembersFrame extends JFrame {
 						@Override
 						public void actionPerformed(ActionEvent e) {
 							//TODO Action when performed
-							ArrayList<User> usersfound = App.getInstance().getServicesProvider().searchUser(nameField.getText(), firstnameField.getText(), usernameField.getText());
+							ArrayList<ProxyUser> usersfound = App.getInstance().getServicesProvider().searchUser(nameField.getText(), firstnameField.getText(), usernameField.getText());
 							users.setData(usersfound);
 							textFields.setVisible(false);
 							users.setVisible(true);
@@ -149,7 +150,7 @@ public class CCGroupMembersFrame extends JFrame {
 								@Override
 								public void actionPerformed(ActionEvent e) {
 									//SERVICE ADD FRIEND
-									group.getParticipants().add((User)users.getSelectedValue());
+									group.getParticipants().add((ProxyUser)users.getSelectedValue());
 									ul.setData(group.getParticipants());
 									dialog.dispose();
 

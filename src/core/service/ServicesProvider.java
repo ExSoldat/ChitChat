@@ -8,6 +8,7 @@ import core.App;
 import core.domain.Administrateur;
 import core.domain.Group;
 import core.domain.Message;
+import core.domain.ProxyUser;
 import core.domain.User;
 import core.persistence.mapper.UserFriendsMapper;
 import core.persistence.mapper.UserMapper;
@@ -27,8 +28,8 @@ public class ServicesProvider {
 	 * @param pwd the password used to log
 	 * @return an user if the credentials are correct
 	 */
-	public User connect(String user, String pwd) {
-		ArrayList<User> allusers = UserMapper.getInstance().read();
+	public ProxyUser connect(String user, String pwd) {
+		ArrayList<ProxyUser> allusers = UserMapper.getInstance().read();
 		for(int i = 0; i<allusers.size(); i++) {
 			if(allusers.get(i).getUsername().equals(user) && allusers.get(i).getPassword().equals(pwd))
 				return allusers.get(i);
@@ -44,16 +45,11 @@ public class ServicesProvider {
 	public ArrayList<Group> getGroupsForUser(int id) {
 		//Return dummy content
 		ArrayList<Group> result = new ArrayList<Group>();
-		ArrayList<User> p = new ArrayList<User>();
-		p.add(new User(0,"DOE", "janedoe", "Jane"));
-		p.add(new User(1,"DOE", "johndoe", "John"));
-		p.add(new User(3,"Zamasu", "zamasu", "Zamasu"));
-		p.add(new User(4,"Ornitier", "vivi", "Vivi"));
-		p.add(new User(5,"Sanchez", "bopabeloola", "Rick"));
+		ArrayList<ProxyUser> p = new ArrayList<ProxyUser>();
 		
 		Group g = new Group();
 		g.setName("The first group");
-		g.setAdministrator(new Administrateur(29,"SAAB", "admin", "Mathieu", "azerty", p));
+		g.setAdministrator(new Administrateur(29,"SAAB", "admin", "Mathieu", "azerty"));
 		g.setDescription("A group");
 		g.setParticipants(p);
 		for (int i =0; i<15; i++) {
@@ -64,7 +60,7 @@ public class ServicesProvider {
 		g = null;
 		g = new Group();
 		g.setName("The second group");
-		g.setAdministrator(new Administrateur(10,"gzg", "zef", "zef", "azerty", p));
+		g.setAdministrator(new Administrateur(10,"gzg", "zef", "zef", "azerty"));
 		g.setDescription("A second group");
 		g.setParticipants(p);
 		for (int i =0; i<15; i++) {
@@ -75,7 +71,7 @@ public class ServicesProvider {
 		g = null;
 		g = new Group();
 		g.setName("The third group");
-		g.setAdministrator(new Administrateur(29,"SAAB", "admin", "Mathieu", "azerty", p));
+		g.setAdministrator(new Administrateur(29,"SAAB", "admin", "Mathieu", "azerty"));
 		g.setDescription("A third group");
 		g.setParticipants(p);
 		for (int i =0; i<15; i++) {
@@ -87,7 +83,7 @@ public class ServicesProvider {
 		g = null;
 		g = new Group();
 		g.setName("The fourth group");
-		g.setAdministrator(new Administrateur(29,"SAAB", "admin", "Mathieu", "azerty", p));
+		g.setAdministrator(new Administrateur(29,"SAAB", "admin", "Mathieu", "azerty"));
 		g.setDescription("A gfrouth roup");
 		g.setParticipants(p);
 		for (int i =0; i<15; i++) {
@@ -99,7 +95,7 @@ public class ServicesProvider {
 		g = null;
 		g = new Group();
 		g.setName("The fourth group");
-		g.setAdministrator(new Administrateur(29,"SAAB", "admin", "Mathieu", "azerty", p));
+		g.setAdministrator(new Administrateur(29,"SAAB", "admin", "Mathieu", "azerty"));
 		g.setDescription("Another group");
 		g.setParticipants(p);
 		for (int i =0; i<15; i++) {
@@ -116,21 +112,11 @@ public class ServicesProvider {
 	 * @param id the user of the user we want to ghave the friends for
 	 * @return the list of users found
 	 */
-	public ArrayList<User> getFriendsForUser(int id) {
+	public ArrayList<ProxyUser> getFriendsForUser(int id) {
 		return UserFriendsMapper.getInstance().readByUserId(id);
 	}
 	
-	public ArrayList<User> getFriendsForUser(int id, boolean flag) {
-		ArrayList<User> result = new ArrayList<User>();
-		result.add(new User(0,"DOE", "janedoe", "Jane"));
-		result.add(new User(1,"DOE", "johndoe", "John"));
-		result.add(new User(3,"Zamasu", "zamasu", "Zamasu"));
-		result.add(new User(4,"Ornitier", "vivi", "Vivi"));
-		result.add(new User(5,"Sanchez", "bip bop baloola", "Rick"));
-		result.add(new User(6,"JAEGER", "ej", "Eren"));
-		LogUtils.log(TAG, Constants.RESPONSE, "Friends list retrieved !");
-		return result;
-	}
+	
 
 	/**
 	 * Delete one of our friends
@@ -153,17 +139,22 @@ public class ServicesProvider {
 	 * @param username the username field of the search
 	 * @return the list of the suers found
 	 */
-	public ArrayList<User> searchUser(String lastname, String firstname, String username) {
-		ArrayList<User> mapperResult =  UserMapper.getInstance().readByNameFields(username, firstname, lastname);
-		ArrayList<User> result = new ArrayList<User>();
-		if(mapperResult != null) {
-			for(int i = 0; i < mapperResult.size(); i++) {
-				if(!App.getInstance().getLoggedUser().friendsListContains(mapperResult.get(i))) {
-					result.add(mapperResult.get(i));
+	public ArrayList<ProxyUser> searchUser(String lastname, String firstname, String username) {
+		ArrayList<ProxyUser> mapperResult =  UserMapper.getInstance().readByNameFields(username, firstname, lastname);
+		ArrayList<ProxyUser> result = new ArrayList<ProxyUser>();
+		if(App.getInstance().getLoggedUser().getFriends() != null) {
+			if(mapperResult != null) {
+				for(int i = 0; i < mapperResult.size(); i++) {
+					if(!App.getInstance().getLoggedUser().getFriends().contains(mapperResult.get(i))) {
+						result.add(mapperResult.get(i));
+					}
 				}
 			}
+			return result;
+		} else {
+			return mapperResult;
 		}
-		return result;
+		
 	}
 	
 	/**
@@ -276,13 +267,11 @@ public class ServicesProvider {
 	}
 
 	public boolean deleteUser(User deleteduser) {
-		//Call destroy method from domain
-		return rand.nextBoolean();
+		return UserMapper.getInstance().delete(deleteduser);
 	}
 
 	public boolean createUser(User createdUser) {
-		//Call create method from domain
-		return rand.nextBoolean();
+		return UserMapper.getInstance().create(createdUser);
 	}
 	
 	public boolean updateUser(User updatedUser) {
@@ -292,5 +281,15 @@ public class ServicesProvider {
 	public boolean removeUserFromGroup(User loggedUser, Group group) {
 		//user.removeGroup(group);group.removeUser(loggedUser);return DataMapper.update()
 		return rand.nextBoolean();
+	}
+
+	/**
+	 * A function that returns all users except the administrator, it is only user by the Administrator
+	 * @return the list of all the users
+	 */
+	public ArrayList<ProxyUser> getAllUsers() {
+		ArrayList<ProxyUser> result = UserMapper.getInstance().read();
+		result.remove(App.getInstance().getLoggedUser());
+		return result;
 	}
 }

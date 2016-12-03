@@ -18,6 +18,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import core.App;
+import core.domain.ProxyUser;
 import core.domain.User;
 import ui.CCPrivateChatFrame;
 import ui.actions.TriggerButtonOnType;
@@ -27,13 +28,13 @@ import utils.LogUtils;
 
 public class CCManagmentPane extends JPanel {
 	public static String TAG = "Managment";
-	public ArrayList<User> users = new ArrayList<User>();
-	User selecteduser = null;
+	public ArrayList<ProxyUser> users = new ArrayList<ProxyUser>();
+	ProxyUser selecteduser = null;
 	public CCTitlePanel titlepanel;
 	public CCFormTextEntry firstname, username, lastname, password;
 	public CCButton confirmbutton, confirmcreationbutton;
 	public CCManagmentPane() {
-		users = App.getInstance().getServicesProvider().getFriendsForUser(App.getInstance().getLoggedUser().getId());
+		users = App.getInstance().getServicesProvider().getAllUsers();
 		
 		//Creating username and password fields inside their own label
 		JPanel main = new JPanel();
@@ -96,7 +97,7 @@ public class CCManagmentPane extends JPanel {
 				selecteduser.setPassword(password.getText() != null ? password.getText() : selecteduser.getPassword());
 				
 				if(App.getInstance().getServicesProvider().updateUser(selecteduser)) {
-					User tempUser = selecteduser;
+					ProxyUser tempUser = selecteduser;
 					users.remove(selecteduser);
 					users.add(tempUser);
 					selecteduser = null;
@@ -112,7 +113,7 @@ public class CCManagmentPane extends JPanel {
 		userslist.addListSelectionListener(new ListSelectionListener() {
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
-				selecteduser = (User)userslist.getSelectedValue();
+				selecteduser = (ProxyUser)userslist.getSelectedValue();
 				if(selecteduser != null) {
 					confirmbutton.setVisible(true);
 					confirmcreationbutton.setVisible(false);
@@ -139,7 +140,7 @@ public class CCManagmentPane extends JPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				User createdUser = new User(0, lastname.getText(), username.getText(), firstname.getText(), password.getText(), new ArrayList<User>());
+				ProxyUser createdUser = new ProxyUser(0, lastname.getText(), username.getText(), firstname.getText(), password.getText());
 				if(App.getInstance().getServicesProvider().createUser(createdUser)) {
 					users.add(createdUser);
 					userslist.setListData(users.toArray());
