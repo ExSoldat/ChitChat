@@ -204,6 +204,7 @@ public class CCManagmentPane extends JPanel {
 			username.getTextField().setText(selecteduser.getUsername());
 			firstname.getTextField().setText(selecteduser.getFirstname());
 			lastname.getTextField().setText(selecteduser.getLastname());
+			password.getTextField().setText(selecteduser.getPassword());
 		} else {
 			titlepanel.setTitle(isNewUser ? "New User" : "No user selected yet");
 			username.getTextField().setText("");

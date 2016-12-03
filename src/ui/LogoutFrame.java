@@ -1,6 +1,7 @@
 package ui;
 
 import java.awt.BorderLayout;
+import java.awt.Frame;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -29,6 +30,7 @@ public class LogoutFrame extends JFrame {
 	}
 	
 	public void init(HomeFrame hf) {
+		String mTitle = this.getTitle();
 		//Creating the frame
 		this.setLayout(new BorderLayout(10,0));
 		this.setIconImage(Constants.APP_LOGO.getImage());
@@ -59,7 +61,11 @@ public class LogoutFrame extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				boolean r = App.getInstance().getServicesProvider().disconnect(App.getInstance().getLoggedUser());
 				if (r) {
-					hf.dispose();
+					for(Frame f: Frame.getFrames()) {
+					    if(!f.getTitle().matches(mTitle)) { //your frame title
+					        f.dispose(); //or any other closing methods
+					    }
+					}
 					LoginFrame lf = new LoginFrame();
 					lf.init();
 					lf.setVisible(true);

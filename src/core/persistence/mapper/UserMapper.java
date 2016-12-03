@@ -165,7 +165,7 @@ public class UserMapper implements Mapper<ProxyUser> {
 				+ "= ?, " + sql_firstname
 				+ "= ?, " + sql_lastname
 				+ "= ?, " + sql_password
-				+ "= ?, " + " WHERE " + sql_id + " = ?";
+				+ "= ? " + " WHERE " + sql_id + " = ?";
 		try {
 			PreparedStatement ps = App.getConnection().prepareStatement(sqlRequest);
 			ps.setString(1, user.getUsername());

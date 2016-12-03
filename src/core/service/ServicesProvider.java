@@ -267,15 +267,18 @@ public class ServicesProvider {
 	}
 
 	public boolean deleteUser(User deleteduser) {
-		return UserMapper.getInstance().delete(deleteduser);
+		boolean r1 = UserFriendsMapper.getInstance().delete(deleteduser);
+		boolean r2 = UserMapper.getInstance().delete(deleteduser);
+		
+		return r1 && r2;
 	}
 
 	public boolean createUser(User createdUser) {
 		return UserMapper.getInstance().create(createdUser);
 	}
 	
-	public boolean updateUser(User updatedUser) {
-		return rand.nextBoolean();
+	public boolean updateUser(ProxyUser updatedUser) {
+		return UserMapper.getInstance().update(updatedUser);
 	}
 
 	public boolean removeUserFromGroup(User loggedUser, Group group) {

@@ -50,7 +50,7 @@ public class UserFriendsMapper implements Mapper<User> {
 				PreparedStatement ps = App.getConnection().prepareStatement(sqlRequest);
 				ps.setInt(1, addingUser.getId());
 				ps.setInt(2, addedUser.getId());
-				ps.setBoolean(3, true); //TODO : remove this
+				ps.setBoolean(3, false); //TODO : remove this
 				int result = ps.executeUpdate();
 				if(result == 1) {
 					LogUtils.log(TAG, Constants.SUCCESS, "Friend successfully added");
@@ -139,6 +139,36 @@ public class UserFriendsMapper implements Mapper<User> {
 				} else {
 					LogUtils.log(TAG, Constants.ERROR, "No or too much rows have been inserted");
 					App.getConnection().rollback();
+					return false;
+				}
+				
+			} catch (SQLException e) {
+				LogUtils.log(TAG, Constants.ERROR, "Error while updating Users");
+				e.printStackTrace();
+				return false;
+			}
+		}
+		
+		/**
+		 * Removes frendship of a user in the case we delete him
+		 * @param deleteduser the user we want to remove
+		 * @return boolean if everything went fine. False otherwise
+		 */
+		public boolean delete(User deletedUser) {
+
+			String sqlRequest = "DELETE FROM " + sql_table + " WHERE " + sql_friendid + " = ? OR " + sql_userid + " = ?";
+			try {
+				PreparedStatement ps = App.getConnection().prepareStatement(sqlRequest);
+				ps.setInt(1, deletedUser.getId());
+				ps.setInt(2, deletedUser.getId());
+				int result = ps.executeUpdate();
+				if(result == 1) {
+					LogUtils.log(TAG, Constants.SUCCESS, "Successfully deleted");
+					//App.getConnection().commit();
+					return true;
+				} else {
+					LogUtils.log(TAG, Constants.ERROR, "No or too much rows have been inserted");
+					//App.getConnection().rollback();
 					return false;
 				}
 				
