@@ -1,6 +1,7 @@
-package core.domain;
+package core.domain.proxy;
 
 import core.App;
+import core.domain.Administrateur;
 
 public class ProxyAdministrateur extends ProxyUser {
 	

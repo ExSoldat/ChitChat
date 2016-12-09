@@ -13,6 +13,7 @@ import javax.swing.ScrollPaneLayout;
 
 import core.App;
 import core.domain.Group;
+import core.domain.proxy.ProxyGroup;
 import ui.actions.TriggerButtonOnType;
 import ui.components.form.CCFormTextEntry;
 import utils.Constants;
@@ -83,11 +84,16 @@ public class CCGroupsPane extends JPanel {
 	public void refreshGroups() {
 		//Getting the data :
 		scrollMain.removeAll();
-		ArrayList<Group> groups = App.getInstance().getServicesProvider().getGroupsForUser(App.getInstance().getLoggedUser().getId());
-		for(int i = 0; i<groups.size(); i++) {
-			CCGroup ccg = new CCGroup(groups.get(i));
-			ccg.setGlobalParent(this);
-			scrollMain.add(ccg);
+		//ArrayList<ProxyGroup> groups = App.getInstance().getServicesProvider().getGroupsForUser(App.getInstance().getLoggedUser().getId());
+		if(App.getInstance().getLoggedUser().getGroups() != null && !App.getInstance().getLoggedUser().getGroups().isEmpty()) {
+			for(int i = 0; i<App.getInstance().getLoggedUser().getGroups().size(); i++) {
+				CCGroup ccg = new CCGroup(App.getInstance().getLoggedUser().getGroups().get(i));
+				ccg.setGlobalParent(this);
+				scrollMain.add(ccg);
+			}
+		} else {
+			CCLabel nogroups = new CCLabel("No groups have been found for you :(");
+			scrollMain.add(nogroups);
 		}
 		scrollMain.validate();
 	}

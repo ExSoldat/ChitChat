@@ -21,11 +21,11 @@ import javax.swing.event.ListSelectionListener;
 
 import core.App;
 import core.domain.Group;
-import core.domain.ProxyUser;
 import core.domain.User;
 import core.domain.notifications.GUINotificationVisitor;
 import core.domain.notifications.GroupMessageNotification;
 import core.domain.notifications.Notification;
+import core.domain.proxy.ProxyUser;
 import ui.CCChatFrame;
 import ui.CCPrivateChatFrame;
 import ui.actions.TriggerButtonOnType;

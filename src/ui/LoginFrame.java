@@ -16,8 +16,8 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import core.App;
-import core.domain.ProxyUser;
 import core.domain.User;
+import core.domain.proxy.ProxyUser;
 import ui.components.CCButton;
 import ui.components.CCColor;
 import ui.components.CCError;

@@ -8,8 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import core.App;
-import core.domain.ProxyUser;
 import core.domain.User;
+import core.domain.proxy.ProxyUser;
 import core.domain.vrtualproxy.UserFactory;
 import core.domain.vrtualproxy.VirtualProxyBuilder;
 import utils.Constants;
@@ -92,7 +92,7 @@ public class UserFriendsMapper implements Mapper<User> {
 				while(rs.next()) {		
 					LogUtils.log(TAG, Constants.INFO, "Row found");
 					ProxyUser u = null;
-					u = UserMapper.getInstance().readById(rs.getInt(sql_friendid));
+					u = user_id == rs.getInt(sql_userid) ? UserMapper.getInstance().readById(rs.getInt(sql_friendid)) : UserMapper.getInstance().readById(rs.getInt(sql_userid));
 					//Adding the User to the list of results	
 					result.add(u);
 				}
@@ -134,11 +134,11 @@ public class UserFriendsMapper implements Mapper<User> {
 				int result = ps.executeUpdate();
 				if(result == 1) {
 					LogUtils.log(TAG, Constants.SUCCESS, "Successfully deleted");
-					App.getConnection().commit();
+					//App.getConnection().commit();
 					return true;
 				} else {
 					LogUtils.log(TAG, Constants.ERROR, "No or too much rows have been inserted");
-					App.getConnection().rollback();
+					//App.getConnection().rollback();
 					return false;
 				}
 				
@@ -162,16 +162,9 @@ public class UserFriendsMapper implements Mapper<User> {
 				ps.setInt(1, deletedUser.getId());
 				ps.setInt(2, deletedUser.getId());
 				int result = ps.executeUpdate();
-				if(result == 1) {
-					LogUtils.log(TAG, Constants.SUCCESS, "Successfully deleted");
-					//App.getConnection().commit();
-					return true;
-				} else {
-					LogUtils.log(TAG, Constants.ERROR, "No or too much rows have been inserted");
-					//App.getConnection().rollback();
-					return false;
-				}
-				
+				LogUtils.log(TAG, Constants.SUCCESS, "Successfully deleted");
+				//App.getConnection().commit();
+				return true;	
 			} catch (SQLException e) {
 				LogUtils.log(TAG, Constants.ERROR, "Error while updating Users");
 				e.printStackTrace();

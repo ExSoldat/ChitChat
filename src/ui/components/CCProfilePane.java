@@ -11,8 +11,8 @@ import javax.swing.JPanel;
 
 import core.App;
 import core.domain.Hobby;
-import core.domain.ProxyUser;
 import core.domain.User;
+import core.domain.proxy.ProxyUser;
 import ui.actions.TriggerButtonOnType;
 import ui.components.form.CCFormTextEntry;
 import utils.Constants;

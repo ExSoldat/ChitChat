@@ -3,11 +3,12 @@ package core.domain;
 import java.util.ArrayList;
 
 import core.App;
+import core.domain.proxy.ProxyUser;
 
 public class Group {
 	private String name;
 	private int id;
-	private ArrayList<Message> messages = new ArrayList<Message>();
+	private Discussion messages = new Discussion();
 	private User administrator;
 	private ArrayList<ProxyUser> moderators;
 	private ArrayList<ProxyUser> participants;
@@ -33,10 +34,10 @@ public class Group {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public ArrayList<Message> getMessages() {
+	public Discussion getMessages() {
 		return messages;
 	}
-	public void setMessages(ArrayList<Message> messages) {
+	public void setMessages(Discussion messages) {
 		this.messages = messages;
 	}
 	public User getAdministrator() {
@@ -67,6 +68,9 @@ public class Group {
 
 	public void setDescription(String desc) {
 		this.description = desc;
-		
+	}
+	
+	public int getId() {
+		return id;
 	}
 }

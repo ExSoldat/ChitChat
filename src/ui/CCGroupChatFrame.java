@@ -6,6 +6,7 @@ import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 
 import core.App;
+import core.domain.Discussion;
 import core.domain.EncryptMessage;
 import core.domain.ExpirationMessage;
 import core.domain.Group;
@@ -18,7 +19,7 @@ import utils.Constants;
 
 public class CCGroupChatFrame extends CCChatFrame {
 	CCGroupsPane mParent;
-	ArrayList<Message> m = new ArrayList<Message>();
+	Discussion m = new Discussion();
 	User me;
 	Group them;
 	public CCGroupChatFrame(User me, Group them) {

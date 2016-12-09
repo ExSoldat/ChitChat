@@ -30,8 +30,8 @@ import javax.swing.event.ListSelectionListener;
 
 import core.App;
 import core.domain.Group;
-import core.domain.ProxyUser;
 import core.domain.User;
+import core.domain.proxy.ProxyUser;
 import ui.actions.TriggerButtonOnType;
 import ui.components.CCButton;
 import ui.components.CCColor;

@@ -10,9 +10,9 @@ import javax.naming.spi.DirStateFactory.Result;
 
 import core.App;
 import core.domain.Administrateur;
-import core.domain.ProxyAdministrateur;
-import core.domain.ProxyUser;
 import core.domain.User;
+import core.domain.proxy.ProxyAdministrateur;
+import core.domain.proxy.ProxyUser;
 import utils.Constants;
 import utils.LogUtils;
 
@@ -197,16 +197,9 @@ public class UserMapper implements Mapper<ProxyUser> {
 			PreparedStatement ps = App.getConnection().prepareStatement(sqlRequest);
 			ps.setInt(1, user.getId());
 			int result = ps.executeUpdate();
-			if(result == 1) {
-				LogUtils.log(TAG, Constants.SUCCESS, "Successfully deleted");
-				//App.getConnection().commit();
-				return true;
-			} else {
-				LogUtils.log(TAG, Constants.ERROR, "No or too much rows have been inserted");
-				//App.getConnection().rollback();
-				return false;
-			}
-			
+			LogUtils.log(TAG, Constants.SUCCESS, "Successfully deleted");
+			//App.getConnection().commit();
+			return true;
 		} catch (SQLException e) {
 			LogUtils.log(TAG, Constants.ERROR, "Error while updating Users");
 			e.printStackTrace();

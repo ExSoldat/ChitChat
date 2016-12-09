@@ -56,6 +56,7 @@ public class Constants {
 	public static final String PASSWORD = "root";
 
 	public static final ImageIcon APP_LOGO = new ImageIcon("img/chitchat_mini.png");
+	public static final ImageIcon DEFAULT_PROFILE_PICTURE = new ImageIcon("img/ic_person_orange.png");
 	public static final boolean DEV_MODE = true;
 
 

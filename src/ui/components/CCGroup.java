@@ -38,23 +38,25 @@ public class CCGroup extends JPanel {
         cs.gridwidth = 2;
         main.add(groupname, cs);
         
-        //JLabel lastMessageTime = new JLabel(group.getLastMessage().getFormattedDate());
-        //cs.gridx = 0;
-        //cs.gridy = 1;
-        //main.add(lastMessageTime);
-        
-        JLabel lastmessageSender = new JLabel(group.getLastMessage().getSender().getFirstname() + " " + group.getLastMessage().getSender().getLastname() + ", le " + group.getLastMessage().getFormattedDate() + " : ");
-		cs.gridx = 0;
-        cs.gridy = 1;
-        //cs.gridwidth = 2;
-        main.add(lastmessageSender, cs);
-        
-        CCPlainText lastmessage = new CCPlainText(group.getLastMessage().getContent());
-        cs.gridx = 3;
-        cs.gridy = 1;
-        cs.gridwidth = 30;
-        main.add(lastmessage, cs);
-        
+        if(group.getMessages() == null || (group.getMessages() != null && group.getMessages().isEmpty())) {
+        	CCPlainText lastmessage = new CCPlainText("No message have been found :(");
+            cs.gridx = 0;
+            cs.gridy = 1;
+            cs.gridwidth = 30;
+            main.add(lastmessage, cs);
+        } else {
+        	JLabel lastmessageSender = new JLabel(group.getLastMessage().getSender().getFirstname() + " " + group.getLastMessage().getSender().getLastname() + ", le " + group.getLastMessage().getFormattedDate() + " : ");
+    		cs.gridx = 0;
+            cs.gridy = 1;
+            //cs.gridwidth = 2;
+            main.add(lastmessageSender, cs);
+            
+            CCPlainText lastmessage = new CCPlainText(group.getLastMessage().getContent());
+            cs.gridx = 2;
+            cs.gridy = 1;
+            cs.gridwidth = 30;
+            main.add(lastmessage, cs);
+        }
         main.setBorder(BorderFactory.createLineBorder(CCColor.CCPRIMARYDARK.getColor()));
         main.setBackground(CCColor.CCNEARLYWHITE.getColor());
         

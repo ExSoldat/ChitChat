@@ -1,8 +1,10 @@
-package core.domain;
+package core.domain.proxy;
 
 import java.util.ArrayList;
 
 import core.App;
+import core.domain.User;
+import core.domain.VirtualProxy;
 
 public class ProxyUser extends User implements VirtualProxy<User> {
 	
@@ -15,7 +17,8 @@ public class ProxyUser extends User implements VirtualProxy<User> {
 
 	@Override
 	public void initialize() {
-		this.setFriends(App.getInstance().getServicesProvider().getFriendsForUser(getId()));		
+		this.setFriends(App.getInstance().getServicesProvider().getFriendsForUser(getId()));
+		this.setGroups(App.getInstance().getServicesProvider().getGroupsForUser(getId()));
 	}
 
 	@Override
@@ -29,6 +32,11 @@ public class ProxyUser extends User implements VirtualProxy<User> {
 	public ArrayList<ProxyUser> getFriends() {
 		ensureIsInitialized();
 		return friends;
+	}
+	
+	public ArrayList<ProxyGroup> getGroups() {
+		ensureIsInitialized();
+		return groups;
 	}
 
 }

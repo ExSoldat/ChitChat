@@ -6,11 +6,15 @@ import java.util.Random;
 
 import core.App;
 import core.domain.Administrateur;
+import core.domain.Discussion;
 import core.domain.Group;
 import core.domain.Message;
-import core.domain.ProxyUser;
 import core.domain.User;
+import core.domain.proxy.ProxyGroup;
+import core.domain.proxy.ProxyUser;
+import core.persistence.mapper.GroupAdministratorMapper;
 import core.persistence.mapper.GroupMapper;
+import core.persistence.mapper.GroupParticipantMapper;
 import core.persistence.mapper.UserFriendsMapper;
 import core.persistence.mapper.UserMapper;
 import utils.Constants;
@@ -32,7 +36,7 @@ public class ServicesProvider {
 	public ProxyUser connect(String user, String pwd) {
 		ArrayList<ProxyUser> allusers = UserMapper.getInstance().read();
 		for(int i = 0; i<allusers.size(); i++) {
-			if(allusers.get(i).getUsername().equals(user) && allusers.get(i).getPassword().equals(pwd))
+			if(allusers.get(i).getUsername().equalsIgnoreCase(user) && allusers.get(i).getPassword().equals(pwd))
 				return allusers.get(i);
 		}
 		return null;
@@ -43,69 +47,9 @@ public class ServicesProvider {
 	 * @param id the id of the user
 	 * @return the list of the groups 
 	 */
-	public ArrayList<Group> getGroupsForUser(int id) {
-		//Return dummy content
-		ArrayList<Group> result = new ArrayList<Group>();
-		ArrayList<ProxyUser> p = new ArrayList<ProxyUser>();
-		
-		Group g = new Group();
-		g.setName("The first group");
-		g.setAdministrator(new Administrateur(29,"SAAB", "admin", "Mathieu", "azerty"));
-		g.setDescription("A group");
-		g.setParticipants(p);
-		for (int i =0; i<15; i++) {
-			g.getMessages().add(new Message());
-		}
-		g.getMessages().add(new Message(new User (0, "DOE", "janedoe", "Jane"), "KONICHIWA", new Date()));
-		result.add(g);
-		g = null;
-		g = new Group();
-		g.setName("The second group");
-		g.setAdministrator(new Administrateur(10,"gzg", "zef", "zef", "azerty"));
-		g.setDescription("A second group");
-		g.setParticipants(p);
-		for (int i =0; i<15; i++) {
-			g.getMessages().add(new Message());
-		}
-		g.getMessages().add(new Message(new User (0, "DOE", "janedoe", "Jane"), "Hello it's me Mario", new Date()));
-		result.add(g);
-		g = null;
-		g = new Group();
-		g.setName("The third group");
-		g.setAdministrator(new Administrateur(29,"SAAB", "admin", "Mathieu", "azerty"));
-		g.setDescription("A third group");
-		g.setParticipants(p);
-		for (int i =0; i<15; i++) {
-			g.getMessages().add(new Message());
-		}
-		g.getMessages().add(new Message(new User (0, "DOE", "janedoe", "Jane"), "Say whaaaaaaat ?", new Date()));
-		result.add(g);
-		
-		g = null;
-		g = new Group();
-		g.setName("The fourth group");
-		g.setAdministrator(new Administrateur(29,"SAAB", "admin", "Mathieu", "azerty"));
-		g.setDescription("A gfrouth roup");
-		g.setParticipants(p);
-		for (int i =0; i<15; i++) {
-			g.getMessages().add(new Message());
-		}
-		g.getMessages().add(new Message(new User (0, "DOE", "janedoe", "Jane"), "Hello it's me Mario", new Date()));
-		result.add(g);
-		
-		g = null;
-		g = new Group();
-		g.setName("The fourth group");
-		g.setAdministrator(new Administrateur(29,"SAAB", "admin", "Mathieu", "azerty"));
-		g.setDescription("Another group");
-		g.setParticipants(p);
-		for (int i =0; i<15; i++) {
-			g.getMessages().add(new Message());
-		}
-		g.getMessages().add(new Message(new User (0, "DOE", "janedoe", "Jane"), "Last one", new Date()));
-		result.add(g);
-		LogUtils.log(TAG, Constants.RESPONSE, "Groups found !");
-		return result;
+	public ArrayList<ProxyGroup> getGroupsForUser(int id) {
+		//TODO add a group list to users and call groupparticipantsmapper to get this list. then send it back
+		return GroupParticipantMapper.getInstance().readGroupsByUserId(id);
 	}
 
 	/**
@@ -198,8 +142,8 @@ public class ServicesProvider {
 	 * @param him the user we want to have a conversation with
 	 * @return the list of the messages between the two users
 	 */
-	public ArrayList<Message> getMessagesBetween(User me, User him) {
-		ArrayList<Message> r = new ArrayList<Message>();
+	public Discussion getMessagesBetween(User me, User him) {
+		Discussion r = new Discussion();
 		r.add(new Message(him, "Hello", new Date()));
 		r.add(new Message(him, "How are you ?", new Date()));
 		r.add(new Message(me, "Fine thanks and you ?", new Date()));
@@ -212,24 +156,6 @@ public class ServicesProvider {
 		r.add(new Message(him, "Another way", new Date()));
 		r.add(new Message(him, "Yea", new Date()));
 		r.add(new Message(me, "yea.", new Date()));
-		return r;
-	}
-	
-	public ArrayList<Message> getMessagesBetween(User me, User him, boolean b) {
-		ArrayList<Message> r = new ArrayList<Message>();
-		r.add(new Message(him, "Hello", new Date()));
-		r.add(new Message(him, "How are you ?", new Date()));
-		r.add(new Message(me, "Fine thanks and you ?", new Date()));
-		r.add(new Message(him, "Pretty good", new Date()));
-		r.add(new Message(him, "Got any plans tonight ?", new Date()));
-		r.add(new Message(me, "Not much", new Date()));
-		r.add(new Message(him, "Okay", new Date()));
-		r.add(new Message(him, "Where the hood at ?", new Date()));
-		r.add(new Message(me, "gnaaaaa", new Date()));
-		r.add(new Message(him, "Another way", new Date()));
-		r.add(new Message(him, "Yea", new Date()));
-		r.add(new Message(me, "yea.", new Date()));
-		r.add(new Message(me, "NEWMESSAGE", new Date()));
 		return r;
 	}
 
@@ -246,8 +172,8 @@ public class ServicesProvider {
 	 * @param group the group we want to have the data from
 	 * @return a list of the messages
 	 */
-	public ArrayList<Message> getMessagesForGroup(User me, Group group) {
-		ArrayList<Message> r = new ArrayList<Message>();
+	public Discussion getMessagesForGroup(User me, Group group) {
+		Discussion r = new Discussion();
 		r.add(new Message(me, group, "Hello", new Date()));
 		r.add(new Message(new User(0, "DOE", "janedoe", "Jane"), group, "How are you ?", new Date()));
 		r.add(new Message(me, group, "Fine thanks and you ?", new Date()));
@@ -290,5 +216,13 @@ public class ServicesProvider {
 		ArrayList<ProxyUser> result = UserMapper.getInstance().read();
 		result.remove(App.getInstance().getLoggedUser());
 		return result;
+	}
+
+	public ProxyUser getAdministratorOfGroup(ProxyGroup proxyGroup) {
+		return GroupAdministratorMapper.getInstance().readAdminById(proxyGroup.getId());
+	}
+
+	public ArrayList<ProxyUser> getParticipantsOfGroup(ProxyGroup group) {
+		return GroupParticipantMapper.getInstance().readUsersByGroupId(group.getId());
 	}
 }

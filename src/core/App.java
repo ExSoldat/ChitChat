@@ -3,8 +3,8 @@ package core;
 import java.sql.Connection;
 import java.util.ArrayList;
 
-import core.domain.ProxyUser;
 import core.domain.User;
+import core.domain.proxy.ProxyUser;
 import core.persistence.DBManager;
 import core.service.ServicesProvider;
 import ui.DevFrame;

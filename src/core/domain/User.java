@@ -2,11 +2,15 @@ package core.domain;
 
 import java.util.ArrayList;
 
+import core.domain.proxy.ProxyGroup;
+import core.domain.proxy.ProxyUser;
+
 public class User {
 	private String lastname, username, firstname, password;
 	private int id;
 	private ArrayList<Hobby> hobbies = new ArrayList<Hobby>();
 	protected ArrayList<ProxyUser> friends = new ArrayList<ProxyUser>();
+	protected ArrayList<ProxyGroup> groups = new ArrayList<ProxyGroup>();
 	protected boolean isAdmin;
 	
 	public User(int id, String lastname, String username, String firstname) {
@@ -105,6 +109,14 @@ public class User {
 
 	public void setFriends(ArrayList<ProxyUser> friends) {
 		this.friends = friends;
+	}
+	
+	public ArrayList<ProxyGroup> getGroups() {
+		return groups;
+	}
+
+	public void setGroups(ArrayList<ProxyGroup> groups) {
+		this.groups = groups;
 	}
 
 	@Override

@@ -18,8 +18,8 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import core.App;
-import core.domain.ProxyUser;
 import core.domain.User;
+import core.domain.proxy.ProxyUser;
 import ui.CCPrivateChatFrame;
 import ui.actions.TriggerButtonOnType;
 import ui.components.form.CCFormTextEntry;

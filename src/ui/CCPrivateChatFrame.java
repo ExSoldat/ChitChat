@@ -5,7 +5,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+import javax.swing.JLabel;
+
 import core.App;
+import core.domain.Discussion;
 import core.domain.EncryptMessage;
 import core.domain.ExpirationMessage;
 import core.domain.Message;
@@ -15,7 +18,7 @@ import core.domain.User;
 import utils.Constants;
 
 public class CCPrivateChatFrame extends CCChatFrame {
-	ArrayList<Message> m = new ArrayList<Message>();
+	Discussion m = new Discussion();
 	User me, him;
 	public CCPrivateChatFrame(User me, User him) {
 		super();
@@ -26,7 +29,9 @@ public class CCPrivateChatFrame extends CCChatFrame {
 	@Override
 	public void init() {
 		super.init();
-		this.setIconImage(Constants.APP_LOGO.getImage());
+		this.setIconImage(Constants.DEFAULT_PROFILE_PICTURE.getImage());
+		image.setIcon(Constants.DEFAULT_PROFILE_PICTURE);
+		//image.validate();
 		m = App.getInstance().getServicesProvider().getMessagesBetween(me, him);
 		this.setTitle(Constants.APP_NAME +  " - " + TAG + " - " + him.getFirstname() + " " + him.getLastname());
 		getCCMessagesList().setData(m);
@@ -57,7 +62,7 @@ public class CCPrivateChatFrame extends CCChatFrame {
 
 	@Override
 	public void refreshMessages() {
-		ArrayList<Message> m = App.getInstance().getServicesProvider().getMessagesBetween(me, him, true);
+		Discussion m = App.getInstance().getServicesProvider().getMessagesBetween(me, him);
 		list.setData(m);
 		messagesList.validate();
 	}

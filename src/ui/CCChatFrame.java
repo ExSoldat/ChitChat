@@ -44,14 +44,13 @@ public abstract class CCChatFrame extends JFrame {
 	public static String TAG = "Chat";
 	protected JScrollBar sb;
 	protected JScrollPane scroll;
+	protected JLabel image;
 	public CCChatFrame() {
 		super(Constants.APP_NAME +  " - " + TAG + " - ");
 	}
 	
 	public void init() {
 		this.setIconImage(Constants.APP_LOGO.getImage());
-		//Creating the logo
-		ImageIcon imageurl = new ImageIcon("img/chitchat_mini.png");
 		
 		JPanel main = new JPanel();
 		main.setLayout(new BoxLayout(main, BoxLayout.Y_AXIS));
@@ -59,7 +58,7 @@ public abstract class CCChatFrame extends JFrame {
 		header = new JPanel();
 		header.setLayout(new BorderLayout());
 		mainInfo = new CCLabel("Main information");		
-		JLabel image = new JLabel(imageurl);
+		image = new JLabel(Constants.APP_LOGO);
 		
 		header.add(mainInfo, BorderLayout.EAST);
 		header.add(image, BorderLayout.WEST);

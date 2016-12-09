@@ -6,8 +6,8 @@ import javax.swing.BorderFactory;
 import javax.swing.JList;
 import javax.swing.JPanel;
 
-import core.domain.ProxyUser;
 import core.domain.User;
+import core.domain.proxy.ProxyUser;
 
 public class CCUserList extends JList {
 

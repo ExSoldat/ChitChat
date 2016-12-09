@@ -6,15 +6,16 @@ import javax.swing.BorderFactory;
 import javax.swing.JList;
 import javax.swing.JPanel;
 
+import core.domain.Discussion;
 import core.domain.Message;
 import core.domain.User;
 
 public class CCMessagesList extends JList {
 
-	private ArrayList<Message> data;
+	private Discussion data;
 	//private JPanel parent; //Useful ?
 	
-	public CCMessagesList(ArrayList<Message> messages) {
+	public CCMessagesList(Discussion messages) {
 		super(messages.toArray());
 		this.data = messages;
 		this.setCellRenderer(new CCMessagesListCellRenderer());
@@ -35,7 +36,7 @@ public class CCMessagesList extends JList {
 		//this.parent.remove(this);
 	}
 	
-	public void setData(ArrayList<Message> messages) {
+	public void setData(Discussion messages) {
 		this.data = messages;
 		this.setListData(messages.toArray());
 	}
