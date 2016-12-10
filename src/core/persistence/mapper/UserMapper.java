@@ -120,9 +120,7 @@ public class UserMapper implements Mapper<ProxyUser> {
 				+ ", " + sql_password 
 				+ ", " + sql_isadmin 
 				+ " FROM " + sql_table
-				+ " WHERE " + sql_id + " = ? ";
-		ArrayList<User> result = new ArrayList<User>();
-		
+				+ " WHERE " + sql_id + " = ? ";	
 		try {
 			PreparedStatement ps = App.getConnection().prepareStatement(sqlRequest);
 			ps.setInt(1, id);
@@ -136,10 +134,9 @@ public class UserMapper implements Mapper<ProxyUser> {
 				else 
 					u = new ProxyUser(rs.getInt(sql_id), rs.getString(sql_lastname), rs.getString(sql_username), rs.getString(sql_firstname), rs.getString(sql_password));
 				//Adding the User to the list of results	
-				result.add(u);
 			}
 			//If no results were returned then no one was found
-			if(result.isEmpty()) {
+			if(u == null) {
 				LogUtils.log(TAG, Constants.INFO, "No rows found");
 				return null;
 			} else {

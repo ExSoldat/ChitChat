@@ -1,6 +1,7 @@
 package core.domain.proxy;
 
 import core.App;
+import core.domain.Discussion;
 import core.domain.Group;
 import core.domain.VirtualProxy;
 
@@ -15,11 +16,17 @@ public class ProxyGroup extends Group implements VirtualProxy<Group> {
 	}
 	
 	
+	public ProxyGroup(String text, ProxyUser loggedUser, String text2) {
+		super(text, loggedUser, text2);
+	}
+
+
 	@Override
 	public void initialize() {
 		//WIP
 		this.setAdministrator(App.getInstance().getServicesProvider().getAdministratorOfGroup(this));
 		this.setParticipants(App.getInstance().getServicesProvider().getParticipantsOfGroup(this));
+		this.setMessages(App.getInstance().getServicesProvider().getMessagesForGroup(this));
 	}
 
 	@Override
@@ -29,4 +36,11 @@ public class ProxyGroup extends Group implements VirtualProxy<Group> {
 			initialize();
 		}
 	}
+
+	public Discussion getMessages() {
+		ensureIsInitialized();
+		return messages;
+	}
+
+
 }

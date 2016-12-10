@@ -37,8 +37,8 @@ public class CCMessagesList extends JList {
 	}
 	
 	public void setData(Discussion messages) {
-		this.data = messages;
-		this.setListData(messages.toArray());
+		this.data = (messages == null || messages != null && messages.isEmpty()) ? new Discussion() : messages;
+		this.setListData(data.toArray());
 	}
 
 	public void render() {

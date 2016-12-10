@@ -14,15 +14,16 @@ import core.domain.Message;
 import core.domain.ReceiptMessage;
 import core.domain.UrgentMessage;
 import core.domain.User;
+import core.domain.proxy.ProxyUser;
 import ui.components.CCGroupsPane;
 import utils.Constants;
 
 public class CCGroupChatFrame extends CCChatFrame {
 	CCGroupsPane mParent;
 	Discussion m = new Discussion();
-	User me;
+	ProxyUser me;
 	Group them;
-	public CCGroupChatFrame(User me, Group them) {
+	public CCGroupChatFrame(ProxyUser me, Group them) {
 		super();
 		this.me = me;
 		this.them = them;
@@ -42,7 +43,7 @@ public class CCGroupChatFrame extends CCChatFrame {
 		
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Message m;
+				Message m;/*
 				if(receipt.isSelected()) {
 					m = new ReceiptMessage(me, them, mes.getText());
 				} else if (expirationtime.isSelected() && !time.getText().equals("")) {
@@ -53,7 +54,9 @@ public class CCGroupChatFrame extends CCChatFrame {
 					m = new UrgentMessage(me, them, mes.getText());
 				} else {
 					m = new Message(me, them, mes.getText());
-				}
+				}*/
+				m = new Message(me, them, mes.getText());
+				m.setDiscussionId(them.getDiscussionId());
 				mes.getTextField().setText("");
 				App.getInstance().getServicesProvider().sendMessage(m);
 				refreshMessages();
@@ -71,7 +74,7 @@ public class CCGroupChatFrame extends CCChatFrame {
 	
 	@Override
 	public void refreshMessages() {
-		them.setMessages(App.getInstance().getServicesProvider().getMessagesForGroup(App.getInstance().getLoggedUser(), them));
+		them.setMessages(App.getInstance().getServicesProvider().getMessagesForGroup(them));
 		list.setData(them.getMessages());
 		messagesList.validate();
 	}

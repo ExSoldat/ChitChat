@@ -39,4 +39,11 @@ public class ProxyUser extends User implements VirtualProxy<User> {
 		return groups;
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		// TODO Auto-generated method stub
+		return ((ProxyUser) obj).getId() == this.getId();
+
+	}
+
 }

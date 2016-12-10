@@ -58,11 +58,12 @@ public class CCGroupsPane extends JPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Group mGroup = new Group(nameField.getText(), App.getInstance().getLoggedUser(), descField.getText());
+				ProxyGroup mGroup = new ProxyGroup(nameField.getText(), App.getInstance().getLoggedUser(), descField.getText());
 				if(App.getInstance().getServicesProvider().createGroup(mGroup)) {
 					info.setText("Group successfully created !");
 					info.setForeground(CCColor.CCPRIMARY.getColor());
 					info.setVisible(true);
+					App.getInstance().getLoggedUser().getGroups().add(mGroup);
 					refreshGroups();
 				} else {
 					info.setText("An error occured. Please try again");

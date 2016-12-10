@@ -20,7 +20,7 @@ public class GroupMapper implements Mapper<Group> {
 	public String TAG = "GroupMapper";
 	public Connection connection;
 	public static final String sql_name = "name", 
-			sql_id = "id", sql_description = "description",
+			sql_id = "id", sql_description = "description", sql_discussionid = "discussion_id",
 			sql_table = "chat_group";
 	
 	private GroupMapper() {
@@ -38,30 +38,35 @@ public class GroupMapper implements Mapper<Group> {
 			return new GroupMapper();
 	}
 	
-	public boolean create(Group group) {
+	public int create(Group group) {
 
 		//I don't insert the id because it's autoincreented
 		String sqlRequest = "INSERT INTO " + sql_table + "(" + sql_name 
 				+ ", " + sql_description
-				+ ") values (?, ?);";
+				+ ", " + sql_discussionid
+				+ ") values (?, ?, ?);";
 		try {
-			PreparedStatement ps = App.getConnection().prepareStatement(sqlRequest);
+			PreparedStatement ps = App.getConnection().prepareStatement(sqlRequest,  new String[] { sql_id });
 			ps.setString(1, group.getName());
 			ps.setString(2, group.getDescription());
+			ps.setInt(3, group.getDiscussionId());
 			
 			int result = ps.executeUpdate();
 			if(result != 0) {
 				LogUtils.log(TAG, Constants.SUCCESS, "Successful inserted");
 				//App.getConnection().commit();
-				return true;
+				ResultSet generatedKeys = ps.getGeneratedKeys();
+				if(null != generatedKeys && generatedKeys.next())
+					return generatedKeys.getInt(1);
+				return -1;
 			}
 			//If no return has been made, no rows could be inserted
 			LogUtils.log(TAG, Constants.ERROR, "No rows inserted");
-			return false;
+			return -1;
 		} catch (SQLException e) {
 			LogUtils.log(TAG, Constants.ERROR, "Error while inserting new group");
 			e.printStackTrace();
-			return false;
+			return -1;
 		}
 	}
 	
@@ -81,6 +86,7 @@ public class GroupMapper implements Mapper<Group> {
 		String sqlRequest = "SELECT " + sql_id 
 				+ ", " + sql_name
 				+ ", " + sql_description
+				+ ", " + sql_discussionid
 				+ " FROM " + sql_table
 				+ " WHERE " + sql_id + " = ? ";
 		ArrayList<Group> result = new ArrayList<Group>();
@@ -94,6 +100,7 @@ public class GroupMapper implements Mapper<Group> {
 			if(rs.next()) {		
 				LogUtils.log(TAG, Constants.INFO, "Row found");
 				g = new ProxyGroup(rs.getInt(sql_id), rs.getString(sql_name), rs.getString(sql_description));
+				g.setDiscussionId(rs.getInt(sql_discussionid));
 				//Adding the User to the list of results	
 				result.add(g);
 			}

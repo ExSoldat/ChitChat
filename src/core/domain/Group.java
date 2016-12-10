@@ -8,8 +8,9 @@ import core.domain.proxy.ProxyUser;
 public class Group {
 	private String name;
 	private int id;
-	private Discussion messages = new Discussion();
+	protected Discussion messages = new Discussion();
 	private User administrator;
+	private int discussion_id;
 	private ArrayList<ProxyUser> moderators;
 	private ArrayList<ProxyUser> participants;
 	private String description;
@@ -70,7 +71,19 @@ public class Group {
 		this.description = desc;
 	}
 	
+	public void setId(int id) {
+		this.id = id;
+	}
+	
 	public int getId() {
 		return id;
+	}
+	
+	public void setDiscussionId(int discussion_id) {
+		this.discussion_id = discussion_id;
+	}
+	
+	public int getDiscussionId() {
+		return this.discussion_id;
 	}
 }

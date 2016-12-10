@@ -15,12 +15,13 @@ import core.domain.Message;
 import core.domain.ReceiptMessage;
 import core.domain.UrgentMessage;
 import core.domain.User;
+import core.domain.proxy.ProxyUser;
 import utils.Constants;
 
 public class CCPrivateChatFrame extends CCChatFrame {
-	Discussion m = new Discussion();
-	User me, him;
-	public CCPrivateChatFrame(User me, User him) {
+	Discussion m = new Discussion(); //TODO change this
+	ProxyUser me, him;
+	public CCPrivateChatFrame(ProxyUser me, ProxyUser him) {
 		super();
 		this.me = me;
 		this.him = him;
@@ -41,20 +42,27 @@ public class CCPrivateChatFrame extends CCChatFrame {
 		
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Message m;
-				if(receipt.isSelected()) {
-					m = new ReceiptMessage(me, him, mes.getText());
+/*if(receipt.isSelected()) {
+					m = new ReceiptMessage(me, them, mes.getText());
 				} else if (expirationtime.isSelected() && !time.getText().equals("")) {
-					m = new ExpirationMessage(me, him, mes.getText(), time.getText());
+					m = new ExpirationMessage(me, them, mes.getText(), time.getText());
 				} else if (encrypt.isSelected()) {
-					m = new EncryptMessage(me, him, mes.getText());
+					m = new EncryptMessage(me, them, mes.getText());
 				} else if (urgent.isSelected()) {
-					m = new UrgentMessage(me, him, mes.getText());
+					m = new UrgentMessage(me, them, mes.getText());
 				} else {
-					m = new Message(me, him, mes.getText());
+					m = new Message(me, them, mes.getText());
 				}
+				m = new Message(me, them, mes.getText());
+				m.setDiscussionId(them.getDiscussionId());
 				mes.getTextField().setText("");
 				App.getInstance().getServicesProvider().sendMessage(m);
+				refreshMessages();
+				Message m;*/
+				Message mMessage = new Message(me, him, mes.getText());
+				mMessage.setDiscussionId(App.getInstance().getServicesProvider().getDiscussionIdBetween(me, him)); //TODO Change this
+				mes.getTextField().setText("");
+				App.getInstance().getServicesProvider().sendMessage(mMessage);
 				refreshMessages();
 			}
 		});

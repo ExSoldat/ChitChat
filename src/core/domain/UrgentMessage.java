@@ -1,11 +1,13 @@
 package core.domain;
 
+import core.domain.proxy.ProxyUser;
+
 public class UrgentMessage extends Message {
-	public UrgentMessage(User sender, User receiver, String content) {
-		super(sender, receiver, content);
+	public UrgentMessage(ProxyUser sender, User receiver, String content) {
+		super();
 	}
 	
-	public UrgentMessage(User sender, Group receivers, String content) {
+	public UrgentMessage(ProxyUser sender, Group receivers, String content) {
 		super(sender, receivers, content);
 	}
 }

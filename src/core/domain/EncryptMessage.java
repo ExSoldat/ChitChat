@@ -1,11 +1,13 @@
 package core.domain;
 
+import core.domain.proxy.ProxyUser;
+
 public class EncryptMessage extends Message {
-	public EncryptMessage(User sender, User receiver, String content) {
-		super(sender, receiver, encrypt(content));
+	public EncryptMessage(ProxyUser sender, ProxyUser receiver, String content) {
+		super();
 	}
 	
-	public EncryptMessage(User sender, Group receivers, String content) {
+	public EncryptMessage(ProxyUser sender, Group receivers, String content) {
 		super(sender, receivers, encrypt(content));
 	}
 	//TODO : move this

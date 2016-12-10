@@ -94,6 +94,8 @@ public class User {
 	public String toString() {
 		return this.firstname + " \"" + this.username + "\" " + this.lastname;
 	}
+	
+	
 
 	public void setPassword(String text) {
 		this.password = text;
@@ -122,9 +124,7 @@ public class User {
 	@Override
 	public boolean equals(Object obj) {
 		// TODO Auto-generated method stub
-		if(obj instanceof User)
-			return ((User) obj).getId() == this.getId();
-		else return false;
+		return ((User) obj).getId() == this.getId();
 	}
 
 	/*public boolean friendsListContains(User user) {

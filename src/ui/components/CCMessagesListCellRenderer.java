@@ -13,6 +13,7 @@ import javax.swing.border.EmptyBorder;
 
 import core.App;
 import core.domain.Message;
+import core.domain.proxy.ProxyUser;
 import utils.Constants;
 
 public class CCMessagesListCellRenderer extends JLabel implements ListCellRenderer {
@@ -29,7 +30,8 @@ public class CCMessagesListCellRenderer extends JLabel implements ListCellRender
 			boolean cellHasFocus) {
 		Message message = (Message) value;
 		this.setPreferredSize(Constants.MESSAGE_DIMENSION);
-		if(message.getSender() == App.getInstance().getLoggedUser()) {
+		ProxyUser loggedUser = App.getInstance().getLoggedUser();
+		if(message.getSender().equals(loggedUser)) {
 			this.setHorizontalAlignment(JLabel.RIGHT);
 		} else {
 			this.setHorizontalAlignment(JLabel.LEFT);

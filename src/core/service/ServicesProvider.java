@@ -12,9 +12,11 @@ import core.domain.Message;
 import core.domain.User;
 import core.domain.proxy.ProxyGroup;
 import core.domain.proxy.ProxyUser;
+import core.persistence.mapper.DiscussionMapper;
 import core.persistence.mapper.GroupAdministratorMapper;
 import core.persistence.mapper.GroupMapper;
 import core.persistence.mapper.GroupParticipantMapper;
+import core.persistence.mapper.MessageMapper;
 import core.persistence.mapper.UserFriendsMapper;
 import core.persistence.mapper.UserMapper;
 import utils.Constants;
@@ -90,7 +92,7 @@ public class ServicesProvider {
 		if(App.getInstance().getLoggedUser().getFriends() != null) {
 			if(mapperResult != null) {
 				for(int i = 0; i < mapperResult.size(); i++) {
-					if(!App.getInstance().getLoggedUser().getFriends().contains(mapperResult.get(i))) {
+					if(!App.getInstance().getLoggedUser().getFriends().contains(mapperResult.get(i)) && mapperResult.get(i).getId() != App.getInstance().getLoggedUser().getId()) {
 						result.add(mapperResult.get(i));
 					}
 				}
@@ -123,8 +125,20 @@ public class ServicesProvider {
 	 * @return true if everything went fine, false either
 	 */
 	public boolean createGroup(Group mGroup) {
-		return GroupMapper.getInstance().create(mGroup);
+		int dId = DiscussionMapper.getInstance().create();
+		if(dId != -1) {
+			mGroup.setDiscussionId(dId);
 			
+			int gId = GroupMapper.getInstance().create(mGroup);
+			if(gId != -1) {
+				mGroup.setId(gId);
+				return GroupAdministratorMapper.getInstance().create(mGroup) && GroupParticipantMapper.getInstance().create(mGroup, App.getInstance().getLoggedUser());
+			} else {
+				return false;
+			}
+		} 
+		
+		return false;	
 	}
 
 	/**
@@ -142,21 +156,8 @@ public class ServicesProvider {
 	 * @param him the user we want to have a conversation with
 	 * @return the list of the messages between the two users
 	 */
-	public Discussion getMessagesBetween(User me, User him) {
-		Discussion r = new Discussion();
-		r.add(new Message(him, "Hello", new Date()));
-		r.add(new Message(him, "How are you ?", new Date()));
-		r.add(new Message(me, "Fine thanks and you ?", new Date()));
-		r.add(new Message(him, "Pretty good", new Date()));
-		r.add(new Message(him, "Got any plans tonight ?", new Date()));
-		r.add(new Message(me, "Not much", new Date()));
-		r.add(new Message(him, "Okay", new Date()));
-		r.add(new Message(him, "Where the hood at ?", new Date()));
-		r.add(new Message(me, "gnaaaaa", new Date()));
-		r.add(new Message(him, "Another way", new Date()));
-		r.add(new Message(him, "Yea", new Date()));
-		r.add(new Message(me, "yea.", new Date()));
-		return r;
+	public Discussion getMessagesBetween(ProxyUser me, ProxyUser him) {
+		return DiscussionMapper.getInstance().readById(UserFriendsMapper.getInstance().readDiscussionIdByMeAndHim(me, him));
 	}
 
 	/**
@@ -164,7 +165,8 @@ public class ServicesProvider {
 	 * @param m the sent message
 	 */
 	public boolean sendMessage(Message m) {
-		return rand.nextBoolean();
+		//return rand.nextBoolean();
+		return MessageMapper.getInstance().create(m);
 	}
 
 	/**
@@ -172,9 +174,10 @@ public class ServicesProvider {
 	 * @param group the group we want to have the data from
 	 * @return a list of the messages
 	 */
-	public Discussion getMessagesForGroup(User me, Group group) {
+	public Discussion getMessagesForGroup(Group group) {
 		Discussion r = new Discussion();
-		r.add(new Message(me, group, "Hello", new Date()));
+		return DiscussionMapper.getInstance().readById(group.getDiscussionId());
+		/*r.add(new Message(me, group, "Hello", new Date()));
 		r.add(new Message(new User(0, "DOE", "janedoe", "Jane"), group, "How are you ?", new Date()));
 		r.add(new Message(me, group, "Fine thanks and you ?", new Date()));
 		r.add(new Message(new User(0, "Zamasu", "Zamasu", "Zamasu"), group, "Filthy humans....", new Date()));
@@ -184,8 +187,7 @@ public class ServicesProvider {
 		r.add(new Message(me, group, "Where's Trunks ?", new Date()));
 		r.add(new Message(new User(0, "Sama", "killergodtuber", "Gowasu"), group, "Zamas ! Bring me some tea !", new Date()));
 		r.add(new Message(new User(0, "Zamasu", "Zamasu", "Zamasu"), group, "No way. I'm Justice bitch", new Date()));
-		r.add(new Message(me, group, "Damn", new Date()));
-		return r;
+		r.add(new Message(me, group, "Damn", new Date()));*/
 	}
 
 	public boolean deleteUser(User deleteduser) {
@@ -224,5 +226,9 @@ public class ServicesProvider {
 
 	public ArrayList<ProxyUser> getParticipantsOfGroup(ProxyGroup group) {
 		return GroupParticipantMapper.getInstance().readUsersByGroupId(group.getId());
+	}
+
+	public Integer getDiscussionIdBetween(ProxyUser me, ProxyUser him) {
+		return UserFriendsMapper.getInstance().readDiscussionIdByMeAndHim(me, him);
 	}
 }

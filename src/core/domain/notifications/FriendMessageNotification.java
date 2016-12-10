@@ -5,14 +5,15 @@ import java.util.Date;
 import javax.swing.JPanel;
 
 import core.domain.User;
+import core.domain.proxy.ProxyUser;
 import core.interfaces.NotificationVisitor;
 
 public class FriendMessageNotification extends Notification {
 	private boolean urgent = false;
-	private User sender;
+	private ProxyUser sender;
 	private String message; //Should have done a Conversation class but it is too late
 
-	public FriendMessageNotification(int id, Date date, boolean sent, boolean received, boolean urgent, User s, String content) {
+	public FriendMessageNotification(int id, Date date, boolean sent, boolean received, boolean urgent, ProxyUser s, String content) {
 		super(id, date, sent, received);
 		this.urgent = urgent;
 		this.sender = s;
@@ -38,11 +39,11 @@ public class FriendMessageNotification extends Notification {
 		this.urgent = urgent;
 	}
 
-	public User getSender() {
+	public ProxyUser getSender() {
 		return sender;
 	}
 
-	public void setSender(User sender) {
+	public void setSender(ProxyUser sender) {
 		this.sender = sender;
 	}
 

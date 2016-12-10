@@ -5,12 +5,13 @@ import java.util.Date;
 import javax.swing.JPanel;
 
 import core.domain.User;
+import core.domain.proxy.ProxyUser;
 import core.interfaces.NotificationVisitor;
 
 public class FriendAcceptNotification extends Notification {
 
-	private User sender;
-	public FriendAcceptNotification(int id, Date date, boolean sent, boolean received, User sender) {
+	private ProxyUser sender;
+	public FriendAcceptNotification(int id, Date date, boolean sent, boolean received, ProxyUser sender) {
 		super(id, date, sent, received);
 		this.sender = sender;
 	}
@@ -26,11 +27,11 @@ public class FriendAcceptNotification extends Notification {
 		return v.visit(this);
 	}
 
-	public User getSender() {
+	public ProxyUser getSender() {
 		return sender;
 	}
 
-	public void setSender(User sender) {
+	public void setSender(ProxyUser sender) {
 		this.sender = sender;
 	}
 	

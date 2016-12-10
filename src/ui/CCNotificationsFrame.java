@@ -29,6 +29,7 @@ import core.domain.notifications.FriendMessageNotification;
 import core.domain.notifications.GUINotificationVisitor;
 import core.domain.notifications.GroupMessageNotification;
 import core.domain.notifications.Notification;
+import core.domain.proxy.ProxyUser;
 import ui.actions.TriggerButtonOnType;
 import ui.components.CCButton;
 import ui.components.CCColor;
@@ -54,7 +55,7 @@ public class CCNotificationsFrame extends JFrame {
 		ArrayList<Notification> usersNotifications = new ArrayList<Notification>();
 		Group testgroup = new Group("Test", App.getInstance().getLoggedUser(), "Hello");
 		Group testgroup2 = new Group("Test", App.getInstance().getLoggedUser(), "Hello");
-		User testuser = new User(1,"Goku", "savioroftheworld", "Son");
+		ProxyUser testuser = new ProxyUser(1,"Goku", "savioroftheworld", "Son", "ergeroguerogerogih");
 		ArrayList<Hobby>sgh = new ArrayList<Hobby>();
 		sgh.add(new Hobby(0, "Food"));
 		sgh.add(new Hobby(0, "Fight"));

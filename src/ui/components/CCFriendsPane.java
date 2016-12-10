@@ -99,7 +99,7 @@ public class CCFriendsPane extends JPanel {
 			public void mouseClicked(MouseEvent e) {
 				CCUserList list = (CCUserList) e.getSource();
 				if(e.getClickCount() == 2) {
-					User u = (User)list.getSelectedValue();
+					ProxyUser u = (ProxyUser)list.getSelectedValue();
 					System.out.println("Opens a private chat window between " + App.getInstance().getLoggedUser() + " and " + u);
 					CCPrivateChatFrame privateChat = new CCPrivateChatFrame(App.getInstance().getLoggedUser(), u);
 					privateChat.init();
