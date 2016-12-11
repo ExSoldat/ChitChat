@@ -34,6 +34,7 @@ import ui.actions.TriggerButtonOnType;
 import ui.components.CCButton;
 import ui.components.CCColor;
 import ui.components.CCDialog;
+import ui.components.CCFriendsPane;
 import ui.components.CCUserList;
 import ui.components.form.CCFormTextEntry;
 import utils.Constants;
@@ -51,27 +52,12 @@ public class CCNotificationsFrame extends JFrame {
 		
 		JPanel notifications = new JPanel();
 		notifications.setLayout(new BoxLayout(notifications, BoxLayout.Y_AXIS));
-		//TODO
-		/*
-		ArrayList<Notification> usersNotifications = new ArrayList<Notification>();
-		Group testgroup = new Group("Test", App.getInstance().getLoggedUser(), "Hello");
-		Group testgroup2 = new Group("Test", App.getInstance().getLoggedUser(), "Hello");
-		ProxyUser testuser = new ProxyUser(1,"Goku", "savioroftheworld", "Son", "ergeroguerogerogih");
-		ArrayList<Hobby>sgh = new ArrayList<Hobby>();
-		sgh.add(new Hobby(0, "Food"));
-		sgh.add(new Hobby(0, "Fight"));
-		sgh.add(new Hobby(0, "Be Stronger"));
-		sgh.add(new Hobby(0, "New ennemies"));
-		testuser.setHobbies(sgh);
-		usersNotifications.add(new GroupMessageNotification(0, new Date(), true, false, testuser, testgroup2, true));
-		usersNotifications.add(new FriendMessageNotification(1,new Date(), true, false, false, testuser, "Hello ! mzefpirjgpreigjerpigjerpigjerpgijerpigjerpgijerpgijerpgij"));
-		usersNotifications.add(new FriendAddNotification(1,new Date(), true, false, false, testuser));
-		usersNotifications.add(new FriendAcceptNotification(2,new Date(), true, true, testuser));
 
-		for(int i = 0; i < usersNotifications.size(); i++) {
-			notifications.add(usersNotifications.get(i).accept(new GUINotificationVisitor()));
-			notifications.add(usersNotifications.get(i).accept(new GUINotificationVisitor()));
-		}*/
+		if(App.getInstance().getLoggedUser().getPendingNotifications() != null) {
+			for(int i = 0; i < App.getInstance().getLoggedUser().getPendingNotifications().size(); i++) {
+				notifications.add(App.getInstance().getLoggedUser().getPendingNotifications().get(i).accept(new GUINotificationVisitor()));
+			}
+		}
 		
 		scroll.setPreferredSize(Constants.NOTIFICATIONS_LIST);
 		

@@ -32,7 +32,7 @@ public class GUINotificationVisitor implements NotificationVisitor {
 	public JPanel visit(GroupMessageNotification v) {
 		
 		title = v.getGroup().getName();
-		date = "["+v.getFormattedDate()+"]";
+		//date = "["+v.getFormattedDate()+"]";
 		content = v.getGroup().getLastMessage().getContent().substring(0, 30) + "...";
 		
 		JPanel notificationContent = new JPanel();
@@ -109,7 +109,7 @@ public class GUINotificationVisitor implements NotificationVisitor {
 
 		
 		title = "New message from : " + v.getSender().getFirstname() + " " + v.getSender().getLastname();
-		date = "["+v.getFormattedDate()+"]";
+		//date = "["+v.getFormattedDate()+"]";
 		content = v.getMessage().substring(0, 30) + "...";
 		
 		JPanel notificationContent = new JPanel();
@@ -183,8 +183,8 @@ public class GUINotificationVisitor implements NotificationVisitor {
 
 	@Override
 	public JPanel visit(FriendAddNotification v) {
-		title = "New friend request by" + v.getSender().getFirstname() + " " + v.getSender().getLastname();
-		date = "["+v.getFormattedDate()+"]";
+		title = "New friend request by :" + v.getSender().getFirstname() + " " + v.getSender().getLastname();
+		//date = "["+v.getFormattedDate()+"]";
 		content = ("Likes : " + v.getSender().getHobbiesAsAString()).substring(0, 30) + "...";
 		
 		JPanel notificationContent = new JPanel();
@@ -206,10 +206,7 @@ public class GUINotificationVisitor implements NotificationVisitor {
 			public void actionPerformed(ActionEvent e) {
 				v.setReceived(true);
 				//AcceptFriendRequest
-				//CCPrivateChatFrame ccpcf = new CCPrivateChatFrame(App.getInstance().getLoggedUser(), v.getSender());
-				//ccpcf.init();
-				//ccpcf.setVisible(true);
-				//v.save();
+				App.getInstance().getServicesProvider().acceptFriendRequest(App.getInstance().getLoggedUser(), v.getSender(), v);
 				notificationContent.setVisible(false);
 			}
 		});
@@ -257,7 +254,7 @@ public class GUINotificationVisitor implements NotificationVisitor {
 	@Override
 	public JPanel visit(FriendAcceptNotification v) {
 		title = v.getSender().getFirstname() + " " + v.getSender().getLastname() + " accepted your request";
-		date = "["+v.getFormattedDate()+"]";
+		//date = "["+v.getFormattedDate()+"]";
 		content = ("Let's start some chit chat");
 		
 		JPanel notificationContent = new JPanel();

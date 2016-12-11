@@ -25,9 +25,18 @@ public class GroupMessageNotification extends Notification {
 		super(subjectId, senderId);
 	}
 
+	public GroupMessageNotification(int id, int receiverId, int subjectId) {
+		super(id, receiverId, subjectId);
+	}
+
 	@Override
 	public void accept(NotificationVisitor nv) {
 		nv.visit(this);
+	}
+	
+	@Override
+	public String accept(MapperCreationVisitor v) {
+		return v.visit(this);
 	}
 
 	@Override

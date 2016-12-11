@@ -85,8 +85,8 @@ public class UserFriendsMapper implements Mapper<User> {
 					+ ", " + sql_friendid  
 					+ ", " + sql_isvalid 
 					+ " FROM " + sql_table 
-					+ " WHERE " + sql_userid + " = ?"
-					+ " OR " + sql_friendid + " = ? "
+					+ " WHERE (" + sql_userid + " = ?"
+					+ " OR " + sql_friendid + " = ? )"
 					+ " AND " + sql_isvalid  + " = true";
 			ArrayList<ProxyUser> result = new ArrayList<ProxyUser>();
 			try {
@@ -212,6 +212,34 @@ public class UserFriendsMapper implements Mapper<User> {
 				LogUtils.log(TAG, Constants.ERROR, "Error while finding Users");
 				e.printStackTrace();
 				return -1;
+			}
+		}
+
+		public boolean saveIsActive(ProxyUser me, User him) {
+			String sqlRequest = "UPDATE " + sql_table + " SET " + sql_isvalid 
+					+ "= ? " + " WHERE (" + sql_friendid + " = ? AND " + sql_userid + " = ?) OR (" + sql_userid + " = ? AND " + sql_friendid + " = ?)";
+			try {
+				PreparedStatement ps = App.getConnection().prepareStatement(sqlRequest);
+				ps.setBoolean(1, true);
+				ps.setInt(2, him.getId());
+				ps.setInt(3, me.getId());
+				ps.setInt(4, him.getId());
+				ps.setInt(5, me.getId());
+				int result = ps.executeUpdate();
+				if(result == 1) {
+					LogUtils.log(TAG, Constants.SUCCESS, "Successfully updated");
+					//App.getConnection().commit();
+					return true;
+				} else {
+					LogUtils.log(TAG, Constants.ERROR, "No or too much rows have been inserted");
+					//App.getConnection().rollback();
+					return false;
+				}
+				
+			} catch (SQLException e) {
+				LogUtils.log(TAG, Constants.ERROR, "Error while updating Users");
+				e.printStackTrace();
+				return false;
 			}
 		}
 

@@ -11,9 +11,9 @@ import javax.swing.JPanel;
 import core.domain.notifications.FriendAcceptNotification;
 
 public interface NotificationVisitor {
-	public JPanel visit(GroupMessageNotification v);
-	public JPanel visit(FriendMessageNotification v);
-	public JPanel visit(FriendAddNotification v);
-	public JPanel visit(FriendAcceptNotification v);
+	public Object visit(GroupMessageNotification v);
+	public Object visit(FriendMessageNotification v);
+	public Object visit(FriendAddNotification v);
+	public Object visit(FriendAcceptNotification v);
 }
 	

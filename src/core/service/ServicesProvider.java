@@ -10,6 +10,8 @@ import core.domain.Discussion;
 import core.domain.Group;
 import core.domain.Message;
 import core.domain.User;
+import core.domain.notifications.Notification;
+import core.domain.notifications.NotificationFactory;
 import core.domain.proxy.ProxyGroup;
 import core.domain.proxy.ProxyUser;
 import core.persistence.mapper.DiscussionMapper;
@@ -17,6 +19,7 @@ import core.persistence.mapper.GroupAdministratorMapper;
 import core.persistence.mapper.GroupMapper;
 import core.persistence.mapper.GroupParticipantMapper;
 import core.persistence.mapper.MessageMapper;
+import core.persistence.mapper.NotificationMapper;
 import core.persistence.mapper.UserFriendsMapper;
 import core.persistence.mapper.UserMapper;
 import utils.Constants;
@@ -25,8 +28,9 @@ import utils.LogUtils;
 public class ServicesProvider {
 	public static String TAG = "ServicesProvider";
 	Random rand = new Random();
+	NotificationFactory nf;
 	public ServicesProvider() {
-		
+		nf = new NotificationFactory();
 	}
 	
 	/**
@@ -111,7 +115,8 @@ public class ServicesProvider {
 	 */
 	public boolean addFriend(User addedUser) {
 		//TODO Create a Notification
-		
+		Notification n = nf.createNewNotification(0, Notification.FRIEND_REQUEST, addedUser.getId(), App.getInstance().getLoggedUser().getId());
+		NotificationMapper.getInstance().create(n);
 		boolean r = UserFriendsMapper.getInstance().addUserToFriendsList(App.getInstance().getLoggedUser(), addedUser);
 		if (r)
 			LogUtils.log(TAG, Constants.RESPONSE, "Friend added !");
@@ -241,7 +246,25 @@ public class ServicesProvider {
 	}
 
 	public void addParticipantToGroup(Group group, ProxyUser user) {
-		group.getParticipants().add(user); //TODO Keep this ind of things but implement it in service 
+		group.getParticipants().add(user); //TODO Keep this kind of things but implement it in service 
 		GroupParticipantMapper.getInstance().create(group, user);		
+	}
+
+	public ArrayList<Notification> getNotificationsForUser(ProxyUser user) {
+		return NotificationMapper.getInstance().readByReceiver(user);
+	}
+
+	public ProxyUser getUserById(int userId) {
+		return UserMapper.getInstance().readById(userId);
+	}
+
+	public boolean acceptFriendRequest(ProxyUser me, User him, Notification old_notification) {
+		boolean b1 = UserFriendsMapper.getInstance().saveIsActive(me, him);
+		boolean b2 = NotificationMapper.getInstance().update(old_notification);
+		if(b1) {
+			Notification n = nf.createNewNotification(0, Notification.FRIEND_REQUEST_ACCEPT, him.getId(), me.getId());
+			return NotificationMapper.getInstance().create(n);
+		}
+		return false;
 	}
 }

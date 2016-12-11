@@ -1,25 +1,21 @@
 package core.domain.notifications;
 
 public class NotificationFactory {
-	public static final int FRIEND_REQUEST = 1;
-	public static final int FRIEND_REQUEST_ACCEPT = 2;
-	public static final int PRIVATE_MESSAGE = 3;
-	public static final int GROUP_MESSAGE = 4;
 	
-	public Notification createNewNotification(int typeId, int subjectId, int senderId) {
+	public Notification createNewNotification(int id, int typeId, int receiverId, int subjectId) {
 		Notification n = null;
 		switch(typeId) {
-		case FRIEND_REQUEST :
-			n = new FriendAddNotification(subjectId, senderId);
+		case Notification.FRIEND_REQUEST :
+			n = new FriendAddNotification(id, receiverId, subjectId);
 			break;
-		case FRIEND_REQUEST_ACCEPT :
-			n = new FriendAcceptNotification(subjectId, senderId);
+		case Notification.FRIEND_REQUEST_ACCEPT :
+			n = new FriendAcceptNotification(id, receiverId, subjectId);
 			break;
-		case PRIVATE_MESSAGE :
-			n = new FriendMessageNotification(subjectId, senderId);
+		case Notification.PRIVATE_MESSAGE :
+			n = new FriendMessageNotification(id, receiverId, subjectId);
 			break;
-		case GROUP_MESSAGE : 
-			n = new GroupMessageNotification(subjectId, senderId);
+		case Notification.GROUP_MESSAGE : 
+			n = new GroupMessageNotification(id, receiverId, subjectId);
 			break;
 		}
 		return n;

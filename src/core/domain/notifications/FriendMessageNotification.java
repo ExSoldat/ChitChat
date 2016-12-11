@@ -24,10 +24,18 @@ public class FriendMessageNotification extends Notification {
 		super(subjectId, senderId);
 	}
 
+	public FriendMessageNotification(int id, int receiverId, int subjectId) {
+		super(id, receiverId, subjectId);
+	}
+
 	@Override
 	public void accept(NotificationVisitor v) {
 		// TODO Auto-generated method stub
 		
+	}
+	@Override
+	public String accept(MapperCreationVisitor v) {
+		return v.visit(this);
 	}
 
 	@Override
