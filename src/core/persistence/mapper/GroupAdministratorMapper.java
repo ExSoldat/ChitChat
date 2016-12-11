@@ -107,4 +107,20 @@ public class GroupAdministratorMapper implements Mapper{
 		return false;
 	}
 
+	public boolean delete(Group group) {
+		String sqlRequest = "DELETE FROM " + sql_table + " WHERE " + sql_adminid + " = ?";
+		try {
+			PreparedStatement ps = App.getConnection().prepareStatement(sqlRequest);
+			ps.setInt(1, group.getAdministrator().getId());
+			int result = ps.executeUpdate();
+			LogUtils.log(TAG, Constants.SUCCESS, "Successfully deleted");
+			//App.getConnection().commit();
+			return true;
+		} catch (SQLException e) {
+			LogUtils.log(TAG, Constants.ERROR, "Error while updating Users");
+			e.printStackTrace();
+			return false;
+		}
+	}
+
 }

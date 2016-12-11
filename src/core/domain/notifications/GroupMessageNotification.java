@@ -21,6 +21,10 @@ public class GroupMessageNotification extends Notification {
 		this.urgent = urgent;
 	}
 	
+	public GroupMessageNotification(int subjectId, int senderId) {
+		super(subjectId, senderId);
+	}
+
 	@Override
 	public void accept(NotificationVisitor nv) {
 		nv.visit(this);

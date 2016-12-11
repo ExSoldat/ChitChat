@@ -120,4 +120,23 @@ public class GroupMapper implements Mapper<Group> {
 		}
 	}
 
+	public boolean delete(Group group) {
+		if(GroupAdministratorMapper.getInstance().delete(group)) {
+			String sqlRequest = "DELETE FROM " + sql_table + " WHERE " + sql_id + " = ?";
+			try {
+				PreparedStatement ps = App.getConnection().prepareStatement(sqlRequest);
+				ps.setInt(1, group.getId());
+				int result = ps.executeUpdate();
+				LogUtils.log(TAG, Constants.SUCCESS, "Successfully deleted");
+				//App.getConnection().commit();
+				return true;
+			} catch (SQLException e) {
+				LogUtils.log(TAG, Constants.ERROR, "Error while updating Users");
+				e.printStackTrace();
+				return false;
+			}
+		} else {
+			return false;
+		}
+	}
 }

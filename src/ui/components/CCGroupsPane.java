@@ -96,6 +96,7 @@ public class CCGroupsPane extends JPanel {
 			CCLabel nogroups = new CCLabel("No groups have been found for you :(");
 			scrollMain.add(nogroups);
 		}
+		scrollMain.repaint();
 		scrollMain.validate();
 	}
 }

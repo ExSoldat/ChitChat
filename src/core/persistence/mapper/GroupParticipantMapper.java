@@ -141,4 +141,20 @@ public class GroupParticipantMapper implements Mapper {
 		}
 	}
 
+	public boolean delete(User user, Group group) {
+		String sqlRequest = "DELETE FROM " + sql_table + " WHERE " + sql_participantid + " = ?";
+		try {
+			PreparedStatement ps = App.getConnection().prepareStatement(sqlRequest);
+			ps.setInt(1, user.getId());
+			int result = ps.executeUpdate();
+			LogUtils.log(TAG, Constants.SUCCESS, "Successfully deleted");
+			//App.getConnection().commit();
+			return true;
+		} catch (SQLException e) {
+			LogUtils.log(TAG, Constants.ERROR, "Error while updating Users");
+			e.printStackTrace();
+			return false;
+		}
+	}
+
 }

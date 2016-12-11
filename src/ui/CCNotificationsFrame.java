@@ -52,6 +52,7 @@ public class CCNotificationsFrame extends JFrame {
 		JPanel notifications = new JPanel();
 		notifications.setLayout(new BoxLayout(notifications, BoxLayout.Y_AXIS));
 		//TODO
+		/*
 		ArrayList<Notification> usersNotifications = new ArrayList<Notification>();
 		Group testgroup = new Group("Test", App.getInstance().getLoggedUser(), "Hello");
 		Group testgroup2 = new Group("Test", App.getInstance().getLoggedUser(), "Hello");
@@ -70,7 +71,7 @@ public class CCNotificationsFrame extends JFrame {
 		for(int i = 0; i < usersNotifications.size(); i++) {
 			notifications.add(usersNotifications.get(i).accept(new GUINotificationVisitor()));
 			notifications.add(usersNotifications.get(i).accept(new GUINotificationVisitor()));
-		}
+		}*/
 		
 		scroll.setPreferredSize(Constants.NOTIFICATIONS_LIST);
 		

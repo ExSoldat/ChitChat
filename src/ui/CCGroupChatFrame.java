@@ -80,7 +80,7 @@ public class CCGroupChatFrame extends CCChatFrame {
 	}
 	
 	public void closeAfterLeaving() {
-		this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
 		mParent.refreshGroups();
+		this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
 	}
 }

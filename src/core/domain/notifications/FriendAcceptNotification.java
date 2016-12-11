@@ -16,6 +16,10 @@ public class FriendAcceptNotification extends Notification {
 		this.sender = sender;
 	}
 
+	public FriendAcceptNotification(int subjectId, int senderId) {
+		super(subjectId, senderId);
+	}
+
 	@Override
 	public void accept(NotificationVisitor v) {
 		// TODO Auto-generated method stub

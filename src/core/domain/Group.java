@@ -86,4 +86,10 @@ public class Group {
 	public int getDiscussionId() {
 		return this.discussion_id;
 	}
+
+	public ArrayList<ProxyUser> getParticipantsExcept(ProxyUser user) {
+		ArrayList<ProxyUser> participants = getParticipants();
+		participants.remove(user);
+		return participants;
+	}
 }

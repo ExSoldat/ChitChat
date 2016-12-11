@@ -17,6 +17,10 @@ public class FriendAddNotification extends Notification {
 		this.accepted = accepted;
 		this.sender = s;
 	}
+	
+	public FriendAddNotification(int subjectId, int senderId) {
+		super(subjectId, senderId);
+	}
 
 	@Override
 	public void accept(NotificationVisitor v) {

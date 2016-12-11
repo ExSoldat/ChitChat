@@ -60,7 +60,7 @@ public class CCGroupMembersFrame extends JFrame {
 			JScrollPane scroll = new JScrollPane();
 		    scroll.setLayout(new ScrollPaneLayout());
 			scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-			ul = group.getParticipants() != null ? new CCUserList(group.getParticipants()) : new CCUserList();
+			ul = group.getParticipantsExcept(App.getInstance().getLoggedUser()) != null ? new CCUserList(group.getParticipantsExcept(App.getInstance().getLoggedUser())) : new CCUserList();
 			scroll.setViewportView(ul);
 			main.add(scroll);
 			
@@ -87,7 +87,8 @@ public class CCGroupMembersFrame extends JFrame {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					group.getParticipants().remove(ul.getSelectedValue());
-					ul.setData(group.getParticipants());
+					App.getInstance().getServicesProvider().removeUserFromGroup(((User)ul.getSelectedValue()), group);
+					ul.setData(group.getParticipantsExcept(App.getInstance().getLoggedUser()));
 				}
 			});
 			
@@ -150,10 +151,10 @@ public class CCGroupMembersFrame extends JFrame {
 								@Override
 								public void actionPerformed(ActionEvent e) {
 									//SERVICE ADD FRIEND
-									group.getParticipants().add((ProxyUser)users.getSelectedValue());
-									ul.setData(group.getParticipants());
+									//group.getParticipants().add((ProxyUser)users.getSelectedValue()); //TODO Keep this ind of things but implement it in service 
+									App.getInstance().getServicesProvider().addParticipantToGroup(group, (ProxyUser)users.getSelectedValue());
+									ul.setData(group.getParticipantsExcept(App.getInstance().getLoggedUser()));
 									dialog.dispose();
-
 								}
 							});
 						}
@@ -175,6 +176,7 @@ public class CCGroupMembersFrame extends JFrame {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					if(App.getInstance().getServicesProvider().removeUserFromGroup(App.getInstance().getLoggedUser(), group)) {
+						App.getInstance().getLoggedUser().getGroups().remove(group);
 						me.dispatchEvent(new WindowEvent(me, WindowEvent.WINDOW_CLOSING));
 						mFrameParent.closeAfterLeaving();
 					}

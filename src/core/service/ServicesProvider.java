@@ -51,7 +51,7 @@ public class ServicesProvider {
 	 */
 	public ArrayList<ProxyGroup> getGroupsForUser(int id) {
 		//TODO add a group list to users and call groupparticipantsmapper to get this list. then send it back
-		return GroupParticipantMapper.getInstance().readGroupsByUserId(id);
+		return (GroupParticipantMapper.getInstance().readGroupsByUserId(id) != null) ? GroupParticipantMapper.getInstance().readGroupsByUserId(id) : new ArrayList<ProxyGroup>();
 	}
 
 	/**
@@ -111,6 +111,7 @@ public class ServicesProvider {
 	 */
 	public boolean addFriend(User addedUser) {
 		//TODO Create a Notification
+		
 		boolean r = UserFriendsMapper.getInstance().addUserToFriendsList(App.getInstance().getLoggedUser(), addedUser);
 		if (r)
 			LogUtils.log(TAG, Constants.RESPONSE, "Friend added !");
@@ -205,9 +206,16 @@ public class ServicesProvider {
 		return UserMapper.getInstance().update(updatedUser);
 	}
 
-	public boolean removeUserFromGroup(User loggedUser, Group group) {
-		//user.removeGroup(group);group.removeUser(loggedUser);return DataMapper.update()
-		return rand.nextBoolean();
+	public boolean removeUserFromGroup(User user, Group group) {
+		//TODO move this to the domain
+		if(user.equals(group.getAdministrator())) {
+			if(group.getParticipants().size() == 1) //In this case the administrator is the last 
+				return GroupMapper.getInstance().delete(group); //We should delete the entire group if even the administrator leaves
+		} else {
+			return GroupParticipantMapper.getInstance().delete(user, group);
+
+		}
+		return false;
 	}
 
 	/**
@@ -230,5 +238,10 @@ public class ServicesProvider {
 
 	public Integer getDiscussionIdBetween(ProxyUser me, ProxyUser him) {
 		return UserFriendsMapper.getInstance().readDiscussionIdByMeAndHim(me, him);
+	}
+
+	public void addParticipantToGroup(Group group, ProxyUser user) {
+		group.getParticipants().add(user); //TODO Keep this ind of things but implement it in service 
+		GroupParticipantMapper.getInstance().create(group, user);		
 	}
 }

@@ -7,7 +7,7 @@ import java.util.Date;
 import core.interfaces.NotificationVisitable;
 
 public abstract class Notification implements NotificationVisitable {
-	public int id;
+	public int id, subjectId, senderId;
 	public Date date;
 	public boolean sent, received;
 	public DateFormat dateFormat = new SimpleDateFormat("dd/mm/yyyy à HH:mm");
@@ -17,6 +17,11 @@ public abstract class Notification implements NotificationVisitable {
 		this.date = date;
 		this.sent = sent;
 		this.received = received;
+	}
+	
+	public Notification(int subjectId, int senderId) {
+		this.subjectId = subjectId;
+		this.senderId = senderId;
 	}
 
 	public int getId() {
