@@ -145,9 +145,14 @@ public class CCManagmentPane extends JPanel {
 					users.add(createdUser);
 					userslist.setListData(users.toArray());
 					refreshUserInfo(false);
+					titlepanel.setTitle("User successfully created");
+					titlepanel.setTitleColor(CCColor.CCGREEN.getColor());
 					enableTextField(false);
 					confirmbutton.setVisible(true);
 					confirmcreationbutton.setVisible(false);
+				} else {
+					titlepanel.setTitle("The username is taken");
+					titlepanel.setTitleColor(CCColor.CCDANGER.getColor());
 				}
 			}
 		});
@@ -199,6 +204,7 @@ public class CCManagmentPane extends JPanel {
 	}
 	
 	public void refreshUserInfo(boolean isNewUser) {
+		titlepanel.setTitleColor(CCColor.CCPRIMARY.getColor());
 		if(selecteduser != null) {
 			titlepanel.setTitle(selecteduser.getFirstname() + " " + selecteduser.getLastname());
 			username.getTextField().setText(selecteduser.getUsername());

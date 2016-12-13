@@ -131,11 +131,15 @@ public class UserFriendsMapper implements Mapper<User> {
 		 */
 		public boolean delete(User removingUser, User removedUser) {
 
-			String sqlRequest = "DELETE FROM " + sql_table + " WHERE " + sql_friendid + " = ? AND " + sql_userid + " = ?";
+			String sqlRequest = "DELETE FROM " + sql_table + " WHERE (" 
+				+ sql_friendid + " = ? AND " + sql_userid + " = ? ) OR (" 
+				+ sql_userid + " = ? + AND " + sql_friendid + " = ? )";
 			try {
 				PreparedStatement ps = App.getConnection().prepareStatement(sqlRequest);
 				ps.setInt(1, removedUser.getId());
-				ps.setInt(1, removingUser.getId());
+				ps.setInt(2, removingUser.getId());
+				ps.setInt(3, removedUser.getId());
+				ps.setInt(4, removingUser.getId());
 				int result = ps.executeUpdate();
 				if(result == 1) {
 					LogUtils.log(TAG, Constants.SUCCESS, "Successfully deleted");

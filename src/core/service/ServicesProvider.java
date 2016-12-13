@@ -10,6 +10,7 @@ import core.domain.Discussion;
 import core.domain.Group;
 import core.domain.Message;
 import core.domain.User;
+import core.domain.notifications.FriendAcceptNotification;
 import core.domain.notifications.Notification;
 import core.domain.notifications.NotificationFactory;
 import core.domain.proxy.ProxyGroup;
@@ -75,7 +76,7 @@ public class ServicesProvider {
 	 * @return true if eerything went fine, false otherwise
 	 */
 	public boolean deleteFriend(User deletedUser) {
-		boolean r = rand.nextBoolean();
+		boolean r = UserFriendsMapper.getInstance().delete(deletedUser);
 		if (r)
 			LogUtils.log(TAG, Constants.RESPONSE, "Friend deleted !");
 		else 
@@ -266,5 +267,9 @@ public class ServicesProvider {
 			return NotificationMapper.getInstance().create(n);
 		}
 		return false;
+	}
+
+	public void updateNotification(Notification v) {
+		NotificationMapper.getInstance().update(v);
 	}
 }

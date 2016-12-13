@@ -15,6 +15,7 @@ import javax.swing.JPanel;
 
 import core.App;
 import core.interfaces.NotificationVisitor;
+import core.service.ServicesProvider;
 import ui.CCGroupChatFrame;
 import ui.CCPrivateChatFrame;
 import ui.components.CCButton;
@@ -56,6 +57,7 @@ public class GUINotificationVisitor implements NotificationVisitor {
 				CCGroupChatFrame ccgcf = new CCGroupChatFrame(App.getInstance().getLoggedUser(), v.getGroup());
 				ccgcf.init();
 				ccgcf.setVisible(true);
+				App.getInstance().getServicesProvider().updateNotification(v);
 				//v.save();
 				notificationContent.setVisible(false);
 			}
@@ -66,6 +68,7 @@ public class GUINotificationVisitor implements NotificationVisitor {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				v.setReceived(false);
+				App.getInstance().getServicesProvider().updateNotification(v);
 				//v.save();
 				notificationContent.setVisible(false);
 			}
@@ -134,6 +137,7 @@ public class GUINotificationVisitor implements NotificationVisitor {
 				ccpcf.init();
 				ccpcf.setVisible(true);
 				//v.save();
+				App.getInstance().getServicesProvider().updateNotification(v);
 				notificationContent.setVisible(false);
 			}
 		});
@@ -142,7 +146,8 @@ public class GUINotificationVisitor implements NotificationVisitor {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				v.setReceived(false);
+				v.setReceived(true);
+				App.getInstance().getServicesProvider().updateNotification(v);
 				//v.save();
 				notificationContent.setVisible(false);
 			}
@@ -215,7 +220,7 @@ public class GUINotificationVisitor implements NotificationVisitor {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				v.setReceived(false);
+				v.setReceived(true);
 				//v.save();
 				notificationContent.setVisible(false);
 			}
@@ -279,6 +284,7 @@ public class GUINotificationVisitor implements NotificationVisitor {
 				CCPrivateChatFrame ccpcf = new CCPrivateChatFrame(App.getInstance().getLoggedUser(), v.getSender());
 				ccpcf.init();
 				ccpcf.setVisible(true);
+				App.getInstance().getServicesProvider().updateNotification(v);
 				//v.save();
 				notificationContent.setVisible(false);
 			}
@@ -288,7 +294,8 @@ public class GUINotificationVisitor implements NotificationVisitor {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				v.setReceived(false);
+				v.setReceived(true);
+				App.getInstance().getServicesProvider().updateNotification(v);
 				//v.save();
 				notificationContent.setVisible(false);
 			}

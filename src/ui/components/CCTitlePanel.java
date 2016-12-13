@@ -1,5 +1,7 @@
 package ui.components;
 
+import java.awt.Color;
+
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -19,5 +21,9 @@ public class CCTitlePanel extends JPanel {
 	
 	public void setTitle(String label) {
 		title.setText(label);
+	}
+	
+	public void setTitleColor(Color c) {
+		title.setForeground(c);
 	}
 }
