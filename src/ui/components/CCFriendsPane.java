@@ -146,7 +146,7 @@ public class CCFriendsPane extends JPanel {
 					public void actionPerformed(ActionEvent e) {
 						//TODO Action when performed
 						ArrayList<ProxyUser> usersfound = App.getInstance().getServicesProvider().searchUser(nameField.getText(), firstnameField.getText(), usernameField.getText());
-						if(!usersfound.isEmpty())
+						if(usersfound != null && !usersfound.isEmpty())
 							users.setData(usersfound);
 						textFields.setVisible(false);
 						users.setVisible(true);
@@ -158,7 +158,7 @@ public class CCFriendsPane extends JPanel {
 							}
 						});
 						dialog.morphButtons("ADD", "CANCEL");
-						if(!usersfound.isEmpty()) {
+						if(usersfound != null && !usersfound.isEmpty()) {
 							dialog.showInfo("Select a user profile then click on \"ADD\" to add the user to your friends list");
 							dialog.onPositiveClicked(new ActionListener() {
 								@Override

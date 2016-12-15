@@ -106,7 +106,30 @@ public class ServicesProvider {
 		} else {
 			return mapperResult;
 		}
-		
+	}
+	
+	/**
+	 * A function used to get an user when he is not already a friend
+	 * @param name the name field of the search 
+	 * @param firstname the firstname field of the search
+	 * @param username the username field of the search
+	 * @return the list of the suers found
+	 */
+	public ArrayList<ProxyUser> searchUserToAddInGroups(String lastname, String firstname, String username) {
+		ArrayList<ProxyUser> mapperResult =  UserMapper.getInstance().readByNameFields(username, firstname, lastname);
+		ArrayList<ProxyUser> result = new ArrayList<ProxyUser>();
+		if(App.getInstance().getLoggedUser().getFriends() != null) {
+			if(mapperResult != null) {
+				for(int i = 0; i < mapperResult.size(); i++) {
+					if(mapperResult.get(i).getId() != App.getInstance().getLoggedUser().getId()) {
+						result.add(mapperResult.get(i));
+					}
+				}
+			}
+			return result;
+		} else {
+			return mapperResult;
+		}
 	}
 	
 	/**

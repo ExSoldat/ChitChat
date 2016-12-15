@@ -124,20 +124,21 @@ public class CCGroupMembersFrame extends JFrame {
 					textFields.add(firstnameField);
 					textFields.add(usernameField);
 					
-					CCUserList users = new CCUserList();
+					CCUserList searchusers = new CCUserList();
 					textFields.setVisible(true);
-					users.setVisible(false);
+					searchusers.setVisible(false);
 					
 					dialog.onPositiveClicked(new ActionListener() {
 						@Override
 						public void actionPerformed(ActionEvent e) {
 							//TODO Action when performed
-							ArrayList<ProxyUser> usersfound = App.getInstance().getServicesProvider().searchUser(nameField.getText(), firstnameField.getText(), usernameField.getText());
-							users.setData(usersfound);
+							ArrayList<ProxyUser> usersfound = App.getInstance().getServicesProvider().searchUserToAddInGroups(nameField.getText(), firstnameField.getText(), usernameField.getText());
+							if(usersfound != null && !usersfound.isEmpty())
+								searchusers.setData(usersfound);
 							textFields.setVisible(false);
-							users.setVisible(true);
+							searchusers.setVisible(true);
 							dialog.getPositiveButton().setEnabled(false);
-							users.addListSelectionListener(new ListSelectionListener() {
+							searchusers.addListSelectionListener(new ListSelectionListener() {
 								@Override
 								public void valueChanged(ListSelectionEvent e) {
 									dialog.getPositiveButton().setEnabled(true);
@@ -152,7 +153,7 @@ public class CCGroupMembersFrame extends JFrame {
 								public void actionPerformed(ActionEvent e) {
 									//SERVICE ADD FRIEND
 									//group.getParticipants().add((ProxyUser)users.getSelectedValue()); //TODO Keep this ind of things but implement it in service 
-									App.getInstance().getServicesProvider().addParticipantToGroup(group, (ProxyUser)users.getSelectedValue());
+									App.getInstance().getServicesProvider().addParticipantToGroup(group, (ProxyUser)searchusers.getSelectedValue());
 									ul.setData(group.getParticipantsExcept(App.getInstance().getLoggedUser()));
 									dialog.dispose();
 								}
@@ -160,7 +161,7 @@ public class CCGroupMembersFrame extends JFrame {
 						}
 					});
 					
-					main.add(users);
+					main.add(searchusers);
 					main.add(textFields);
 					dialog.setMainComponent(main);
 					dialog.setSize(Constants.FORM_DIMENSION);
