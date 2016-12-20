@@ -8,6 +8,8 @@ import java.util.ArrayList;
 
 import javax.naming.spi.DirStateFactory.Result;
 
+import com.mysql.jdbc.Statement;
+
 import core.App;
 import core.domain.Administrateur;
 import core.domain.User;
@@ -42,7 +44,8 @@ public class UserMapper implements Mapper<ProxyUser> {
 			return new UserMapper();
 	}
 
-	public boolean create(User user) {
+	//Updates the user with the created id
+	public User create(User user) {
 		//I don't insert the id because it's autoincreented
 		String sqlRequest = "INSERT INTO " + sql_table + "(" + sql_firstname 
 				+ ", " + sql_lastname 
@@ -50,7 +53,7 @@ public class UserMapper implements Mapper<ProxyUser> {
 				+ ", " + sql_password
 				+ ") values (?, ?, ?, ?);";
 		try {
-			PreparedStatement ps = App.getConnection().prepareStatement(sqlRequest);
+			PreparedStatement ps = App.getConnection().prepareStatement(sqlRequest, Statement.RETURN_GENERATED_KEYS);
 			ps.setString(1, user.getFirstname());
 			ps.setString(2, user.getLastname());
 			ps.setString(3, user.getUsername());
@@ -58,17 +61,25 @@ public class UserMapper implements Mapper<ProxyUser> {
 			
 			int result = ps.executeUpdate();
 			if(result != 0) {
+				try (ResultSet generatedKeys = ps.getGeneratedKeys()) {
+		            if (generatedKeys.next()) {
+		                user.setId(generatedKeys.getInt(1));
+		            }
+		            else {
+		                throw new SQLException("Creating user failed, no ID obtained.");
+		            }
+		        }
 				LogUtils.log(TAG, Constants.SUCCESS, "Successful inserted");
 				//App.getConnection().commit();
-				return true;
+				return user;
 			}
 			//If no return has been made, no rows could be inserted
 			LogUtils.log(TAG, Constants.ERROR, "No rows inserted");
-			return false;
+			return user;
 		} catch (SQLException e) {
 			LogUtils.log(TAG, Constants.ERROR, "Error while inserting new user");
 			e.printStackTrace();
-			return false;
+			return user;
 		}
 	}
 
@@ -170,6 +181,7 @@ public class UserMapper implements Mapper<ProxyUser> {
 			ps.setString(3, user.getLastname());
 			ps.setString(4, user.getPassword());
 			ps.setInt(5, user.getId());
+			LogUtils.log(TAG, Constants.SQL, "Executing update : " + ps);
 			int result = ps.executeUpdate();
 			if(result == 1) {
 				LogUtils.log(TAG, Constants.SUCCESS, "Successfully updated");

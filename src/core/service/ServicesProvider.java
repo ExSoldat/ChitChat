@@ -227,8 +227,9 @@ public class ServicesProvider {
 		return r1 && r2;
 	}
 
-	public boolean createUser(User createdUser) {
-		return UserMapper.getInstance().create(createdUser);
+	public User createUser(User createdUser) {
+		createdUser = UserMapper.getInstance().create(createdUser);
+		return createdUser;
 	}
 	
 	public boolean updateUser(ProxyUser updatedUser) {
@@ -237,11 +238,12 @@ public class ServicesProvider {
 
 	public boolean removeUserFromGroup(User user, Group group) {
 		//TODO move this to the domain
-		if(user.equals(group.getAdministrator())) {
-			if(group.getParticipants().size() == 1) //In this case the administrator is the last 
+		boolean b1 = GroupParticipantMapper.getInstance().delete(user, group);
+		if(b1 && user.equals(group.getAdministrator())) {
+			if(group.getParticipants().size() == 0) //In this case the administrator is the last 
 				return GroupMapper.getInstance().delete(group); //We should delete the entire group if even the administrator leaves
 		} else {
-			return GroupParticipantMapper.getInstance().delete(user, group);
+			return b1;
 
 		}
 		return false;

@@ -141,19 +141,15 @@ public class CCManagmentPane extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				ProxyUser createdUser = new ProxyUser(0, lastname.getText(), username.getText(), firstname.getText(), password.getText());
-				if(App.getInstance().getServicesProvider().createUser(createdUser)) {
-					users.add(createdUser);
-					userslist.setListData(users.toArray());
-					refreshUserInfo(false);
-					titlepanel.setTitle("User successfully created");
-					titlepanel.setTitleColor(CCColor.CCGREEN.getColor());
-					enableTextField(false);
-					confirmbutton.setVisible(true);
-					confirmcreationbutton.setVisible(false);
-				} else {
-					titlepanel.setTitle("The username is taken");
-					titlepanel.setTitleColor(CCColor.CCDANGER.getColor());
-				}
+				App.getInstance().getServicesProvider().createUser(createdUser);
+				users.add(createdUser);
+				userslist.setListData(users.toArray());
+				refreshUserInfo(false);
+				titlepanel.setTitle("User successfully created");
+				titlepanel.setTitleColor(CCColor.CCGREEN.getColor());
+				enableTextField(false);
+				confirmbutton.setVisible(true);
+				confirmcreationbutton.setVisible(false);
 			}
 		});
 		

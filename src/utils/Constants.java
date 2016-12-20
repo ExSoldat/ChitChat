@@ -30,6 +30,7 @@ public class Constants {
 	public static final Dimension FORM_DIMENSION = new Dimension(700, 300);
 	public static final Dimension FORMTEXTFIELD_DIMENSION = new Dimension(300,25);
 	public static final Dimension ALL_GROUPS_DIMENSION = new Dimension(450, 300);
+	public static final Dimension ALL_NOTIFICATIONS = new Dimension(450,600);
 	public static final Dimension CHAT_MEMBERS_FRAME = new Dimension(330, 700);
 	public static final Dimension NOTIFICATIONS_FRAME_DIMENSION = new Dimension(450, 700);
 	public static final Dimension CHAT_MEMBERS_LIST = new Dimension(330, 600);
@@ -58,18 +59,4 @@ public class Constants {
 	public static final ImageIcon APP_LOGO = new ImageIcon("img/chitchat_mini.png");
 	public static final ImageIcon DEFAULT_PROFILE_PICTURE = new ImageIcon("img/ic_person_orange.png");
 	public static final boolean DEV_MODE = true;
-
-
-	
-
-
-
-	
-
-	
-
-	
-
-	
-
 }

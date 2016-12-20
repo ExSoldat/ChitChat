@@ -17,6 +17,7 @@ import core.App;
 import core.interfaces.NotificationVisitor;
 import core.service.ServicesProvider;
 import ui.CCGroupChatFrame;
+import ui.CCNotifications;
 import ui.CCPrivateChatFrame;
 import ui.components.CCButton;
 import ui.components.CCColor;
@@ -28,6 +29,11 @@ public class GUINotificationVisitor implements NotificationVisitor {
 	
 	private String title, date, content;
 	private CCButton positive, negative;
+	private CCNotifications mParent;
+	
+	public GUINotificationVisitor(CCNotifications parentpanel) {
+		this.mParent = parentpanel;
+	}
 
 	@Override
 	public JPanel visit(GroupMessageNotification v) {
@@ -59,6 +65,7 @@ public class GUINotificationVisitor implements NotificationVisitor {
 				ccgcf.setVisible(true);
 				App.getInstance().getServicesProvider().updateNotification(v);
 				//v.save();
+				mParent.handleAction();
 				notificationContent.setVisible(false);
 			}
 		});
@@ -70,6 +77,7 @@ public class GUINotificationVisitor implements NotificationVisitor {
 				v.setReceived(false);
 				App.getInstance().getServicesProvider().updateNotification(v);
 				//v.save();
+				mParent.handleAction();
 				notificationContent.setVisible(false);
 			}
 		});
@@ -137,7 +145,9 @@ public class GUINotificationVisitor implements NotificationVisitor {
 				ccpcf.init();
 				ccpcf.setVisible(true);
 				//v.save();
+				
 				App.getInstance().getServicesProvider().updateNotification(v);
+				mParent.handleAction();
 				notificationContent.setVisible(false);
 			}
 		});
@@ -149,6 +159,7 @@ public class GUINotificationVisitor implements NotificationVisitor {
 				v.setReceived(true);
 				App.getInstance().getServicesProvider().updateNotification(v);
 				//v.save();
+				mParent.handleAction();
 				notificationContent.setVisible(false);
 			}
 		});
@@ -212,6 +223,7 @@ public class GUINotificationVisitor implements NotificationVisitor {
 				v.setReceived(true);
 				//AcceptFriendRequest
 				App.getInstance().getServicesProvider().acceptFriendRequest(App.getInstance().getLoggedUser(), v.getSender(), v);
+				mParent.handleAction();
 				notificationContent.setVisible(false);
 			}
 		});
@@ -222,6 +234,7 @@ public class GUINotificationVisitor implements NotificationVisitor {
 			public void actionPerformed(ActionEvent e) {
 				v.setReceived(true);
 				//v.save();
+				mParent.handleAction();
 				notificationContent.setVisible(false);
 			}
 		});
@@ -286,6 +299,7 @@ public class GUINotificationVisitor implements NotificationVisitor {
 				ccpcf.setVisible(true);
 				App.getInstance().getServicesProvider().updateNotification(v);
 				//v.save();
+				mParent.handleAction();
 				notificationContent.setVisible(false);
 			}
 		});
@@ -297,6 +311,7 @@ public class GUINotificationVisitor implements NotificationVisitor {
 				v.setReceived(true);
 				App.getInstance().getServicesProvider().updateNotification(v);
 				//v.save();
+				mParent.handleAction();
 				notificationContent.setVisible(false);
 			}
 		});

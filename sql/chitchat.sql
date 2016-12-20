@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Client :  127.0.0.1
--- Généré le :  Jeu 15 Décembre 2016 à 19:41
+-- Généré le :  Mar 20 Décembre 2016 à 21:04
 -- Version du serveur :  5.7.14
 -- Version de PHP :  5.6.25
 
@@ -65,6 +65,29 @@ CREATE TABLE `discussion` (
   `discussion_id` int(10) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
+--
+-- Contenu de la table `discussion`
+--
+
+INSERT INTO `discussion` (`discussion_id`) VALUES
+(33),
+(34),
+(35),
+(36),
+(37),
+(38),
+(39),
+(40),
+(41),
+(42),
+(43),
+(44),
+(45),
+(46),
+(47),
+(48),
+(49);
+
 -- --------------------------------------------------------
 
 --
@@ -84,6 +107,15 @@ CREATE TABLE `message` (
   `is_read` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
+--
+-- Contenu de la table `message`
+--
+
+INSERT INTO `message` (`message_id`, `discussion_id`, `content`, `sender_id`, `date_sent`, `encrypted`, `expiration`, `urgent`, `receipt`, `is_read`) VALUES
+(226, 35, 'Bonjour', 28, '2016-12-16 11:17:12', 0, 0, 0, 0, 0),
+(225, 34, 'Hello', 28, '2016-12-16 11:16:33', 0, 0, 0, 0, 0),
+(224, 33, 'Bonjour', 3, '2016-12-16 11:15:07', 0, 0, 0, 0, 0);
+
 -- --------------------------------------------------------
 
 --
@@ -97,6 +129,34 @@ CREATE TABLE `notification` (
   `type` int(11) NOT NULL,
   `subject_id` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+--
+-- Contenu de la table `notification`
+--
+
+INSERT INTO `notification` (`id`, `receiver_id`, `seen`, `type`, `subject_id`) VALUES
+(34, 33, 1, 2, 35),
+(33, 33, 1, 2, 34),
+(32, 33, 1, 2, 31),
+(31, 34, 1, 1, 33),
+(30, 31, 1, 1, 33),
+(29, 35, 1, 1, 33),
+(28, 33, 1, 2, 34),
+(27, 33, 1, 2, 35),
+(26, 33, 1, 2, 31),
+(25, 35, 1, 1, 33),
+(24, 34, 1, 1, 33),
+(23, 31, 1, 1, 33),
+(22, 32, 0, 2, 33),
+(21, 33, 1, 1, 32),
+(20, 28, 1, 2, 3),
+(19, 3, 1, 1, 28),
+(35, 34, 1, 1, 33),
+(36, 35, 1, 1, 33),
+(37, 31, 1, 1, 33),
+(38, 33, 1, 2, 35),
+(39, 33, 0, 2, 31),
+(40, 33, 0, 2, 34);
 
 -- --------------------------------------------------------
 
@@ -139,7 +199,13 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id`, `firstname`, `lastname`, `username`, `password`, `isadmin`) VALUES
-(3, 'Administrateur', 'Administrateur', 'admin', 'admin', 1);
+(35, 'Prompto', 'Argentum', 'Prompto', 'azerty', 0),
+(3, 'Administrateur', 'Administrateur', 'admin', 'admin', 1),
+(32, 'Lunafreya', 'Nox Fleuret', 'Luna', 'azerty', 0),
+(31, 'Gladiolus', 'Amicitia', 'Gladio', 'azerty', 0),
+(33, 'Noctis', 'Lucis Caelum', 'Noct', 'azerty', 0),
+(34, 'Ignis', 'Stupeo Scientia', 'Ignis', 'azerty', 0),
+(28, 'Mathieu', 'Saab', 'saabm', 'azerty', 0);
 
 -- --------------------------------------------------------
 
@@ -153,6 +219,17 @@ CREATE TABLE `user_friendslist` (
   `discussion_id` int(11) NOT NULL,
   `is_valid` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+--
+-- Contenu de la table `user_friendslist`
+--
+
+INSERT INTO `user_friendslist` (`user_id`, `friend_id`, `discussion_id`, `is_valid`) VALUES
+(33, 31, 49, 1),
+(33, 35, 48, 1),
+(33, 34, 47, 1),
+(32, 33, 40, 1),
+(28, 3, 33, 1);
 
 --
 -- Index pour les tables exportées
@@ -221,27 +298,27 @@ ALTER TABLE `user_friendslist`
 -- AUTO_INCREMENT pour la table `chat_group`
 --
 ALTER TABLE `chat_group`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 --
 -- AUTO_INCREMENT pour la table `discussion`
 --
 ALTER TABLE `discussion`
-  MODIFY `discussion_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `discussion_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
 --
 -- AUTO_INCREMENT pour la table `message`
 --
 ALTER TABLE `message`
-  MODIFY `message_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=221;
+  MODIFY `message_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=227;
 --
 -- AUTO_INCREMENT pour la table `notification`
 --
 ALTER TABLE `notification`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 --
 -- AUTO_INCREMENT pour la table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

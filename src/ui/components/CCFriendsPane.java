@@ -36,6 +36,7 @@ import utils.LogUtils;
 public class CCFriendsPane extends JPanel {
 	public ArrayList<ProxyUser> friends = new ArrayList<ProxyUser>();
 	public static String TAG = "Friends";
+	CCUserList friendslist ;
 	public CCFriendsPane() {
 		//Getting the data 
 		friends = App.getInstance().getLoggedUser().getFriends();
@@ -52,7 +53,7 @@ public class CCFriendsPane extends JPanel {
 		actionpanel.setLayout(new BoxLayout(actionpanel, BoxLayout.Y_AXIS));
 		actionpanel.setPreferredSize(Constants.FRAGMENT_DIMENSION);
 		
-		CCUserList friendslist = new CCUserList(friends);
+		friendslist = new CCUserList(friends);
 		
 		actionpanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(CCColor.CCPRIMARYDARK.getColor()), TAG));		
 		
@@ -166,8 +167,7 @@ public class CCFriendsPane extends JPanel {
 									//SERVICE ADD FRIEND
 									if(App.getInstance().getServicesProvider().addFriend((User)users.getSelectedValue())) {
 										//Refresh the friends view
-										friends = App.getInstance().getServicesProvider().getFriendsForUser(App.getInstance().getLoggedUser().getId());
-										friendslist.setData(friends);
+										refreshFriends();
 										dialog.dispose();
 									} else {
 										dialog.showError();
@@ -230,5 +230,15 @@ public class CCFriendsPane extends JPanel {
 		main.add(actionpanel);
 		main.add(selecteduserInfo);
 		this.add(main);
+	}
+	
+	public void refreshFriends() {
+		User loggedUser = App.getInstance().getLoggedUser();
+		friends = App.getInstance().getServicesProvider().getFriendsForUser(App.getInstance().getLoggedUser().getId());
+		for(User u : friends) {
+			System.out.println(u);
+		}
+		friendslist.setData(friends);
+		friendslist.validate();
 	}
 }
