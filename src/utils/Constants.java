@@ -42,7 +42,7 @@ public class Constants {
 	public static final Dimension CHAT_HEADER_DIMENSION = new Dimension(650,20);
 	public static final Dimension CHAT_MESSAGES_DIMENSION = new Dimension(650,410);
 	public static final Dimension CHAT_USERSMESSAGE_DIMENSION = new Dimension(650,120);
-	public static final Dimension MESSAGE_DIMENSION = new Dimension(400,30);	
+	public static final Dimension MESSAGE_DIMENSION = new Dimension(400,50);	
 	public static final Dimension FORMTEXTFIELD_MINI_DIMENSION = new Dimension(100,25);
 	//--------------------------Other Constants Constants
 	public static final String ERROR = "ERROR";

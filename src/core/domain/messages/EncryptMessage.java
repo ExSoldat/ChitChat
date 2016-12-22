@@ -1,7 +1,12 @@
-package core.domain;
+package core.domain.messages;
 
+import core.domain.Group;
 import core.domain.proxy.ProxyUser;
-
+/**
+ * A class representing ecrypted messages - WIP
+ * @author Mathieu
+ *
+ */
 public class EncryptMessage extends Message {
 	public EncryptMessage(ProxyUser sender, ProxyUser receiver, String content) {
 		super();

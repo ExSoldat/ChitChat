@@ -2,9 +2,11 @@ package core.domain.notifications;
 
 import javax.swing.JPanel;
 
-import core.interfaces.NotificationVisitor;
 import core.persistence.mapper.NotificationMapper;
 
+/**
+ * A visitor returning sql queries depending on the notification type.
+ */
 public class MapperCreationVisitor implements NotificationVisitor {
 
 	@Override

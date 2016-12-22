@@ -6,9 +6,9 @@ import javax.swing.BorderFactory;
 import javax.swing.JList;
 import javax.swing.JPanel;
 
-import core.domain.Discussion;
-import core.domain.Message;
 import core.domain.User;
+import core.domain.messages.Discussion;
+import core.domain.messages.Message;
 
 public class CCMessagesList extends JList {
 

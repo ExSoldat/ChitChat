@@ -3,8 +3,15 @@ package core.domain;
 import java.util.ArrayList;
 
 import core.App;
+import core.domain.messages.Discussion;
+import core.domain.messages.Message;
 import core.domain.proxy.ProxyUser;
 
+/**
+ * A class representing groups
+ * @author Mathieu
+ *
+ */
 public class Group {
 	private String name;
 	private int id;
@@ -19,13 +26,24 @@ public class Group {
 	}
 	
 	public Group() {}
-	
+	/**
+	 * A constructor ithout id to create new groups
+	 * @param name
+	 * @param administrator
+	 * @param desc
+	 */
 	public Group(String name, User administrator, String desc) {
 		this.name = name;
 		this.administrator = administrator;
 		this.description=desc;
 	}
 	
+	/**
+	 * A contructor with an id bt no administrator, the administrator is usually set after
+	 * @param id
+	 * @param name
+	 * @param desc
+	 */
 	public Group(int id, String name, String desc) {
 		this.name = name;
 		this.description=desc;
@@ -59,6 +77,10 @@ public class Group {
 	public void setParticipants(ArrayList<ProxyUser> participants) {
 		this.participants = participants;
 	}
+	/**
+	 * A function used to return a string if no message is in the group, and the last message f there is any
+	 * @return the last mesage or an empty placeholder
+	 */
 	public Message getLastMessage() {
 		return getMessages().isEmpty() ? new Message(App.getInstance().getLoggedUser(), this, "It seems no message have been added yet, be the first to send yours !") : getMessages().get(messages.size()-1);
 	}
@@ -87,6 +109,11 @@ public class Group {
 		return this.discussion_id;
 	}
 
+	/**
+	 * Get all participants except oe in particular, in the case we want to see the list of users except the loged user
+	 * @param user the user we don't want to have
+	 * @return an arraylist of the participants except the specified user
+	 */
 	public ArrayList<ProxyUser> getParticipantsExcept(ProxyUser user) {
 		ArrayList<ProxyUser> participants = getParticipants();
 		participants.remove(user);

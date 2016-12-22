@@ -1,10 +1,14 @@
 package core.domain.proxy;
 
 import core.App;
-import core.domain.Discussion;
 import core.domain.Group;
-import core.domain.VirtualProxy;
+import core.domain.messages.Discussion;
 
+/**
+ * A proxy for the groups. It is used to load the participants, messages and administrator only hen needed
+ * @author Mathieu
+ *
+ */
 public class ProxyGroup extends Group implements VirtualProxy<Group> {
 
 	
@@ -22,14 +26,19 @@ public class ProxyGroup extends Group implements VirtualProxy<Group> {
 
 
 	@Override
+	/**
+	 * Initialize the heaby data of the groups
+	 */
 	public void initialize() {
-		//WIP
 		this.setAdministrator(App.getInstance().getServicesProvider().getAdministratorOfGroup(this));
 		this.setParticipants(App.getInstance().getServicesProvider().getParticipantsOfGroup(this));
 		this.setMessages(App.getInstance().getServicesProvider().getMessagesForGroup(this));
 	}
 
 	@Override
+	/**
+	 * Used when we call a method depending on what should be initialized (messages, participants, administrators etc)
+	 */
 	public void ensureIsInitialized() {
 		if(instance==null) {
 			instance = new Group(getId(), getName(), getDescription());

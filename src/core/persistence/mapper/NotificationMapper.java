@@ -15,7 +15,7 @@ import core.domain.proxy.ProxyUser;
 import utils.Constants;
 import utils.LogUtils;
 
-public class NotificationMapper implements Mapper<Notification> {
+public class NotificationMapper {
 
 	static NotificationMapper instance;
 	public NotificationFactory nf = new NotificationFactory();
@@ -41,6 +41,11 @@ public class NotificationMapper implements Mapper<Notification> {
 			return new NotificationMapper();
 	}
 	
+	/**
+	 * Creates a notification in the database using the MapperCreationVisitor to get the SQL query
+	 * @param n
+	 * @return
+	 */
 	public boolean create(Notification n) {
 		String sqlRequest = n.accept(new MapperCreationVisitor());
 		try {
@@ -64,14 +69,12 @@ public class NotificationMapper implements Mapper<Notification> {
 			return false;
 		}
 	}
-	
-	@Override
-	public ArrayList<Notification> read() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
-	@Override
+	/**
+	 * Updates a notification in te database
+	 * @param notification
+	 * @return
+	 */
 	public boolean update(Notification notification) {
 
 		String sqlRequest = "UPDATE " + sql_table + " SET " + sql_seen 
@@ -98,6 +101,11 @@ public class NotificationMapper implements Mapper<Notification> {
 		}
 	}
 
+	/**
+	 * A funtion used to get all the notifications of a receiver
+	 * @param receiver
+	 * @return
+	 */
 	public ArrayList<Notification> readByReceiver(ProxyUser receiver) {
 
 		String sqlRequest = "SELECT " + sql_id

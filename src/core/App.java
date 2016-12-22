@@ -11,10 +11,12 @@ import ui.DevFrame;
 import utils.Constants;
 import utils.LogUtils;
 
+/**
+ * A class representing the current App state
+ * @author Mathieu
+ *
+ */
 public class App {
-	//Things i did not have time to implement : 
-	//TODO : use a Visitor design pattern for PersonneMapper
-	//TODO : manage rollbacks and commits
 	public static String TAG = "App";
 	private static ArrayList<String> logs = new ArrayList<String>();
 	private ServicesProvider mServicesProvider = new ServicesProvider();
@@ -23,12 +25,18 @@ public class App {
 	private static DBManager session;
 	private App() {}
 	
+	//Create an instance
 	private static App instance = new App();
+	
 	
 	public static App getInstance() {
 		return instance;
 	}
 	
+	/**
+	 * Creting the app's connection to database
+	 * @return the connection
+	 */
 	public static Connection createSession() {
 		LogUtils.log(TAG, Constants.INFO, "Creating app database session");
 		session = new DBManager();
@@ -36,6 +44,10 @@ public class App {
 		return session.getConnection();
 	}
 	
+	/**
+	 * Get the current connection
+	 * @return the connection
+	 */
 	public static Connection getConnection() {
 		if(session == null) {
 			return createSession();
@@ -44,7 +56,10 @@ public class App {
 		}
 	}
 	
-	
+	/**
+	 * Used to debug things
+	 * @param logType the type of log we want to implement
+	 */
 	public static void addLogType(String logType) {
 		logs.add(logType);
 	}
@@ -52,11 +67,18 @@ public class App {
 	public static ArrayList<String> getLogTypes() {
 		return logs;
 	}
-	
+	/**
+	 * Get the app serices provider
+	 * @return app serices provider
+	 */
 	public ServicesProvider getServicesProvider() {
 		return this.mServicesProvider;
 	}
 
+	/**
+	 * Set a connected user
+	 * @param r the user we want to conect
+	 */
 	public void setConnectedUser(ProxyUser r) {
 		this.connectedUser = r;
 		LogUtils.log(TAG, Constants.INFO, r.getUsername() + "logged !");
@@ -66,6 +88,10 @@ public class App {
 		return this.connectedUser;
 	}
 
+	/**
+	 * Unused
+	 * @param devFrame
+	 */
 	public void setDevFrame(DevFrame devFrame) {
 		this.devframe = devFrame;		
 	}

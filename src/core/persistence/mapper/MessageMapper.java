@@ -11,17 +11,21 @@ import java.util.Comparator;
 import java.sql.Date;
 
 import core.App;
-import core.domain.Discussion;
-import core.domain.Message;
 import core.domain.User;
+import core.domain.messages.Discussion;
+import core.domain.messages.Message;
 import core.domain.proxy.ProxyAdministrateur;
 import core.domain.proxy.ProxyUser;
-import core.domain.vrtualproxy.UserFactory;
 import utils.Constants;
 import utils.LogUtils;
 import utils.MessageComparator;
 
-public class MessageMapper implements Mapper<Discussion> {
+/**
+ * A class used to manage the messages in the dataabase
+ * @author Mathieu
+ *
+ */
+public class MessageMapper {
 	static MessageMapper instance;
 	public String TAG = "MessageMapper";
 	public Connection connection;
@@ -53,21 +57,14 @@ public class MessageMapper implements Mapper<Discussion> {
 			return new MessageMapper();
 	}
 	
+	/**
+	 * Creates a message in the database
+	 * @param m
+	 * @return
+	 */
 	public boolean create(Message m) {
 		if(m.getDiscussionId() == null)
 			return false;
-		/**
-		 * sql_messageid = "message_id", 
-			sql_discussionid = "discussion_id", 
-			sql_content = "content", 
-			sql_senderid = "sender_id", 
-			sql_datesent = "date_sent", 
-			sql_encrypted = "encrypted", 
-			sql_expiration = "expiration", 
-			sql_urgent = "urgent", 
-			sql_receipt = "receipt", 
-			sql_isread = "is_read";
-		 */
 		String sqlRequest = "INSERT INTO " + sql_table + "(" + sql_discussionid 
 				+ ", " + sql_content 
 				+ ", " + sql_senderid 
@@ -95,13 +92,12 @@ public class MessageMapper implements Mapper<Discussion> {
 			return false;
 		}
 	}
-	
-	@Override
-	public ArrayList read() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
+
+	/**
+	 * Read all the messages from a discussion id
+	 * @param discussion_id
+	 * @return
+	 */
 	public Discussion readByDiscussionId(int discussion_id) {
 
 		String sqlRequest = "SELECT " + sql_messageid 
@@ -136,6 +132,11 @@ public class MessageMapper implements Mapper<Discussion> {
 		}
 	}
 	
+	/**
+	 * Read a message nowing its id
+	 * @param message_id
+	 * @return
+	 */
 	public Message readById(int message_id) {
 		String sqlRequest = "SELECT " + sql_messageid 
 				+ ", " + sql_discussionid  
@@ -174,12 +175,6 @@ public class MessageMapper implements Mapper<Discussion> {
 			e.printStackTrace();
 			return null;
 		}
-	}
-	
-	@Override
-	public boolean update(Discussion discussion) {
-		// TODO Auto-generated method stub
-		return false;
 	}
 
 }

@@ -1,7 +1,13 @@
-package core.domain;
+package core.domain.messages;
 
+import core.domain.Group;
 import core.domain.proxy.ProxyUser;
 
+/**
+ * A class representing messages with an expiration date - WIP
+ * @author Mathieu
+ *
+ */
 public class ExpirationMessage extends Message {
 	int expirationtime;
 	public ExpirationMessage(ProxyUser sender, ProxyUser receiver, String content, String time) {

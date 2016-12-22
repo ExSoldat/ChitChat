@@ -10,17 +10,19 @@ import java.util.List;
 import core.App;
 import core.domain.User;
 import core.domain.proxy.ProxyUser;
-import core.domain.vrtualproxy.UserFactory;
-import core.domain.vrtualproxy.VirtualProxyBuilder;
 import utils.Constants;
 import utils.LogUtils;
 
-public class UserFriendsMapper implements Mapper<User> {
+/**
+ * A class used to manipulate an association between two friends to create a friends list in the database
+ * @author Mathieu
+ *
+ */
+public class UserFriendsMapper {
 	
 	static UserFriendsMapper instance;
 	public String TAG = "UserFriendsMapper";
 	public Connection connection;
-	public UserFactory uf = new UserFactory();
 	
 	public static final String sql_table = "user_friendslist", sql_userid = "user_id", sql_friendid = "friend_id", sql_isvalid = "is_valid", sql_discussionid = "discussion_id";
 	
@@ -40,7 +42,12 @@ public class UserFriendsMapper implements Mapper<User> {
 	}
 
 	
-	//Maybe move this function to NotificationMapper
+		/**
+		 * A function used to an an user to another's friendlist
+		 * @param addingUser
+		 * @param addedUser
+		 * @return
+		 */
 		public boolean addUserToFriendsList(User addingUser, User addedUser) {
 			//First, we create a new discussion
 			int dId = DiscussionMapper.getInstance().create();
@@ -74,12 +81,11 @@ public class UserFriendsMapper implements Mapper<User> {
 			}
 		}
 
-		@Override
-		public ArrayList<User> read() {
-			// TODO
-			return null;
-		}
-
+		/**
+		 * A function used to get all the friends of an user
+		 * @param user_id
+		 * @return
+		 */
 		public ArrayList<ProxyUser> readByUserId(int user_id) {
 			String sqlRequest = "SELECT " + sql_userid 
 					+ ", " + sql_friendid  
@@ -115,12 +121,6 @@ public class UserFriendsMapper implements Mapper<User> {
 				e.printStackTrace();
 				return null;
 			}
-		}
-
-		@Override
-		public boolean update(User object) {
-			// TODO Auto-generated method stub
-			return false;
 		}
 		
 		/**
@@ -159,7 +159,7 @@ public class UserFriendsMapper implements Mapper<User> {
 		}
 		
 		/**
-		 * Removes frendship of a user in the case we delete him
+		 * Removes frendship of an user in the case we delete him
 		 * @param deleteduser the user we want to remove
 		 * @return boolean if everything went fine. False otherwise
 		 */
@@ -219,6 +219,12 @@ public class UserFriendsMapper implements Mapper<User> {
 			}
 		}
 
+		/**
+		 * Saves whether the friendhip is active or not
+		 * @param me
+		 * @param him
+		 * @return
+		 */
 		public boolean saveIsActive(ProxyUser me, User him) {
 			String sqlRequest = "UPDATE " + sql_table + " SET " + sql_isvalid 
 					+ "= ? " + " WHERE (" + sql_friendid + " = ? AND " + sql_userid + " = ?) OR (" + sql_userid + " = ? AND " + sql_friendid + " = ?)";

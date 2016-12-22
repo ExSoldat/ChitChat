@@ -1,12 +1,15 @@
-package ui;
+package core;
 
-import core.App;
+import ui.LoginFrame;
 import utils.Constants;
 
 public class Main {	
+	/**
+	 * Runs the app
+	 * @param args
+	 */
 	public static void main(String[] args) {	
-		
-		if(App.getInstance().isInDevMode()) {
+				if(App.getInstance().isInDevMode()) {
 			App.getInstance().addLogType("DBG"); // See Errors that occurred in the code
 			App.getInstance().addLogType(Constants.ERROR); // See Errors that occurred in the code
 			App.getInstance().addLogType(Constants.INFO); // Some informations that can be used to debug
@@ -20,6 +23,7 @@ public class Main {
 			//devFrame.setVisible(true);
 		}
 		
+		//We only need to show the login frame at the beggining, the rest is handled by the different ui components
 		LoginFrame login = new LoginFrame();
 		login.init();
 		login.setVisible(true);

@@ -4,8 +4,11 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import core.interfaces.NotificationVisitable;
-
+/**
+ * A class representing the notifications. It implements the Visitable pattern because i wanted the methods to be called commonly
+ * @author Mathieu
+ *
+ */
 public abstract class Notification implements NotificationVisitable {
 	public int id, subjectId, receiverId;
 	public Date date;
@@ -17,7 +20,7 @@ public abstract class Notification implements NotificationVisitable {
 	public static final int PRIVATE_MESSAGE = 3;
 	public static final int GROUP_MESSAGE = 4;
 	
-	
+	/*
 	public Notification(int id, Date date, boolean sent, boolean received) {
 		this.id = id;
 		this.date = date;
@@ -29,7 +32,13 @@ public abstract class Notification implements NotificationVisitable {
 		this.subjectId = subjectId;
 		this.receiverId = receiverId;
 	}
-	
+	*/
+	/**
+	 * The constructor of a notification
+	 * @param id the id of the nofitication
+	 * @param receiverId the receiver of the  notification
+	 * @param subjectId the subject id. It was here to create notifications that could be about users or groups (added to a group etc)
+	 */
 	public Notification(int id, int receiverId, int subjectId) {
 		this.id = id;
 		this.subjectId = subjectId;

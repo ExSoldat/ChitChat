@@ -23,8 +23,8 @@ import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 
 import core.App;
-import core.domain.Message;
-import core.domain.ReceiptMessage;
+import core.domain.messages.Message;
+import core.domain.messages.ReceiptMessage;
 import ui.components.CCButton;
 import ui.components.CCColor;
 import ui.components.CCFriendsPane;

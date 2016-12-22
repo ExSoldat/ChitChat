@@ -6,10 +6,10 @@ import java.util.Random;
 
 import core.App;
 import core.domain.Administrateur;
-import core.domain.Discussion;
 import core.domain.Group;
-import core.domain.Message;
 import core.domain.User;
+import core.domain.messages.Discussion;
+import core.domain.messages.Message;
 import core.domain.notifications.FriendAcceptNotification;
 import core.domain.notifications.Notification;
 import core.domain.notifications.NotificationFactory;
@@ -26,6 +26,11 @@ import core.persistence.mapper.UserMapper;
 import utils.Constants;
 import utils.LogUtils;
 
+/**
+ * A class orchestrating the call to the mappers
+ * @author Mathieu
+ *
+ */
 public class ServicesProvider {
 	public static String TAG = "ServicesProvider";
 	Random rand = new Random();
@@ -220,6 +225,11 @@ public class ServicesProvider {
 		r.add(new Message(me, group, "Damn", new Date()));*/
 	}
 
+	/**
+	 * A function used to delete an user and the things that surrounds him  (I think it should delete also his particpation in the groups
+	 * @param deleteduser
+	 * @return
+	 */
 	public boolean deleteUser(User deleteduser) {
 		boolean r1 = UserFriendsMapper.getInstance().delete(deleteduser);
 		boolean r2 = UserMapper.getInstance().delete(deleteduser);
@@ -227,15 +237,31 @@ public class ServicesProvider {
 		return r1 && r2;
 	}
 
+	/**
+	 * A function used to create an user
+	 * @param createdUser the user we want to create
+	 * @return
+	 */
 	public User createUser(User createdUser) {
 		createdUser = UserMapper.getInstance().create(createdUser);
 		return createdUser;
 	}
 	
+	/**
+	 * A function updating an user
+	 * @param updatedUser
+	 * @return
+	 */
 	public boolean updateUser(ProxyUser updatedUser) {
 		return UserMapper.getInstance().update(updatedUser);
 	}
 
+	/**
+	 * A function removing an user from a group
+	 * @param user the user we want to remove from the group
+	 * @param group
+	 * @return
+	 */
 	public boolean removeUserFromGroup(User user, Group group) {
 		//TODO move this to the domain
 		boolean b1 = GroupParticipantMapper.getInstance().delete(user, group);
@@ -259,31 +285,69 @@ public class ServicesProvider {
 		return result;
 	}
 
+	/**
+	 * A function used to get the administrator o a group
+	 * @param proxyGroup
+	 * @return
+	 */
 	public ProxyUser getAdministratorOfGroup(ProxyGroup proxyGroup) {
 		return GroupAdministratorMapper.getInstance().readAdminById(proxyGroup.getId());
 	}
 
+	/**
+	 * A function used to get the participants of a group
+	 * @param group
+	 * @return
+	 */
 	public ArrayList<ProxyUser> getParticipantsOfGroup(ProxyGroup group) {
 		return GroupParticipantMapper.getInstance().readUsersByGroupId(group.getId());
 	}
 
+	/**
+	 * A function used to get the discussion between to users
+	 * @param me
+	 * @param him
+	 * @return
+	 */
 	public Integer getDiscussionIdBetween(ProxyUser me, ProxyUser him) {
 		return UserFriendsMapper.getInstance().readDiscussionIdByMeAndHim(me, him);
 	}
 
+	/**
+	 * A function used to add a particpant to a group
+	 * @param group
+	 * @param user
+	 */
 	public void addParticipantToGroup(Group group, ProxyUser user) {
 		group.getParticipants().add(user); //TODO Keep this kind of things but implement it in service 
 		GroupParticipantMapper.getInstance().create(group, user);		
 	}
 
+	/**
+	 * A function used to get the notificationsfor an user
+	 * @param user
+	 * @return
+	 */
 	public ArrayList<Notification> getNotificationsForUser(ProxyUser user) {
 		return NotificationMapper.getInstance().readByReceiver(user);
 	}
 
+	/**
+	 * A function used to get an user knowing its id
+	 * @param userId
+	 * @return
+	 */
 	public ProxyUser getUserById(int userId) {
 		return UserMapper.getInstance().readById(userId);
 	}
 
+	/**
+	 * A function used to accept a friend reuest
+	 * @param me
+	 * @param him
+	 * @param old_notification
+	 * @return
+	 */
 	public boolean acceptFriendRequest(ProxyUser me, User him, Notification old_notification) {
 		boolean b1 = UserFriendsMapper.getInstance().saveIsActive(me, him);
 		boolean b2 = NotificationMapper.getInstance().update(old_notification);
@@ -294,6 +358,10 @@ public class ServicesProvider {
 		return false;
 	}
 
+	/**
+	 * A function used to update a notification
+	 * @param v
+	 */
 	public void updateNotification(Notification v) {
 		NotificationMapper.getInstance().update(v);
 	}

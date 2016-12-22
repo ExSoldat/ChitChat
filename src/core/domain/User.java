@@ -6,6 +6,11 @@ import core.domain.notifications.Notification;
 import core.domain.proxy.ProxyGroup;
 import core.domain.proxy.ProxyUser;
 
+/**
+ * A class represengint an user
+ * @author Mathieu
+ *
+ */
 public class User {
 	private String lastname, username, firstname, password;
 	private int id;
@@ -15,6 +20,13 @@ public class User {
 	protected ArrayList<Notification> notifications = new ArrayList<Notification>();
 	protected boolean isAdmin;
 	
+	/**
+	 * A constructor without password
+	 * @param id
+	 * @param lastname
+	 * @param username
+	 * @param firstname
+	 */
 	public User(int id, String lastname, String username, String firstname) {
 		this.id = id;
 		this.lastname = lastname;
@@ -25,6 +37,14 @@ public class User {
 		this.hobbies.add(new Hobby(2, "Computer Science"));
 	}
 
+	/**
+	 * A constructor with the password, it is used when we want to conect an user
+	 * @param id
+	 * @param lastname
+	 * @param username
+	 * @param firstname
+	 * @param password
+	 */
 	public User(int id, String lastname, String username, String firstname, String password) {
 		this.id = id;
 		this.lastname = lastname;
@@ -80,6 +100,10 @@ public class User {
 		this.hobbies = hobbies;
 	}
 	
+	/**
+	 * Returns a string representing the hobbeies
+	 * @return
+	 */
 	public String getHobbiesAsAString() {
 		String r = "";
 		for(Hobby h : hobbies) {

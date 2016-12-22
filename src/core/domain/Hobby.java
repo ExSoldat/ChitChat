@@ -1,5 +1,10 @@
 package core.domain;
 
+/**
+ * Unused because the hobby managment was removed from the specifications
+ * @author Mathieu
+ *
+ */
 public class Hobby {
 	private int id;
 	private String label;

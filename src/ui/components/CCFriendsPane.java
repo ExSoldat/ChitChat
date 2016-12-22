@@ -235,9 +235,6 @@ public class CCFriendsPane extends JPanel {
 	public void refreshFriends() {
 		User loggedUser = App.getInstance().getLoggedUser();
 		friends = App.getInstance().getServicesProvider().getFriendsForUser(App.getInstance().getLoggedUser().getId());
-		for(User u : friends) {
-			System.out.println(u);
-		}
 		friendslist.setData(friends);
 		friendslist.validate();
 	}

@@ -12,7 +12,12 @@ import core.domain.proxy.ProxyUser;
 import utils.Constants;
 import utils.LogUtils;
 
-public class GroupAdministratorMapper implements Mapper{
+/**
+ * A class used to manipulate group administrator databaase
+ * @author Mathieu
+ *
+ */
+public class GroupAdministratorMapper {
 
 	static GroupAdministratorMapper instance;
 	public String TAG = "GroupAdministratorMapper";
@@ -36,6 +41,11 @@ public class GroupAdministratorMapper implements Mapper{
 			return new GroupAdministratorMapper();
 	}
 	
+	/**
+	 * Create an instance of groupamdinistrator in the database
+	 * @param group the group corresponding
+	 * @return true if everyting went fine, false otherise
+	 */
 	public boolean create(Group group) {
 
 		//I don't insert the id because it's autoincreented
@@ -63,12 +73,11 @@ public class GroupAdministratorMapper implements Mapper{
 		}
 	}
 	
-	@Override
-	public ArrayList read() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
+	/**
+	 * A function used to cread the administrator by the group id
+	 * @param groupid the group we want the admin of
+	 * @return the user corresponding to the group's aministrator
+	 */
 	public ProxyUser readAdminById(int groupid) {
 
 		String sqlRequest = "SELECT " + sql_adminid 
@@ -98,15 +107,12 @@ public class GroupAdministratorMapper implements Mapper{
 			return null;
 		}
 	}
-	
-	
 
-	@Override
-	public boolean update(Object object) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
+	/**
+	 * A functionn used to delete a group administrator in the database
+	 * @param group
+	 * @return
+	 */
 	public boolean delete(Group group) {
 		String sqlRequest = "DELETE FROM " + sql_table + " WHERE " + sql_adminid + " = ?";
 		try {

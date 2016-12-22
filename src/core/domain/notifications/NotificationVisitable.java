@@ -1,14 +1,15 @@
-package core.interfaces;
+package core.domain.notifications;
 
 import java.awt.Component;
 
 import javax.swing.JPanel;
 
-import core.domain.notifications.GUINotificationVisitor;
-import core.domain.notifications.MapperCreationVisitor;
-
+/**
+ * The Visitable notiiations interface, to ensure they accept the methd they should
+ * @author Mathieu
+ *
+ */
 public interface NotificationVisitable {
-	public void accept(NotificationVisitor v);
 	public JPanel accept(GUINotificationVisitor v);
 	public String accept(MapperCreationVisitor v);
 }

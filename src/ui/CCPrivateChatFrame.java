@@ -8,13 +8,13 @@ import java.util.ArrayList;
 import javax.swing.JLabel;
 
 import core.App;
-import core.domain.Discussion;
-import core.domain.EncryptMessage;
-import core.domain.ExpirationMessage;
-import core.domain.Message;
-import core.domain.ReceiptMessage;
-import core.domain.UrgentMessage;
 import core.domain.User;
+import core.domain.messages.Discussion;
+import core.domain.messages.EncryptMessage;
+import core.domain.messages.ExpirationMessage;
+import core.domain.messages.Message;
+import core.domain.messages.ReceiptMessage;
+import core.domain.messages.UrgentMessage;
 import core.domain.proxy.ProxyUser;
 import utils.Constants;
 

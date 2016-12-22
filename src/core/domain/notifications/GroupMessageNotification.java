@@ -6,14 +6,13 @@ import javax.swing.JPanel;
 
 import core.domain.Group;
 import core.domain.User;
-import core.interfaces.NotificationVisitor;
 
 public class GroupMessageNotification extends Notification {
 
 	private User sender;
 	private Group group;
 	private boolean urgent = false;
-	
+	/*
 	public GroupMessageNotification(int id, Date d, boolean s, boolean r, User u, Group g, boolean urgent) {
 		super(id, d, s, r);
 		this.sender = u;
@@ -24,22 +23,30 @@ public class GroupMessageNotification extends Notification {
 	public GroupMessageNotification(int subjectId, int senderId) {
 		super(subjectId, senderId);
 	}
+	*/
 
+	/**
+	 * The notification constructor 
+	 * @param id
+	 * @param receiverId
+	 * @param subjectId
+	 */
 	public GroupMessageNotification(int id, int receiverId, int subjectId) {
 		super(id, receiverId, subjectId);
 	}
-
-	@Override
-	public void accept(NotificationVisitor nv) {
-		nv.visit(this);
-	}
 	
 	@Override
+	/**
+	 * The MapperCreationVisitor. It sends a correct sql query to insert this data in the database
+	 */
 	public String accept(MapperCreationVisitor v) {
 		return v.visit(this);
 	}
 
 	@Override
+	/**
+	 * The GUINOtificationVisitor acceptation method. It sends back a JPanel to be displayed in the ui
+	 */
 	public JPanel accept(GUINotificationVisitor v) {
 		return v.visit(this);
 	}

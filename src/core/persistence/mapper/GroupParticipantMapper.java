@@ -14,7 +14,13 @@ import core.domain.proxy.ProxyUser;
 import utils.Constants;
 import utils.LogUtils;
 
-public class GroupParticipantMapper implements Mapper {
+/**
+ * A class used to maniupate the groupparticipants in the database
+ * @author Mathieu
+ *
+ */
+
+public class GroupParticipantMapper {
 
 	static GroupParticipantMapper instance;
 	public String TAG = "GroupParticipantMapper";
@@ -38,6 +44,12 @@ public class GroupParticipantMapper implements Mapper {
 			return new GroupParticipantMapper();
 	}
 	
+	/**
+	 * A function used to add a participant to a group in the databaase
+	 * @param group
+	 * @param participant
+	 * @return
+	 */
 	public boolean create(Group group, User participant) {
 		//I don't insert the id because it's autoincreented
 				String sqlRequest = "INSERT INTO " + sql_table + "(" + sql_groupid 
@@ -63,19 +75,12 @@ public class GroupParticipantMapper implements Mapper {
 					return false;
 				}
 	}
-	
-	@Override
-	public ArrayList read() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
-	@Override
-	public boolean update(Object object) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
+	/**
+	 * A function used to send back all the users participating to a group discussion
+	 * @param groupid
+	 * @return
+	 */
 	public ArrayList<ProxyUser> readUsersByGroupId(int groupid) {
 		String sqlRequest = "SELECT " + sql_participantid
 				+ ", " + sql_groupid
@@ -108,6 +113,11 @@ public class GroupParticipantMapper implements Mapper {
 		}
 	}
 
+	/**
+	 * A function used to get all the groups of an user
+	 * @param id
+	 * @return
+	 */
 	public ArrayList<ProxyGroup> readGroupsByUserId(int id) {
 
 		String sqlRequest = "SELECT " + sql_participantid
@@ -140,6 +150,13 @@ public class GroupParticipantMapper implements Mapper {
 			return null;
 		}
 	}
+	
+	/**
+	 * A function used to delete an existing group
+	 * @param user
+	 * @param group
+	 * @return
+	 */
 
 	public boolean delete(User user, Group group) {
 		String sqlRequest = "DELETE FROM " + sql_table + " WHERE " + sql_participantid + " = ?";

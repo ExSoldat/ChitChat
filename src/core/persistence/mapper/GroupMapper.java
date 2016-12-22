@@ -15,7 +15,12 @@ import core.domain.proxy.ProxyUser;
 import utils.Constants;
 import utils.LogUtils;
 
-public class GroupMapper implements Mapper<Group> {
+/**
+ * A class used to manipulate Groups in the database
+ * @author Mathieu
+ *
+ */
+public class GroupMapper {
 	static GroupMapper instance;
 	public String TAG = "GroupMapper";
 	public Connection connection;
@@ -38,6 +43,11 @@ public class GroupMapper implements Mapper<Group> {
 			return new GroupMapper();
 	}
 	
+	/**
+	 * Creates a group
+	 * @param group
+	 * @return
+	 */
 	public int create(Group group) {
 
 		//I don't insert the id because it's autoincreented
@@ -69,18 +79,12 @@ public class GroupMapper implements Mapper<Group> {
 			return -1;
 		}
 	}
-	
-	@Override
-	public ArrayList<Group> read() {
-		return null;
-	}
 
-	@Override
-	public boolean update(Group object) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
+	/**
+	 * Read a group knowing its id
+	 * @param groupid
+	 * @return
+	 */
 	public ProxyGroup readById(int groupid) {
 
 		String sqlRequest = "SELECT " + sql_id 
@@ -119,6 +123,12 @@ public class GroupMapper implements Mapper<Group> {
 			return null;
 		}
 	}
+	
+	/**
+	 * Delets an existant group
+	 * @param group
+	 * @return
+	 */
 
 	public boolean delete(Group group) {
 		if(GroupAdministratorMapper.getInstance().delete(group)) {

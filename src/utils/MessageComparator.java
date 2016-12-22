@@ -2,7 +2,7 @@ package utils;
 
 import java.util.Comparator;
 
-import core.domain.Message;
+import core.domain.messages.Message;
 
 public class MessageComparator implements Comparator<Message> {
 	@Override

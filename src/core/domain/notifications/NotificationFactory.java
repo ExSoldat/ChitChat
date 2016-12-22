@@ -2,6 +2,14 @@ package core.domain.notifications;
 
 public class NotificationFactory {
 	
+	/**
+	 * A factory used by the apper to create the correct type of notification depending on its tpe
+	 * @param id the id of the notification
+	 * @param typeId the tpe id of the notification
+	 * @param receiverId the receier id 
+	 * @param subjectId the subject's id
+	 * @return a correct notification
+	 */
 	public Notification createNewNotification(int id, int typeId, int receiverId, int subjectId) {
 		Notification n = null;
 		switch(typeId) {

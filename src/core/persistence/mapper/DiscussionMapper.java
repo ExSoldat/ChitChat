@@ -7,11 +7,16 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import core.App;
-import core.domain.Discussion;
+import core.domain.messages.Discussion;
 import utils.Constants;
 import utils.LogUtils;
 
-public class DiscussionMapper implements Mapper<Discussion> {
+/**
+ * The mapper of the duscussions
+ * @author Mathieu
+ *
+ */
+public class DiscussionMapper {
 	static DiscussionMapper instance;
 	public String TAG = "DiscussionMapper";
 	public Connection connection;
@@ -34,6 +39,10 @@ public class DiscussionMapper implements Mapper<Discussion> {
 			return new DiscussionMapper();
 	}
 	
+	/**
+	 * A method used to create an instance of discussion inside te database
+	 * @return
+	 */
 	public int create() {
 		//I don't insert the id because it's autoincreented
 		String sqlRequest = "INSERT INTO " + sql_table + " values (NULL)";
@@ -41,6 +50,7 @@ public class DiscussionMapper implements Mapper<Discussion> {
 			PreparedStatement ps = App.getConnection().prepareStatement(sqlRequest,  new String[] { sql_discussionid });			
 			int result = ps.executeUpdate();
 			if(result != 0) {
+			 //I get the create id and send it back
 				LogUtils.log(TAG, Constants.SUCCESS, "Successful inserted");
 				//App.getConnection().commit();
 				ResultSet generatedKeys = ps.getGeneratedKeys();
@@ -58,20 +68,14 @@ public class DiscussionMapper implements Mapper<Discussion> {
 		}
 	}
 	
-	@Override
-	public ArrayList read() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
+	/**
+	 * A function used toread a discussion by its id
+	 * @param discussion_id the discussion id
+	 * @return a discussion (an arraylist of mesages)
+	 */
 	public Discussion readById(int discussion_id) {
 		return MessageMapper.getInstance().readByDiscussionId(discussion_id);
 	}
 
-	@Override
-	public boolean update(Discussion discussion) {
-		// TODO Auto-generated method stub
-		return false;
-	}
 
 }

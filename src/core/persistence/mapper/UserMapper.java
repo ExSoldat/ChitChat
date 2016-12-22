@@ -18,7 +18,12 @@ import core.domain.proxy.ProxyUser;
 import utils.Constants;
 import utils.LogUtils;
 
-public class UserMapper implements Mapper<ProxyUser> {
+/**
+ * A class used to manipulate users in the database
+ * @author Mathieu
+ *
+ */
+public class UserMapper {
 	
 	static UserMapper instance;
 	public String TAG = "UserMapper";
@@ -44,7 +49,11 @@ public class UserMapper implements Mapper<ProxyUser> {
 			return new UserMapper();
 	}
 
-	//Updates the user with the created id
+	/**
+	 * A function used to create an user in the atabase
+	 * @param user
+	 * @return the freshly created user
+	 */
 	public User create(User user) {
 		//I don't insert the id because it's autoincreented
 		String sqlRequest = "INSERT INTO " + sql_table + "(" + sql_firstname 
@@ -63,6 +72,7 @@ public class UserMapper implements Mapper<ProxyUser> {
 			if(result != 0) {
 				try (ResultSet generatedKeys = ps.getGeneratedKeys()) {
 		            if (generatedKeys.next()) {
+		            	//So we can updates its user afterwards
 		                user.setId(generatedKeys.getInt(1));
 		            }
 		            else {
@@ -83,7 +93,10 @@ public class UserMapper implements Mapper<ProxyUser> {
 		}
 	}
 
-	@Override
+	/**
+	 * A function used to read all the users in the database
+	 * @return
+	 */
 	public ArrayList<ProxyUser> read() {
 		String sqlRequest = "SELECT " + sql_id 
 				+ ", " + sql_username 
@@ -100,6 +113,7 @@ public class UserMapper implements Mapper<ProxyUser> {
 			while(rs.next()) {		
 				LogUtils.log(TAG, Constants.INFO, "Row found");
 				ProxyUser u = null;
+				//Creating an user or an administrator depending of the fact he is one or not
 				if(rs.getBoolean(sql_isadmin))
 					u = new ProxyAdministrateur(rs.getInt(sql_id), rs.getString(sql_lastname), rs.getString(sql_username), rs.getString(sql_firstname), rs.getString(sql_password));
 				else 
@@ -123,6 +137,11 @@ public class UserMapper implements Mapper<ProxyUser> {
 		}
 	}
 
+	/**
+	 * A function used to get an user nowing its id
+	 * @param id
+	 * @return
+	 */
 	public ProxyUser readById(int id) {
 		String sqlRequest = "SELECT " + sql_id 
 				+ ", " + sql_username 
@@ -162,7 +181,6 @@ public class UserMapper implements Mapper<ProxyUser> {
 		}
 	}
 
-	@Override
 	/**
 	 * Updates an user. Here we only update the users data. The users friends list id updated by another function
 	 * @param user the user we want to update
@@ -199,7 +217,11 @@ public class UserMapper implements Mapper<ProxyUser> {
 			return false;
 		}
 	}
-
+/**
+ * A function used to delete an users instance in the database
+ * @param user
+ * @return
+ */
 	public boolean delete(User user) {
 		String sqlRequest = "DELETE FROM " + sql_table + " WHERE " + sql_id + " = ?";
 		try {
@@ -216,6 +238,13 @@ public class UserMapper implements Mapper<ProxyUser> {
 		}
 	}
 	
+	/**
+	 * A function used to read an users list by some fields
+	 * @param un
+	 * @param fn
+	 * @param ln
+	 * @return
+	 */
 	public ArrayList<ProxyUser> readByNameFields(String un, String fn, String ln) {
 		ArrayList<String> fields = new ArrayList<String>();
 		String where = "";
