@@ -6,6 +6,12 @@ import javax.swing.ImageIcon;
 
 public class Constants {
 
+	//---------Configuration constants :
+	public static final String LOCAL_URL = "jdbc:mysql://localhost/chitchat"; // Change the name to the database depending on the one you use
+	public static final String USERNAME = "root";
+	public static final String PASSWORD = "root";
+	//End of the configuration constants.
+	
 	public static final String APP_NAME = "Chit Chat";
 	
 	public static final String COLOR_PRIMARY = "#00AEEF";
@@ -52,9 +58,6 @@ public class Constants {
 	public static final String USE_CASE = "USE-CASE";
 	public static final String NOTE = "NOTE";
 	public static final String SQL = "SQL";
-	public static final String LOCAL_URL = "jdbc:mysql://localhost/chitchat"; // Change the name to the database depending on the one you use
-	public static final String USERNAME = "root";
-	public static final String PASSWORD = "root";
 
 	public static final ImageIcon APP_LOGO = new ImageIcon("img/chitchat_mini.png");
 	public static final ImageIcon DEFAULT_PROFILE_PICTURE = new ImageIcon("img/ic_person_orange.png");
